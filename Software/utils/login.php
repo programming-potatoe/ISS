@@ -12,7 +12,7 @@ $row = mysql_fetch_array($result);
 
 //echo $row['PEmail']."  ".$row['PPwd']."  ".$row['PID']."  ".$row['PArt'];
 
-if ($row['PPwd'] == $password)
+if ($row['PPwd'] == $password  && $password != "")
 {
                    //$now = date('Y-m-d H:i:s');
 
