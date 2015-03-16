@@ -1,0 +1,80 @@
+
+* {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+        overflow: hidden;
+        font: 14px/18px Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+a {
+  text-decoration:        none;
+}
+
+table, th, td{
+  width:					600px;
+  border-left: 		1px lightgrey solid;
+  border-bottom:		1px grey solid;
+  border-spacing:		0;
+}
+
+.ISS_Content{
+	height:				100%;
+	width:				100%;
+	display:				block;
+}
+
+.mainContent{
+	height:				100%;
+	width:				100%;
+}
+
+.loginContent{
+}
+
+.pageHeader{
+	height:				80px;
+	width:				100%;
+	background:			lightgrey;
+}
+
+.headerFont{
+	font-size: 			25px;
+	padding-top:		15px;
+	padding-left:		15px;
+}
+
+.logout{
+	padding-left:		20px;
+}
+
+.pageSidebar{
+	height:				500px;
+	width: 				150px;
+	background:			lightblue;
+	float:				left;
+}
+
+.pageSidebar ul li a{
+	height:				30px;
+	width:				150px;
+	padding-left:		20px;
+	color:				black;
+	cursor: 				pointer;
+	display:				block;
+}
+
+.pageSidebar ul li a:hover{
+	background:			lightgrey;
+	color:				white;
+}
+
+.pageContent{
+	float:				left;
+}
+
