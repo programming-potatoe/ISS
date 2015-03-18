@@ -41,9 +41,25 @@
                                  $('.pageContent').fadeIn(500);
                         });
 
+                },
+                change_inlineContent : function (file) {
+                        $.post(file, function(data) {
+                        			$('.inlineContent').hide(0);
+                                 $('.inlineContent').html(data);
+                                 $('.inlineContent').fadeIn(500);
+                        });
+
+                },
+                insert_pageContent : function (file) {
+                        $.post(file, function(data) {
+                        			$('.inlineContent').hide(0);
+                                 $('.inlineContent').html(data);
+                                 $('.inlineContent').fadeIn(500);
+                        });
+
                 },                
-                submit_form: function(action, string) {
-                		$.post(action, string, 
+                submit_form: function(file, string) {
+                		$.post(file, string, 
                 			function(data) {
                 				$('.pageContent').hide(0);
                 				$('.pageContent').html(data);
@@ -79,7 +95,23 @@
 
                 $document.on('click', 'a[data-change="main"]', function() {
                         var href = $(this).attr('href');
-                        ISS.change_pageContent(href);
+                        
+                        if($(this).parent().attr('class') == 'inlineContent')
+                        {
+                        	ISS.change_inlineContent(href);
+                        }
+                        else
+                        {
+                        	ISS.change_pageContent(href);
+                        }
+
+                        return false;
+                });
+                
+                $document.on('click', 'a[data-change="inline"]', function() {
+                        var href = $(this).attr('href');
+                        $(this).replaceWith('<span class="inlineContent"></span>');
+                        ISS.insert_pageContent(href);
 
                         return false;
                 });
@@ -88,6 +120,7 @@
                			
                			var action = $(this).attr('action');
                			var string = $(this).serialize();
+               			
                			ISS.submit_form(action, string);
                	
                			return false;
