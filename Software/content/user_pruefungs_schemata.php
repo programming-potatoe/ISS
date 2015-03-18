@@ -4,16 +4,22 @@
           define('__ROOT__', dirname(dirname(__FILE__)));
    }
    require_once(__ROOT__ ."/utils/functions.php");
-			
+	
+	
+if($_SESSION['login'] == 1)
+{		
+		//Hier wird das Schema angezeigt:
 			
 		if(isset($_GET['aid']))
 		{
 				echo("Detailansicht<br><br>");
 				
-				$query = "SELECT p.SchemaID, p.PruefGenauigkeit, a.ANr, a.AMaxPunkte FROM pruefungsschema p, aufgaben a WHERE p.SchemaID = a.SchemaID AND a.SchemaID = ".$_GET['aid']." ORDER BY a.ANr";
+				$query = "SELECT p.SchemaID, p.SchemaBez, p.PruefGenauigkeit, a.ANr, a.AMaxPunkte FROM pruefungsschema p, aufgaben a WHERE p.SchemaID = a.SchemaID AND a.SchemaID = ".$_GET['aid']." ORDER BY a.ANr";
 				$result = mysql_query($query);
 				$row = mysql_fetch_array($result);
+				echo "Schema Bezeichnung: ".$row['SchemaBez']."<br>";
 				echo "Schema NR: ".$row['SchemaID']."<br><br>";
+				
 				
 				echo "<table><tr><td>Aufgaben NR</td><td>MaxPunkte</td>";
 				for($i=0; $i < $row['PruefGenauigkeit']; $i++) 
@@ -70,11 +76,14 @@
 				}
 				echo('<a href="content/user_prueflinge.php" data-change="main">zur&uuml;ck</a>');
 		}*/
+		
+		//Neues Schema hinzufuegen:
 		else if(isset($_GET['new']))
 		{
 				echo("Hier wird ein neues Schema hinzugef&uuml;gt! <br><br>");
 ?>
 				<form action="content/user_pruefungs_schemata.php">
+						Schemabezeichung: <br> <input type="text" placeholder="Schemabezeichnung" name="schemabez" /> <br>
 						Pr&uuml;fungsgenauigkeit: <br> <input type="text" placeholder="Pr&uuml;fungsgenauigkeit" name="pruegenau" /> <br>
 						Anzahl Aufgaben: <br> <input type="text" placeholder="Anzahl" name="anzahl" /> <br>						
 						<button type="submit">Weiter</button>
@@ -83,11 +92,13 @@
 				echo('<a href="content/user_pruefungs_schemata.php" data-change="main">zur&uuml;ck</a>');	
 		}
 		else if(isset($_POST['pruegenau']))
-		{	
+		{
+				$schemabez = mysql_real_escape_string($_POST['schemabez']);
 				$pruegenau = mysql_real_escape_string($_POST['pruegenau']);
 				$anzahl = mysql_real_escape_string($_POST['anzahl']);
 			   	   
 				echo '<form action="content/user_pruefungs_schemata.php">';
+				echo '		Schemabezeichnung: <br> <input type="text" value="'.$schemabez.'" name="schemabez2" readonly/> <br>';
 				echo '		Pr&uuml;fungsgenauigkeit: <br> <input type="text" value="'.$pruegenau.'" name="pruegenau2" readonly/> <br>';
 				echo '		Anzahl Aufgaben: <br> <input type="text" value="'.$anzahl.'" name="anzahl2" readonly/> <br>	';
 				echo 'Maximale Punktezahlen: <br> Aufgabe: <br>';
@@ -104,16 +115,19 @@
 		}				
 		else if(isset($_POST['pruegenau2']))
 		{
+				$schemabez2 = mysql_real_escape_string($_POST['schemabez2']);
 				$pruegenau2 = mysql_real_escape_string($_POST['pruegenau2']);
 				$anzahl2 = mysql_real_escape_string($_POST['anzahl2']);
 				
-				$query = 'INSERT INTO pruefungsschema VALUES (NULL, '.$pruegenau2.')';
+				$query = 'INSERT INTO pruefungsschema VALUES (NULL, "'. $schemabez2 .'",'.$pruegenau2.')';
 				
 				if(mysql_query($query))
 			   { 
 					echo "Ein neues Schema wurde angelegt.<br><br>";
 					
-					//HIER KANN ICH MIR NICHT ANDERS HELFEN DA ICH DEN AUTO_INCREMENT NICHT KENNE!!!
+					//TODO HIER KANN ICH MIR NICHT ANDERS HELFEN DA ICH DEN AUTO_INCREMENT NICHT KENNE!!!
+					
+					//Hier werden die einzelnen Aufgaben hinzuefügt
 					
 					$schemaID = mysql_fetch_array(mysql_query('SELECT MAX(SchemaID) AS Max FROM pruefungsschema;'));					
 					
@@ -155,5 +169,5 @@
 			
 				echo "</table>";
 		}
-
+		}
 ?>
