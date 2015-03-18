@@ -6,8 +6,7 @@
    require_once(__ROOT__ ."/utils/functions.php");
 
 	
-if($_SESSION['login'] == 1)
-{
+
 			
 		if(isset($_GET['dummy']))
 		{
@@ -66,7 +65,6 @@ if($_SESSION['login'] == 1)
 				
 				echo('<a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>');	
 		}
-
 		else if(isset($_GET['llid']))
 		{
 				$query = "DELETE FROM pruefungsleistungen WHERE PruefID = ".$_GET['llid'];
@@ -88,25 +86,24 @@ if($_SESSION['login'] == 1)
 				echo("Hier wird eine neue Pr&uuml;fung hinzugef&uuml;gt! <br><br>");
 ?>
 				<form action="content/user_pruefungen.php">
-						Vorlesungs ID: <br /><input type="text" value="<?php echo $_GET['new']?>" name="vid" readonly/><br /><br />
-						Pr&uuml;fungsbezeichnung: <br /> <input type="text" placeholder="Pr&uuml;fungsbezeichnung" name="pruefbez" /> <br /><br />
-						Bewertungschema: <br />
+						Vorlesungs ID: <br><input type="text" value="<?php echo $_GET['new']?>" name="vid" readonly/><br>
+						Pr&uuml;fungsbezeichnung: <br> <input type="text" placeholder="Pr&uuml;fungsbezeichnung" name="pruefbez" /> <br>
+						Bewertungschema-ID: <br>
 <?php												
-						//drop down liste Bewertungsschema-ID und Bezeichnung
-						$query='SELECT SchemaID, SchemaBez FROM pruefungsschema';
+						//drop down liste Bewertungsschema-ID
+						$query='SELECT SchemaID FROM pruefungsschema';
 						$result=mysql_query($query);
 						echo('<select name="SchemaID">');
 						while($row=mysql_fetch_assoc($result))
 						{
-								echo('<option value='.$row['SchemaID'].'>'.$row['SchemaID'].' - '.$row['SchemaBez'].'</option>');
+								echo('<option value='.$row['SchemaID'].'>'.$row['SchemaID'].'</option>');
 				
 						}
-						echo('</select><br /><br />');
+						echo('</select><br>');
 
-						// Hier wird das Schema nachgeladen  (Woher bekommt der die Schema ID?)
-						echo('<a href="content/user_pruefungs_schemata.php?aid=11" data-change="inline">Schema anzeigen</a><br />');
-						// Hier kann ein neues Schema angelegt werden
-						echo('<a href="content/user_pruefungs_schemata.php?new=1" data-change="inline">Neues Schema anlegen</a><br /><br />');
+
+
+
 						
 						//@TODO: Schema anzeigen
 						
@@ -114,10 +111,10 @@ if($_SESSION['login'] == 1)
 						
 						
 ?>		
-						<button type="submit">Pr&uuml;fung anlegen</button>
+						<button type="submit">Anlegen</button>
 				</form>
 <?php		
-				echo('<br /><br /><a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>');	
+				echo('<a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>');	
 		}
 		
 		
@@ -324,7 +321,7 @@ if($_SESSION['login'] == 1)
 					echo "</table>";
 			}
 		}
-		}
+
 ?>
 
 

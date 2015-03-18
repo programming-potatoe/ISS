@@ -8,7 +8,7 @@
 }
 
 body {
-        
+        overflow: hidden;
         font: 14px/18px Verdana, Geneva, Arial, Helvetica, sans-serif;
 }
 

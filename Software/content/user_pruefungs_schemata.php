@@ -158,13 +158,13 @@ if($_SESSION['login'] == 1)
 			
 				echo 'Hier k&ouml;nnen Schemata angelegt & bearbeitet werden <br> Neues Schema <a href="content/user_pruefungs_schemata.php?new=1" data-change="main">hinzuf&uuml;gen</a>?<br><br>';
 				
-				$query = "SELECT p.SchemaID, p.SchemaBez, p.PruefGenauigkeit, COUNT(a.ANr) AS Anzahl FROM pruefungsschema p LEFT OUTER JOIN  aufgaben a ON p.SchemaID = a.SchemaID GROUP BY p.SchemaID";
+				$query = "SELECT p.SchemaID, p.PruefGenauigkeit, COUNT(a.ANr) AS Anzahl FROM pruefungsschema p LEFT OUTER JOIN  aufgaben a ON p.SchemaID = a.SchemaID GROUP BY p.SchemaID";
 				$result = mysql_query($query);
 			
-				echo "<table><tr><td>SchemaID</td><td>SchemaBez</td><td>PruefGenauigkeit</td><td>Aufgabenanzahl</td><td></td></tr>";			
+				echo "<table><tr><td>SchemaID</td><td>PruefGenauigkeit</td><td>Aufgabenanzahl</td><td></td></tr>";			
 			
 				while ($row = mysql_fetch_assoc($result)) {
-					echo '<tr><td>'.$row['SchemaID'].'</td><td>'.$row['SchemaBez'].'</td><td>'.$row['PruefGenauigkeit'].'</td><td>'.$row['Anzahl'].'</td><td><a href="content/user_pruefungs_schemata.php?aid='.$row['SchemaID'].'" data-change="main">anzeigen</a></td></tr>';
+					echo '<tr><td>'.$row['SchemaID'].'</td><td>'.$row['PruefGenauigkeit'].'</td><td>'.$row['Anzahl'].'</td><td><a href="content/user_pruefungs_schemata.php?aid='.$row['SchemaID'].'" data-change="main">anzeigen</a></td></tr>';
 				}
 			
 				echo "</table>";
