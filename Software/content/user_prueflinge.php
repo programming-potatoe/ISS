@@ -57,7 +57,7 @@
 						echo('</select><br>');
 ?>						
 						Initialpasswort: <br> <input type="text" placeholder="Initialpasswort" name="password" /> <br>
-						<button type="submit">Anlegen<ord /button>
+						<button type="submit">Anlegen</button>
 				</form>
 <?php		
 				echo('<a href="content/user_prueflinge.php" data-change="main">zur&uuml;ck</a>');	
