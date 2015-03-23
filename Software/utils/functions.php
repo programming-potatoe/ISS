@@ -3,7 +3,54 @@
                 session_start();
         }
         require_once("connect_db.php");
-			
+        
+        
+        // checkt, ob der user eine gueltige session besitzt und ob die Seite fuer das Berechtigunglevel des Users freigegeben ist, dafuer muss die variable ==j sein
+        function check_berechtigung($leiter, $dozent, $pruefer, $dozent_pruefer, $pruefling)
+        {
+        	//echo 'Berechtigungslevel ist '.$_SESSION['user_rights'].' und die Variablen sind: '.$leiter.' '.$dozent.' '.$pruefer.' '.$dozent_pruefer.' '.$pruefling;
+        	if(!isset ($_SESSION['login'])) 
+        	{
+        		echo 'permission denied';		
+        		exit();
+        	}
+        	else
+        	{
+        		if (!isset ($_SESSION['user_rights']))
+        		{
+        			echo 'permission denied';
+        			exit();
+        		}
+        		else
+        		{
+        			if ($leiter!='j' && $_SESSION['user_rights']==0) 
+        			{
+        				echo 'permission denied';
+        				exit();
+        			}
+        			if ($dozent!='j' && $_SESSION['user_rights']==1)
+        			{
+        				echo 'permission denied';
+        				exit();
+        			}
+        			if ($pruefer!='j' && $_SESSION['user_rights']==2)
+        			{
+        				echo 'permission denied';
+        				exit();
+        			}
+        			if ($dozent_pruefer!='j' && $_SESSION['user_rights']==3)
+        			{
+        				echo 'permission denied';
+        				exit();
+        			}
+        			if ($pruefling!='j' && $_SESSION['user_rights']==4)
+        			{
+        				echo 'permission denied';
+        				exit();
+        			}
+        		}
+        	}
+        }
 			/*Returns row with all user Information.*/
         /*function selectUserData()
         {
