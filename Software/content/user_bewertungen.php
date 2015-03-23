@@ -251,6 +251,8 @@
 			echo"Hier k&ouml;nnen Bewertungen eingesehen und bearbeitet werden <br> <br>";
 	}
 	}
+	
+	//Ansicht fuer Prueflinge
 	else if($_SESSION['user_rights'] == 4)
 	{
 			if(isset($_GET['showid']))
@@ -296,6 +298,9 @@
 				$row = mysql_fetch_array($result);
 				$pruefgenau =	$row['PruefGenauigkeit'];	
 				$summe = 0;
+				
+				
+				//Ausgabe der Tabelle:
 				
 				echo "<br><br><br><table><tr><td>Aufgaben NR</td><td>MaxPunkte</td>";
 				for($i=0; $i < $pruefgenau; $i++) 
@@ -366,6 +371,8 @@
 						}
 				}
 				
+				
+				//Endgültige Score:
 				echo "Score:   ".$score."% <br><br>";
 				
 				
