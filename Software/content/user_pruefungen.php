@@ -298,7 +298,7 @@ if($_SESSION['login'] == 1)
 					echo "</table>";
 			}
 			
-			//Studenten nachsehen
+			//Studenten Anschicht:
 			if($rights == 4)
 			{
 					echo "F&uuml;r folgende Pr&uuml;fungen ist eine Bewertung vorhanden:<br><br>";

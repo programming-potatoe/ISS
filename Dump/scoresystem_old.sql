@@ -1,9 +1,9 @@
-﻿-- phpMyAdmin SQL Dump
+-- phpMyAdmin SQL Dump
 -- version 4.2.11
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 23. Mrz 2015 um 10:01
+-- Erstellungszeit: 16. Mrz 2015 um 11:44
 -- Server Version: 5.6.21
 -- PHP-Version: 5.6.3
 
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `aufgaben` (
   `ANr` int(11) DEFAULT NULL,
   `AMaxPunkte` int(11) DEFAULT NULL,
   `SchemaID` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `aufgaben`
@@ -47,15 +47,7 @@ INSERT INTO `aufgaben` (`AID`, `ANr`, `AMaxPunkte`, `SchemaID`) VALUES
 (37, 2, 5, 12),
 (38, 3, 5, 12),
 (39, 4, 5, 12),
-(40, 5, 5, 12),
-(41, 1, 2, 13),
-(42, 2, 2, 13),
-(43, 3, 2, 13),
-(44, 1, 4, 14),
-(45, 2, 4, 14),
-(46, 3, 4, 14),
-(47, 4, 4, 14),
-(48, 5, 4, 14);
+(40, 5, 5, 12);
 
 -- --------------------------------------------------------
 
@@ -131,10 +123,10 @@ CREATE TABLE IF NOT EXISTS `pruefer` (
 
 INSERT INTO `pruefer` (`PID`, `PName`, `PVName`, `PPwd`, `PEmail`, `PArt`) VALUES
 (1, 'Richter', 'Alexander', 'hallo123', 'leiter@dhbw.de', 0),
-(2, 'Rumpelszielzchen', 'Alfons', 'passwort1', 'alfons.r@obersalzberg.de', 1),
+(2, 'Rumpelszielzchen', 'Adolf', 'Blausaure23', 'blondi@obersalzberg.de', 1),
 (3, 'Musterdozent', 'Max', 'Musterpasswort', 'musteremail@muster.de', 1),
 (4, 'Externus', 'Pruefus', 'pruferus', 'pruefer@daimler.de', 2),
-(5, 'Schneider', 'Günther', 'passwort123', 'schneider@gmx.net', 2);
+(5, 'Schneider', 'Halsab', 'passwort123', 'schneider@7aufeinenstreich@gri', 2);
 
 -- --------------------------------------------------------
 
@@ -158,8 +150,7 @@ INSERT INTO `pruefer_pruefungsleistungen` (`PruefID`, `PID`) VALUES
 (16, 1),
 (19, 1),
 (18, 1),
-(18, 3),
-(18, 4);
+(18, 3);
 
 -- --------------------------------------------------------
 
@@ -175,7 +166,7 @@ CREATE TABLE IF NOT EXISTS `pruefling` (
   `PID` int(11) NOT NULL,
   `KID` int(11) NOT NULL,
   `PrEmail` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `pruefling`
@@ -186,8 +177,7 @@ INSERT INTO `pruefling` (`PrID`, `PrName`, `PrVName`, `PrPwd`, `PID`, `KID`, `Pr
 (6, 'Steidl', 'Max', 'maximax', 1, 6, 'max@dhbw.de'),
 (7, 'Dierolf', 'Nils', 'nilsinils', 1, 6, 'nils@dhbw.de'),
 (8, 'Pocher', 'Oliver', 'oliolioli', 1, 5, 'oli@dhbw.de'),
-(9, 'Schmidt', 'Andre', 'hallo', 1, 5, 'email.andre@web.de'),
-(10, 'Vossen', 'Paulus', 'hallo456', 1, 5, 'vossen@dhbw.de');
+(9, 'Schmidt', 'Andre', 'hallo', 1, 5, 'email.andre@web.de');
 
 -- --------------------------------------------------------
 
@@ -200,8 +190,8 @@ CREATE TABLE IF NOT EXISTS `pruefungsleistungen` (
   `PID` int(11) NOT NULL,
   `VID` int(11) NOT NULL,
   `PruefBez` varchar(50) DEFAULT NULL,
-  `SchemaID` int(11) NOT NULL, `Toleranz` int(11)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+  `SchemaID` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `pruefungsleistungen`
@@ -213,14 +203,7 @@ INSERT INTO `pruefungsleistungen` (`PruefID`, `PID`, `VID`, `PruefBez`, `SchemaI
 (18, 1, 8, 'Klausur', 11),
 (19, 1, 10, 'Klausur', 11),
 (20, 1, 8, 'Klausur', 11),
-(21, 1, 8, '', 12),
-(22, 1, 8, '', 11),
-(23, 1, 8, '', 11),
-(24, 1, 7, '', 11),
-(25, 1, 9, '', 11),
-(26, 1, 9, '', 11),
-(27, 1, 8, '', 11),
-(28, 1, 8, '', 11);
+(21, 1, 8, '', 12);
 
 -- --------------------------------------------------------
 
@@ -234,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `pruefungsleistungsobjekt` (
   `PruefID` int(11) NOT NULL,
   `PruefObjKommentar` varchar(200) DEFAULT NULL,
   `PruefStatus` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `pruefungsleistungsobjekt`
@@ -255,25 +238,7 @@ INSERT INTO `pruefungsleistungsobjekt` (`PruefObjID`, `PrID`, `PruefID`, `PruefO
 (25, 9, 20, NULL, 0),
 (26, 5, 21, NULL, 0),
 (27, 8, 21, NULL, 0),
-(28, 9, 21, NULL, 0),
-(29, 5, 22, NULL, 0),
-(30, 8, 22, NULL, 0),
-(31, 9, 22, NULL, 0),
-(32, 5, 23, NULL, 0),
-(33, 8, 23, NULL, 0),
-(34, 9, 23, NULL, 0),
-(35, 6, 24, NULL, 0),
-(36, 7, 24, NULL, 0),
-(37, 6, 25, NULL, 0),
-(38, 7, 25, NULL, 0),
-(39, 6, 26, NULL, 0),
-(40, 7, 26, NULL, 0),
-(41, 5, 27, NULL, 0),
-(42, 8, 27, NULL, 0),
-(43, 9, 27, NULL, 0),
-(44, 5, 28, NULL, 0),
-(45, 8, 28, NULL, 0),
-(46, 9, 28, NULL, 0);
+(28, 9, 21, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -285,7 +250,7 @@ CREATE TABLE IF NOT EXISTS `pruefungsschema` (
 `SchemaID` int(11) NOT NULL,
   `SchemaBez` varchar(50) DEFAULT NULL,
   `PruefGenauigkeit` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `pruefungsschema`
@@ -293,9 +258,7 @@ CREATE TABLE IF NOT EXISTS `pruefungsschema` (
 
 INSERT INTO `pruefungsschema` (`SchemaID`, `SchemaBez`, `PruefGenauigkeit`) VALUES
 (11, NULL, 5),
-(12, NULL, 5),
-(13, 'Mein Schema', 5),
-(14, 'Schema Mathe', 5);
+(12, NULL, 5);
 
 -- --------------------------------------------------------
 
@@ -392,7 +355,7 @@ ALTER TABLE `vorlesungen`
 -- AUTO_INCREMENT für Tabelle `aufgaben`
 --
 ALTER TABLE `aufgaben`
-MODIFY `AID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=49;
+MODIFY `AID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT für Tabelle `bewertungen`
 --
@@ -412,22 +375,22 @@ MODIFY `PID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 -- AUTO_INCREMENT für Tabelle `pruefling`
 --
 ALTER TABLE `pruefling`
-MODIFY `PrID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+MODIFY `PrID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT für Tabelle `pruefungsleistungen`
 --
 ALTER TABLE `pruefungsleistungen`
-MODIFY `PruefID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
+MODIFY `PruefID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT für Tabelle `pruefungsleistungsobjekt`
 --
 ALTER TABLE `pruefungsleistungsobjekt`
-MODIFY `PruefObjID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=47;
+MODIFY `PruefObjID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT für Tabelle `pruefungsschema`
 --
 ALTER TABLE `pruefungsschema`
-MODIFY `SchemaID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
+MODIFY `SchemaID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT für Tabelle `vorlesungen`
 --
