@@ -135,9 +135,9 @@
    		$anzahl = mysql_real_escape_string($_POST['anzahl']);
    		
    		echo '<form action="content/user_pruefungs_schemata.php?art=8">';
-   		echo '		Schemabezeichnung: <br> <input type="text" value="'.$schemabez.'" name="schemabez" disabled="disabled"/> <br>';
-   		echo '		Pr&uuml;fungsgenauigkeit: <br> <input type="text" value="'.$pruegenau.'" name="pruegenau" disabled="disabled"/> <br>';
-   		echo '		Anzahl Aufgaben: <br> <input type="text" value="'.$anzahl.'" name="anzahl" disabled="disabled"/> <br>	';
+   		echo 'Schemabezeichnung: <br> <input type="text" value="'.$schemabez.'" name="schemabez" readonly/> <br>';
+   		echo 'Pr&uuml;fungsgenauigkeit: <br> <input type="text" value="'.$pruegenau.'" name="pruegenau" readonly/> <br>';
+   		echo 'Anzahl Aufgaben: <br> <input type="text" value="'.$anzahl.'" name="anzahl" readonly/> <br>	';
    		echo 'Maximale Punktezahlen: <br> Aufgabe: <br>';
    		for ($i = 1; $i <= $anzahl; $i++)
    		{
