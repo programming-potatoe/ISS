@@ -20,16 +20,72 @@
 			//Leiter
 			case 0:
 					?>
-		   <ul>
-                        <li><a href="content/user_home.php" data-change="main">Home</a></li>
-                        <li><a href="content/user_prueflinge.php" data-change="main">Pr&uuml;flinge</a></li>
-                        <li><a href="content/user_mitarbeiter.php" data-change="main">Mitarbeiter</a></li>
-                        <li><a href="content/user_kurse.php" data-change="main">Kurse</a></li>
-                        <li><a href="content/user_vorlesungen.php" data-change="main">Vorlesungen</a></li>
-                        <li><a href="content/user_pruefungen.php" data-change="main">Pr&uuml;fungen</a></li>
-                        <li><a href="content/user_pruefungs_schemata.php" data-change="main">Vorlagen</a></li>
-								<li><a href="content/user_profil.php" data-change="main">Profil</a></li>
-		   </ul>		   
+		   
+                        
+                        <div class="pageSidebarEntry">
+                        	<a href="content/user_home.php" data-change="main">Home</a>
+                        	<div class="pageSidebarMenu">
+                        		<a href="#">Link1</a>
+                        		<a href="#">Link2</a>
+                        	</div>
+                        </div>
+                        
+                        <div class="pageSidebarEntry">
+                        	<a href="content/user_prueflinge.php" data-change="main">Pr&uuml;flinge</a>
+                        	<div class="pageSidebarMenu">
+                        		<a href="#">Link1</a>
+                        		<a href="#">Link2</a>
+                        	</div>
+                        </div>
+                        
+                        <div class="pageSidebarEntry">
+                        <a href="content/user_mitarbeiter.php" data-change="main">Mitarbeiter</a>
+                        <div class="pageSidebarMenu">
+                        		<a href="#">Link1</a>
+                        		<a href="#">Link2</a>
+                        	</div>
+                        </div>
+                        
+                        <div class="pageSidebarEntry">
+                        	<a href="content/user_kurse.php" data-change="main">Kurse</a>
+                        	<div class="pageSidebarMenu">
+                        		<a href="#">Link1</a>
+                        		<a href="#">Link2</a>
+                        	</div>
+                        </div>
+                        
+                        <div class="pageSidebarEntry">
+                        	<a href="content/user_vorlesungen.php" data-change="main">Vorlesungen</a>
+                        	<div class="pageSidebarMenu">
+                        		<a href="#">Link1</a>
+                        		<a href="#">Link2</a>
+                        	</div>
+                        </div>
+                        
+                        <div class="pageSidebarEntry">
+                        	<a href="content/user_pruefungen.php" data-change="main">Pr&uuml;fungen</a>
+                        	<div class="pageSidebarMenu">
+                        		<a href="#">Link1</a>
+                        		<a href="#">Link2</a>
+                        	</div>
+                        </div>
+                        
+                        <div class="pageSidebarEntry">
+                        	<a href="content/user_pruefungs_schemata.php" data-change="main">Vorlagen</a>
+                        	<div class="pageSidebarMenu">
+                        		<a href="#">Link1</a>
+                        		<a href="#">Link2</a>
+                        	</div>
+                        </div>
+                        
+                        <div class="pageSidebarEntry">
+							<a href="content/user_profil.php" data-change="main">Profil</a>
+							<div class="pageSidebarMenu">
+                        		<a href="#">Link1</a>
+                        		<a href="#">Link2</a>
+                        	</div>
+                        </div>
+		      
 		   
 		   <?php
 					break;

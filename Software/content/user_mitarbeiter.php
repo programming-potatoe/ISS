@@ -18,7 +18,7 @@
    	
    	case 0:
    //Startseite
-	echo"Hier k&ouml;nnen Mitarbeiter bearbeitet werden <br> <br>";
+	
 	
 			echo 'Hier k&ouml;nnen Mitarbeiter bearbeitet werden <br> Neuen Mitarbeiter <a href="content/user_mitarbeiter.php?art=5" data-change="main">hinzuf&uuml;gen</a>?<br><br>';
 			

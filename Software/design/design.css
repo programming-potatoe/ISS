@@ -54,27 +54,42 @@ table, th, td{
 }
 
 .pageSidebar{
-	height:				500px;
-	width: 				150px;
+	height:				30px;
+	width: 				100%;
 	background:			lightblue;
+}
+
+.pageSidebarEntry{
+	width:				130px;
 	float:				left;
 }
 
-.pageSidebar ul li a{
+.pageSidebarEntry a{
 	height:				30px;
-	width:				150px;
+	width:				130px;
 	padding-left:		20px;
 	color:				black;
-	cursor: 				pointer;
-	display:				block;
+	cursor: 			pointer;
+	display:			block;
+	
 }
 
-.pageSidebar ul li a:hover{
+.pageSidebarEntry a:hover{
 	background:			lightgrey;
 	color:				white;
 }
 
+.pageSidebarMenu{
+	visibility:			hidden;
+	width:				130px;
+	position:			relative;
+	background-color:	lightblue;
+}
+
 .pageContent{
-	margin-left:		151px;
+	position:			absolute;
+	margin-left:		0px;
+	margin-top:			0px;
+	z-index:			-5;
 }
 

@@ -104,6 +104,12 @@
                         {
                         	ISS.change_pageContent(href);
                         }
+                        
+                        if($(this).parent().attr('class') == 'pageSidebarEntry')
+                        {
+                        	//TODO hier fehlt noch die Rueckschaltung und das animate...
+                        	$(".pageSidebarMenu").css({"visibility":"visible"});
+                        }
 
                         return false;
                 });
@@ -125,8 +131,7 @@
                	
                			return false;
                	
-               });
-                
+               }); 
                 
         });
         
