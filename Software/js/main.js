@@ -105,14 +105,23 @@
                         	ISS.change_pageContent(href);
                         }
                         
-                        if($(this).parent().attr('class') == 'pageSidebarEntry')
-                        {
-                        	//TODO hier fehlt noch die Rueckschaltung und das animate...
-                        	$(".pageSidebarMenu").css({"visibility":"visible"});
-                        }
 
                         return false;
                 });
+                //Menuebar hidden -> visible
+                $document.on('mouseenter', 'a[data-change="main"]', function() {
+                	
+                	$(this).next().css({"visibility":"visible"});
+                	
+                });
+                //Menuebar visible -> hidden
+                $document.on('mouseleave', 'div[class="pageSidebarEntry"]', function() {
+                	
+                	
+                	$(this).find('div[class="pageSidebarMenu"]').css({"visibility":"hidden"});
+                	
+                });
+                
                 
                 $document.on('click', 'a[data-change="inline"]', function() {
                         var href = $(this).attr('href');
