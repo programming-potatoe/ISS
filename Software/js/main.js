@@ -111,14 +111,14 @@
                 //Menuebar hidden -> visible
                 $document.on('mouseenter', 'a[data-change="main"]', function() {
                 	
-                	$(this).next().css({"visibility":"visible"});
+                	$(this).next().css({"display":"block"});
                 	
                 });
                 //Menuebar visible -> hidden
                 $document.on('mouseleave', 'div[class="pageSidebarEntry"]', function() {
                 	
                 	
-                	$(this).find('div[class="pageSidebarMenu"]').css({"visibility":"hidden"});
+                	$(this).find('div[class="pageSidebarMenu"]').css({"display":"none"});
                 	
                 });
                 

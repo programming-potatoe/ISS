@@ -50,7 +50,13 @@ table, th, td{
 }
 
 .logout{
-	padding-left:		20px;
+	padding: 			2px 5px;
+	margin-left: 		90%;
+	border:				5px solid blue;
+}
+.user{
+	margin-left: 		20px;
+	
 }
 
 .pageSidebar{
@@ -80,7 +86,8 @@ table, th, td{
 }
 
 .pageSidebarMenu{
-	visibility:			hidden;
+	//visibility:			hidden;
+	display:			none;
 	width:				130px;
 	position:			relative;
 	background-color:	lightblue;

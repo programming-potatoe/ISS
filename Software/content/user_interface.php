@@ -9,7 +9,9 @@
 <div class="mainContent">
         <header class="pageHeader">
 					<p class="headerFont">Intelligent Score System - ISS</p>
-					<a href="#" class="logout">Logout</a> - <?php echo $_SESSION['user_vname']." ".$_SESSION['user_name']; ?>
+					<a href="#" class="logout">Logout</a> 
+					<br />
+					<div class="user">User: <?php echo $_SESSION['user_vname']." ".$_SESSION['user_name']; ?></div>
         </header>
 
     <nav class="pageSidebar">
@@ -33,8 +35,7 @@
                         <div class="pageSidebarEntry">
                         	<a href="content/user_prueflinge.php" data-change="main">Pr&uuml;flinge</a>
                         	<div class="pageSidebarMenu">
-                        		<a href="#">Link1</a>
-                        		<a href="#">Link2</a>
+                        		<a href="content/user_prueflinge.php?art=5" data-change="main">Anlegen</a>
                         	</div>
                         </div>
                         

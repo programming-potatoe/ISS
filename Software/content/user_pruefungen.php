@@ -97,7 +97,7 @@
 							}
 							else 
 							{
-								echo '<a href="content/user_bewertungen.php?art=999&pruefid='.$row['PruefID'].'"'; //@TODO was soll hier geschehen??
+								echo '<a href="content/user_bewertungen.php?art=999&pruefid='.$row['PruefID'].'"'; //@TODO link zum bereich wo er visible schalten kann
 							}
 							echo 'data-change="main">anzeigen</a></td></tr>';
 				}
@@ -125,7 +125,7 @@
 					
 				while($row = mysql_fetch_assoc($result))
 				{
-					echo '<tr><td>'.$row['PruefID'].'</td><td>'.$row['PruefBez'].'</td><td>'.$row['vbez'].'</td><td>'.$row['kbez'].'</td><td><a href="content/user_bewertungen.php?art=999&pruefid='.$row['PruefID'].'" data-change="main">anzeigen</a></td></tr>'; //@TODO was sollen die nicht-prueflinge hier zu sehen bekommen?
+					echo '<tr><td>'.$row['PruefID'].'</td><td>'.$row['PruefBez'].'</td><td>'.$row['vbez'].'</td><td>'.$row['kbez'].'</td><td><a href="content/user_bewertungen.php?art=	9&pruefid='.$row['PruefID'].'" data-change="main">anzeigen</a></td></tr>';
 				}
 					
 				echo "</table>";
