@@ -17,7 +17,7 @@ if (!isset($_SESSION['login'])) {
 <html>
         <head>
                 <meta charset="UTF-8">
-                <title>Inteligent Score System</title>
+                <title>Intelligent Score System</title>
                 <link rel="stylesheet" href="design/design.css" type="text/css">
                 <script src="./js/jquery-latest.pack.js" type="text/javascript"></script>
                 <!--<script src="./js/md5.js" type="text/javascript"></script>-->
