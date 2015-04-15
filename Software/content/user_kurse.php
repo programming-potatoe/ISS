@@ -24,10 +24,10 @@
    				$query = "SELECT KID, KBez FROM kurse";
    				$result = mysql_query($query);
    					
-   				echo "<table><tr><td>Kurs ID</td><td>KursBez</td><td></td><td></td></tr>";
+   				echo '<table class="pure-table"><tr><th>Kurs ID</th><th>KursBez</th><th>Bearbeiten</th><th>L&ouml;schen</th></tr>';
    					
    				while ($row = mysql_fetch_assoc($result)) {
-   					echo '<tr><td>'.$row['KID'].'</td><td>'.$row['KBez'].'</td><td><a href="content/user_kurse.php?art=1&kid='.$row['KID'].'" data-change="main">bearbeiten</a></td><td><a href="content/user_kurse.php?art=3&kid='.$row['KID'].'" data-change="main">l&ouml;schen</a></td></tr>';
+   					echo '<tr><td>'.$row['KID'].'</td><td>'.$row['KBez'].'</td><td><a href="content/user_kurse.php?art=1&kid='.$row['KID'].'" data-change="main"><i class="fa fa-pencil"></i></a></td><td><a href="content/user_kurse.php?art=3&kid='.$row['KID'].'" data-change="main"><i class="fa fa-trash-o"></i></a></td></tr>';
    				}
    					
    				echo "</table>";
@@ -39,7 +39,7 @@
 		
 				echo("Hier wird bearbeitet! <br><br>");
 ?>
-				<form action="content/user_kurse.php?art=2">
+				<form class="pure-form"  action="content/user_kurse.php?art=2">
 						Kurs ID: <br><input type="text" value="<?php echo $_GET['kid']?>" name="kid" readonly/><br>
 						Neue Kursbezeichnung: <br> <input type="text" placeholder="Kursbezeichnung" name="nkbez" /> <br>
 						<button type="submit">&Auml;ndern</button>
@@ -98,7 +98,7 @@
 				
 				echo("Hier wird ein neuer Kurs hinzugef&uuml;gt! <br><br>");
 ?>
-				<form action="content/user_kurse.php?art=6">
+				<form class="pure-form"  action="content/user_kurse.php?art=6">
 						Kursbezeichnung: <br> <input type="text" placeholder="Kursbezeichnung" name="kbez" /> <br>
 						<button type="submit">Anlegen</button>
 				</form>

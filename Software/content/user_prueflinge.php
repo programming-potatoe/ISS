@@ -24,10 +24,10 @@
    		$query = "SELECT PrID, PrName, PrVName, Kbez FROM pruefling, kurse WHERE PID = ".$_SESSION['user_ID']." AND kurse.KID = pruefling.KID ORDER BY PrID";
    		$result = mysql_query($query);
    			
-   		echo "<table><tr><td>PrID</td><td>PrName</td><td>PrVName</td><td>Kurs</td><td></td><td></td></tr>";
+   		echo '<table class="pure-table"><tr><th>PrID</th><th>PrName</th><th>PrVName</th><th>Kurs</th><th>Bearbeiten</th><th>L&ouml;schen</th</tr>';
    			
    		while ($row = mysql_fetch_assoc($result)) {
-   			echo '<tr><td>'.$row['PrID'].'</td><td>'.$row['PrName'].'</td><td>'.$row['PrVName'].'</td><td>'.$row['Kbez'].'</td><td><a href="content/user_prueflinge.php?art=1&prid='.$row['PrID'].'" data-change="main">bearbeiten</a></td><td><a href="content/user_prueflinge.php?art=3&prid='.$row['PrID'].'" data-change="main">l&ouml;schen</a></td></tr>';
+   			echo '<tr><td>'.$row['PrID'].'</td><td>'.$row['PrName'].'</td><td>'.$row['PrVName'].'</td><td>'.$row['Kbez'].'</td><td><a href="content/user_prueflinge.php?art=1&prid='.$row['PrID'].'" data-change="main"><i class="fa fa-pencil"></i></a></td><td><a href="content/user_prueflinge.php?art=3&prid='.$row['PrID'].'" data-change="main"><i class="fa fa-trash-o"></i></a></td></tr>';
    		}
    			
    		echo "</table>";
@@ -82,7 +82,7 @@
    		
    		echo("Hier wird ein neuer Pr&uuml;fling hinzugef&uuml;gt! <br><br>");
    		?>
-   						<form action="content/user_prueflinge.php?art=6">
+   						<form class="pure-form"  action="content/user_prueflinge.php?art=6" class="pure-form">
    								Nachname: <br> <input type="text" placeholder="Nachname" name="nname" /> <br>
    								Vorname: <br> <input type="text" placeholder="Vorname" name="vname" /> <br>
    								Email-Adresse: <br> <input type="text" placeholder="Email" name="email" /> <br>
@@ -99,10 +99,12 @@
    								echo('</select><br>');
    		?>						
    								Initialpasswort: <br> <input type="text" placeholder="Initialpasswort" name="password" /> <br>
-   								<button type="submit">Anlegen</button>
+   								<button class="pure-button pure-button-primary" type="submit">Anlegen</button>
+   								<br>
+   								<a href="content/user_prueflinge.php" data-change="main" class="pure-button">zur&uuml;ck</a>
    						</form>
    		<?php		
-   						echo('<a href="content/user_prueflinge.php" data-change="main">zur&uuml;ck</a>');	
+
    		
    		break;
    		

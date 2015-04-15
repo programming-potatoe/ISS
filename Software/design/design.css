@@ -10,23 +10,46 @@
 body {
         
         font: 14px/18px Verdana, Geneva, Arial, Helvetica, sans-serif;
+        background:		white;
 }
 
 a {
   text-decoration:        none;
 }
 
-table, th, td{
-  width:					800px;
-  border-left: 		1px lightgrey solid;
-  border-bottom:		1px grey solid;
-  border-spacing:		0;
+//table, th, td{
+//  width:				800px;
+//  border-left: 			1px lightgrey solid;
+//  border-bottom:		1px grey solid;
+//  border-spacing:		0;
+//}
+table{
+	width:				800px;
+	align:				center;
+	text-align:			center;
+	
 }
-
+table th{
+	
+	background:			#8080ff;
+	
+}
+form{
+	
+	text-align: 		center;
+	width:				1000px;;
+	margin:				auto;
+	
+}
+form input, form select{
+	
+	margin: 1em 0;
+	
+}
 .ISS_Content{
 	height:				100%;
 	width:				100%;
-	display:				block;
+	display:			block;
 }
 
 .mainContent{
@@ -35,12 +58,33 @@ table, th, td{
 }
 
 .loginContent{
+	
+	text-align: 		center;
+	
+}
+.loginContent input{
+	
+	margin: 0.5em;
+}
+.login_header{
+	
+	vertical-align: 	center;
+	color:				rgb(75, 75, 75);
+	font-family: 		"Raleway","Helvetica Neue",Helvetica,Arial,sans-serif;
+	text-align:			center;
+	font-size: 			200%;
+	
+}
+.login{
+	
+	margin-top: 		1em;
 }
 
 .pageHeader{
 	height:				80px;
 	width:				100%;
 	background:			lightgrey;
+	padding-bottom:		90px;
 }
 
 .headerFont{
@@ -50,9 +94,8 @@ table, th, td{
 }
 
 .logout{
-	padding: 			2px 5px;
+	//padding: 			2px 5px;
 	margin-left: 		90%;
-	border:				5px solid blue;
 }
 .user{
 	margin-left: 		20px;
@@ -99,4 +142,14 @@ table, th, td{
 	margin-top:			0px;
 	z-index:			-5;
 }
+.fa{
+	
+	color: 				black;
+	
+}
+.fa:hover{
+	
+	color:				grey;
+}
+
 

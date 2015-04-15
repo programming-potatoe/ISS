@@ -31,7 +31,7 @@
 				$query = "SELECT PruefID, PName, VBez, Pruefbez, SchemaID FROM pruefer p, pruefungsleistungen pr, vorlesungen v WHERE pr.PID = p.PID AND v.VID = pr.VID";
 				$result = mysql_query($query);
 					
-				echo "<table><tr><td>Pruefungs ID</td><td>Ersteller</td><td>Vorlesung</td><td>Pr&uuml;fungsbez</td><td>Schema ID</td></tr>";
+				echo '<table class="pure-table"><tr><th>Pruefungs ID</th><th>Ersteller</th><th>Vorlesung</th><th>Pr&uuml;fungsbez</th><th>Schema ID</th></tr>';
 					
 				while ($row = mysql_fetch_assoc($result)) {
 					echo '<tr><td>'.$row['PruefID'].'</td><td>'.$row['PName'].'</td><td>'.$row['VBez'].'</td><td>'.$row['Pruefbez'].'</td><td>'.$row['SchemaID'].'</td></tr>';
@@ -58,11 +58,11 @@
 			
 				$result = mysql_query($query);
 					
-				echo "<table><tr><td>Pruefungs ID</td><td>Pr&uuml;fungsBez</td><td>Vorlesung</td><td>Kurs</td><td></td></tr>";
+				echo '<table class="pure-table"><tr><th>Pruefungs ID</th><th>Pr&uuml;fungsBez</th><th>Vorlesung</th><th>Kurs</th><th>Anzeigen</th></tr>';
 					
 				while($row = mysql_fetch_assoc($result))
 				{
-					echo '<tr><td>'.$row['PruefID'].'</td><td>'.$row['PruefBez'].'</td><td>'.$row['vbez'].'</td><td>'.$row['kbez'].'</td><td><a href="content/user_bewertungen.php?art=&pruefid='.$row['PruefID'].'" data-change="main">anzeigen</a></td></tr>';
+					echo '<tr><td>'.$row['PruefID'].'</td><td>'.$row['PruefBez'].'</td><td>'.$row['vbez'].'</td><td>'.$row['kbez'].'</td><td><a href="content/user_bewertungen.php?art=&pruefid='.$row['PruefID'].'" data-change="main"><i class="fa fa-eye"></i></a></td></tr>';
 				}
 					
 				echo "</table>";
@@ -85,7 +85,7 @@
 			
 				$result = mysql_query($query);
 					
-				echo "<table><tr><td>Pruefungs ID</td><td>Pr&uuml;fungsBez</td><td>Vorlesung</td><td>Kurs</td><td></td></tr>";
+				echo '<table class="pure-table"><tr><th>Pruefungs ID</th><th>Pr&uuml;fungsBez</th><th>Vorlesung</th><th>Kurs</th><th>Anzeigen</th></tr>';
 					
 				while($row = mysql_fetch_assoc($result))
 				{
@@ -99,7 +99,7 @@
 							{
 								echo '<a href="content/user_bewertungen.php?art=999&pruefid='.$row['PruefID'].'"'; //@TODO link zum bereich wo er visible schalten kann
 							}
-							echo 'data-change="main">anzeigen</a></td></tr>';
+							echo 'data-change="main"><i class="fa fa-eye"></i></a></td></tr>';
 				}
 					
 				echo "</table>";
@@ -121,11 +121,11 @@
 			
 				$result = mysql_query($query);
 					
-				echo "<table><tr><td>Pruefungs ID</td><td>Pr&uuml;fungsBez</td><td>Vorlesung</td><td>Kurs</td><td></td></tr>";
+				echo '<table class="pure-table"><tr><th>Pruefungs ID</th><th>Pr&uuml;fungsBez</th><th>Vorlesung</th><th>Kurs</th><th>Anzeigen</th></tr>';
 					
 				while($row = mysql_fetch_assoc($result))
 				{
-					echo '<tr><td>'.$row['PruefID'].'</td><td>'.$row['PruefBez'].'</td><td>'.$row['vbez'].'</td><td>'.$row['kbez'].'</td><td><a href="content/user_bewertungen.php?art=	9&pruefid='.$row['PruefID'].'" data-change="main">anzeigen</a></td></tr>';
+					echo '<tr><td>'.$row['PruefID'].'</td><td>'.$row['PruefBez'].'</td><td>'.$row['vbez'].'</td><td>'.$row['kbez'].'</td><td><a href="content/user_bewertungen.php?art=	9&pruefid='.$row['PruefID'].'" data-change="main"><i class="fa fa-eye"></i></a></td></tr>';
 				}
 					
 				echo "</table>";
@@ -145,7 +145,7 @@
 			
 			
 			?>
-							<form action="content/user_pruefungen.php?art=2">
+							<form class="pure-form"  action="content/user_pruefungen.php?art=2">
 									Pr&uuml;fungs ID: <br><input type="text" value="<?php echo $_GET['pruefid']?>" name="pruefid" readonly/><br>
 									Neue Pr&uuml;fungsbezeichnung: <br> <input type="text" placeholder="Pr&uuml;fungsbezeichnung" name="npruefbez" /> <br><br>
 									
@@ -183,7 +183,7 @@
 			
 			echo("Hier wird eine neue Pr&uuml;fung hinzugef&uuml;gt! <br><br>");
 			?>
-							<form action="content/user_pruefungen.php?art=4">
+							<form class="pure-form"  action="content/user_pruefungen.php?art=4">
 									Vorlesungs ID: <br /><input type="text" value="<?php echo $_GET['vid']?>" name="vid" readonly/><br /><br />
 									Pr&uuml;fungsbezeichnung: <br /> <input type="text" placeholder="Pr&uuml;fungsbezeichnung" name="pruefbez" /> <br /><br />
 									Bewertungschema: <br />
@@ -313,7 +313,7 @@
 			}
 			
 			echo '<br><br> Weiteren Pr&uuml;fer hinzuf&uuml;gen:<br><br>';
-			echo '<form action="content/user_pruefungen.php?art=8">';
+			echo '<form class="pure-form"  action="content/user_pruefungen.php?art=8">';
 			echo 'Pr&uuml;fungs ID: <br> <input type="text" value="'.$_GET['pruefid'].'" name="pruefID" readonly/><br>';
 			
 			//drop down liste für Dozent

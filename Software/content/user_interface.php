@@ -8,8 +8,8 @@
 ?>         
 <div class="mainContent">
         <header class="pageHeader">
-					<p class="headerFont">Intelligent Score System - ISS</p>
-					<a href="#" class="logout">Logout</a> 
+					<p class="headerFont"><i class="fa fa-leaf "></i> Intelligent Score System - ISS</p>
+					<a href="#" class="logout pure-button">Logout</a> 
 					<br />
 					<div class="user">User: <?php echo $_SESSION['user_vname']." ".$_SESSION['user_name']; ?></div>
         </header>

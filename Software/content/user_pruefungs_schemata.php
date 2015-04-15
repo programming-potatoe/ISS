@@ -24,10 +24,10 @@
    		$query = "SELECT p.SchemaID, p.SchemaBez, p.PruefGenauigkeit, COUNT(a.ANr) AS Anzahl FROM pruefungsschema p LEFT OUTER JOIN  aufgaben a ON p.SchemaID = a.SchemaID GROUP BY p.SchemaID";
    		$result = mysql_query($query);
    			
-   		echo "<table><tr><td>SchemaID</td><td>SchemaBez</td><td>PruefGenauigkeit</td><td>Aufgabenanzahl</td><td></td></tr>";
+   		echo '<table class="pure-table"><tr><th>SchemaID</th><th>SchemaBez</th><th>PruefGenauigkeit</th><th>Aufgabenanzahl</th><th>Anzeigen</th></tr>';
    			
    		while ($row = mysql_fetch_assoc($result)) {
-   			echo '<tr><td>'.$row['SchemaID'].'</td><td>'.$row['SchemaBez'].'</td><td>'.$row['PruefGenauigkeit'].'</td><td>'.$row['Anzahl'].'</td><td><a href="content/user_pruefungs_schemata.php?art=1&schemaid='.$row['SchemaID'].'" data-change="main">anzeigen</a></td></tr>';
+   			echo '<tr><td>'.$row['SchemaID'].'</td><td>'.$row['SchemaBez'].'</td><td>'.$row['PruefGenauigkeit'].'</td><td>'.$row['Anzahl'].'</td><td><a href="content/user_pruefungs_schemata.php?art=1&schemaid='.$row['SchemaID'].'" data-change="main"><i class="fa fa-eye"></i></a></td></tr>';
    		}
    			
    		echo "</table>";
@@ -46,10 +46,10 @@
    		echo "Schema NR: ".$row['SchemaID']."<br><br>";
    		
    		
-   		echo "<table><tr><td>Aufgaben NR</td><td>MaxPunkte</td>";
+   		echo '<table class="pure-table"><tr><th>Aufgaben NR</th><th>MaxPunkte</th>';
    		for($i=0; $i < $row['PruefGenauigkeit']; $i++)
    		{
-   		echo "<td></td>";
+   		echo "<th></th>";
 				}
    		
    						echo "</tr>";
@@ -116,7 +116,7 @@
    		
    		echo("Hier wird ein neues Schema hinzugef&uuml;gt! <br><br>");
    		?>
-   						<form action="content/user_pruefungs_schemata.php?art=7">
+   						<form class="pure-form"  action="content/user_pruefungs_schemata.php?art=7">
    								Schemabezeichung: <br> <input type="text" placeholder="Schemabezeichnung" name="schemabez" /> <br>
    								Pr&uuml;fungsgenauigkeit: <br> <input type="text" placeholder="Pr&uuml;fungsgenauigkeit" name="pruegenau" /> <br>
    								Anzahl Aufgaben: <br> <input type="text" placeholder="Anzahl" name="anzahl" /> <br>						
@@ -134,7 +134,7 @@
    		$pruegenau = mysql_real_escape_string($_POST['pruegenau']);
    		$anzahl = mysql_real_escape_string($_POST['anzahl']);
    		
-   		echo '<form action="content/user_pruefungs_schemata.php?art=8">';
+   		echo '<form class="pure-form"  action="content/user_pruefungs_schemata.php?art=8">';
    		echo 'Schemabezeichnung: <br> <input type="text" value="'.$schemabez.'" name="schemabez" readonly/> <br>';
    		echo 'Pr&uuml;fungsgenauigkeit: <br> <input type="text" value="'.$pruegenau.'" name="pruegenau" readonly/> <br>';
    		echo 'Anzahl Aufgaben: <br> <input type="text" value="'.$anzahl.'" name="anzahl" readonly/> <br>	';

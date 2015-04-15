@@ -29,7 +29,7 @@
 			$result = mysql_query($query);
 				
 				
-			echo "<table><tr><td>PrID</td><td>Name</td><td>Vorname</td><td>Art</td><td></td><td></td></tr>";
+			echo '<table class="pure-table"><tr><th>PrID</th><th>Name</th><th>Vorname</th><th>Art</th><th>Bearbeiten</th><th>L&ouml;schen</th></th>';
 				
 			while ($row = mysql_fetch_assoc($result)) {
 				echo '<tr><td>'.$row['PName'].'</td><td>'.$row['PVName'].'</td><td>'.$row['PEmail'].'</td><td>';
@@ -47,7 +47,7 @@
 						break;
 				}
 				
-				echo '</td><td><a href="content/user_mitarbeiter.php?art=1&pid='.$row['PID'].'" data-change="main">bearbeiten</a></td><td><a href="content/user_mitarbeiter.php?art=3&pid='.$row['PID'].'" data-change="main">l&ouml;schen</a></td></tr>';
+				echo '</td><td><a href="content/user_mitarbeiter.php?art=1&pid='.$row['PID'].'" data-change="main"><i class="fa fa-pencil"></i></a></td><td><a href="content/user_mitarbeiter.php?art=3&pid='.$row['PID'].'" data-change="main"><i class="fa fa-trash-o"></i></a></td></tr>';
 			}
 				
 			echo "</table>";
@@ -64,7 +64,7 @@
    		 
    		
    		echo'
-   		<form action="content/user_mitarbeiter.php?art=2">
+   		<form class="pure-form"  action="content/user_mitarbeiter.php?art=2">
    				
    		<input type="hidden" name="pid" value="'.$row['PID'].'">
    				
@@ -193,7 +193,7 @@
    		
    		echo 'Neuen Mitarbeiter anlegen';
    		?>
-   		   		<form action="content/user_mitarbeiter.php?art=6">
+   		   		<form class="pure-form"  action="content/user_mitarbeiter.php?art=6">
    		   		Nachname: <br> <input type="text" placeholder="Nachname" name="nname" required/> <br>
    		   		Vorname: <br> <input type="text" placeholder="Vorname" name="vname" required/> <br>
    		   		Email-Adresse: <br> <input type="text" placeholder="Email" name="email" required/> <br>

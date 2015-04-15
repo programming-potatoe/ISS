@@ -37,10 +37,10 @@
    		
    		$result = mysql_query($query);
    			
-   		echo "<table><tr><td>Vorlesungs ID</td><td>VorlesungsBez</td><td>Dozent</td><td>Kursbez</td><td></td><td></td></tr>";
+   		echo '<table class="pure-table"><tr><th>Vorlesungs ID</th><th>VorlesungsBez</th><th>Dozent</th><th>Kursbez</th><th>Bearbeiten</th><th>L&ouml;schen</th></tr>';
    			
    		while ($row = mysql_fetch_assoc($result)) {
-   			echo '<tr><td>'.$row['VID'].'</td><td>'.$row['VBez'].'</td><td>'.$row['PName'].'</td><td>'.$row['KBez'].'</td><td><a href="content/user_vorlesungen.php?art=1&vid='.$row['VID'].'" data-change="main">bearbeiten</a></td><td><a href="content/user_vorlesungen.php?art=3&vid='.$row['VID'].'" data-change="main">l&ouml;schen</a></td></tr>';
+   			echo '<tr><td>'.$row['VID'].'</td><td>'.$row['VBez'].'</td><td>'.$row['PName'].'</td><td>'.$row['KBez'].'</td><td><a href="content/user_vorlesungen.php?art=1&vid='.$row['VID'].'" data-change="main"><i class="fa fa-pencil"></i></a></td><td><a href="content/user_vorlesungen.php?art=3&vid='.$row['VID'].'" data-change="main"><i class="fa fa-trash-o"></i></a></td></tr>';
    		}
    			
    		echo "</table>";
@@ -52,7 +52,7 @@
    		
    		echo("Hier wird bearbeitet! <br><br>Vorlesung bearbeiten:<br>");
    		?>
-   						<form action="content/user_vorlesungen.php?art=2">
+   						<form class="pure-form"  action="content/user_vorlesungen.php?art=2">
    								Vorlesungs ID: <br><input type="text" value="<?php echo $_GET['vid']?>" name="vid" readonly/><br>
    		<?php						
    						//drop down liste für Dozent
@@ -86,14 +86,14 @@
    						$query = "SELECT PruefID, Pruefbez FROM pruefungsleistungen p, vorlesungen v WHERE v.VID = p.VID AND p.VID = ".$_GET['vid'];
    						$result = mysql_query($query);
    						
-   						echo "<table><tr><td>Pr&uuml;fungs ID</td><td>Pr&uuml;fungsBez</td><td></td><td></td></tr>";					
+   						echo '<table class="pure-table"><tr><th>Pr&uuml;fungs ID</th><th>Pr&uuml;fungsBez</th><th>Bearbeiten</th><th>L&ouml;schen</th></tr>';					
    					
    						while ($row = mysql_fetch_assoc($result)) {
    							echo '<tr><td>'.$row['PruefID'].'</td><td>'.$row['Pruefbez'].'</td><td>';			
    							
    							if($_SESSION['user_rights'] == 0 | $_SESSION['user_rights'] == 1 | $_SESSION['user_rights'] == 2)
    							{
-   									echo '<a href="content/user_pruefungen.php?art=1&pruefid='.$row['PruefID'].'" data-change="main">bearbeiten</a></td><td><a href="content/user_pruefungen.php?art=3&pruefid='.$row['PruefID'].'" data-change="main">l&ouml;schen</a>';
+   									echo '<a href="content/user_pruefungen.php?art=1&pruefid='.$row['PruefID'].'" data-change="main"><i class="fa fa-pencil"></i></a></td><td><a href="content/user_pruefungen.php?art=3&pruefid='.$row['PruefID'].'" data-change="main"><i class="fa fa-trash-o"></i></a>';
    							}
    							
    							echo '</td></tr>';
@@ -164,7 +164,7 @@
    		echo("Hier wird eine neue Vorlesung hinzugef&uuml;gt! <br><br>");
    		
    		?>
-   						<form action="content/user_vorlesungen.php?art=6">
+   						<form class="pure-form"  action="content/user_vorlesungen.php?art=6">
    								Vorlesungsbezeichung: <br> <input type="text" placeholder="Vorlesungsbezeichnung" name="vbez" /> <br>
    			
    		<?php
