@@ -15,7 +15,18 @@
 		 
 	}
 	
-	//0=Startseite; 1=Pruefung bearbeiten; 2=Pruefung update; 3=neue Pruefung; 4=neue Pruefung insert und Objekte erstellen; 5=Pruefung loeschen; 6=Pruefung loeschen delete; 7=neuen Pruefer zuordnen; 8=neuen Pruefer zuordnen insert; 9=dummy
+	/*  0=Startseite;
+	 *  1=Pruefung bearbeiten;
+	 *  2=Pruefung update;
+	 *  3=neue Pruefung hinzufügen mit VID bekannt;
+	 *  4=neue Pruefung insert und Objekte erstellen;
+	 *  5=Pruefung loeschen;
+	 *  6=Pruefung loeschen delete;
+	 *  7=neuen Pruefer zuordnen;
+	 *  8=neuen Pruefer zuordnen insert;
+	 *  9=dummy
+	 * 	10=neue Prüfung hinzufügen mit VID unbekannt;
+	 */
 	switch ($_GET['art']){
 		 
 		case 0:
@@ -179,35 +190,31 @@
 			break;
 
 		case 3:
-			//neue Pruefung
+			//neue Pruefung hinzufügen mit VID bekannt
 			
 			echo("Hier wird eine neue Pr&uuml;fung hinzugef&uuml;gt! <br><br>");
-			?>
-							<form class="pure-form"  action="content/user_pruefungen.php?art=4">
-									Vorlesungs ID: <br /><input type="text" value="<?php echo $_GET['vid']?>" name="vid" readonly/><br /><br />
-									Pr&uuml;fungsbezeichnung: <br /> <input type="text" placeholder="Pr&uuml;fungsbezeichnung" name="pruefbez" /> <br /><br />
-									Bewertungschema: <br />
-			<?php												
-									//drop down liste Bewertungsschema-ID und Bezeichnung
-									$query='SELECT SchemaID, SchemaBez FROM pruefungsschema';
-									$result=mysql_query($query);
-									echo('<select name="SchemaID">');
-									while($row=mysql_fetch_assoc($result))
-									{
-											echo('<option value='.$row['SchemaID'].'>'.$row['SchemaID'].' - '.$row['SchemaBez'].'</option>');
-							
-									}
-									echo('</select><br /><br />');
 			
-									// Hier wird das Schema nachgeladen  (Woher bekommt der die Schema ID?) Woher soll ich das wissen?
-									echo('<a href="content/user_pruefungs_schemata.php?aid=11" data-change="inline">Schema anzeigen</a><br />'); //@TODO switch case ged�ns 
-									// Hier kann ein neues Schema angelegt werden
-									echo('<a href="content/user_pruefungs_schemata.php?new=1" data-change="inline">Neues Schema anlegen</a><br /><br />'); //@TODO switch case ged�ns
-									
-									//@TODO: Schema anzeigen
-									
-									
-									
+			echo'<form class="pure-form"  action="content/user_pruefungen.php?art=4">';
+			echo"Vorlesungs ID: <input type='text' value='{$_GET['vid']}' name='vid' readonly/><br /><br />";						
+			echo'Pr&uuml;fungsbezeichnung: <input type="text" placeholder="Pr&uuml;fungsbezeichnung" name="pruefbez" /> <br /><br />';						
+			echo'Bewertungschema: '	;													
+			//drop down liste Bewertungsschema-ID und Bezeichnung
+			$query='SELECT SchemaID, SchemaBez FROM pruefungsschema';
+			$result=mysql_query($query);
+			echo('<select name="SchemaID">');
+			while($row=mysql_fetch_assoc($result))
+			{
+					echo('<option value='.$row['SchemaID'].'>'.$row['SchemaID'].' - '.$row['SchemaBez'].'</option>');
+	
+			}
+			echo('</select><br /><br />');
+
+			// Hier wird das Schema nachgeladen  (Woher bekommt der die Schema ID?) Woher soll ich das wissen?
+			echo('<a href="content/user_pruefungs_schemata.php?aid=11" data-change="inline">Schema anzeigen</a><br />'); //@TODO switch case ged�ns 
+			// Hier kann ein neues Schema angelegt werden
+			echo('<a href="content/user_pruefungs_schemata.php?new=1" data-change="inline">Neues Schema anlegen</a><br /><br />'); //@TODO switch case ged�ns
+			
+			//@TODO: Schema anzeigen
 									
 			?>		
 									<button type="submit">Pr&uuml;fung anlegen</button>
@@ -220,11 +227,15 @@
 		case 4:
 			//neue Pruefung insert
 			
-			$vid = $_POST['vid'];
+			$vid = htmlspecialchars($_POST['vid']);
 			$pruefbez = mysql_real_escape_string($_POST['pruefbez']);
 			$schemaID = mysql_real_escape_string($_POST['SchemaID']);
+			$toleranz = htmlspecialchars($_POST['toleranz']);
 			
-			$query = 'INSERT INTO pruefungsleistungen VALUES (NULL, '.$_SESSION['user_ID'].', '.$vid.', "'.$pruefbez.'", '.$schemaID.')';
+			echo "$vid - $pruefbez - $schemaID; <br>";
+			
+			
+			$query = 'INSERT INTO pruefungsleistungen VALUES (NULL, '.$_SESSION['user_ID'].', '.$vid.', "'.$pruefbez.'", '.$schemaID.', NULL)';
 			
 			if(mysql_query($query))
 			{
@@ -297,8 +308,7 @@
 			echo('<a href="content/user_vorlesungen.php" data-change="main">OK, zur&uuml;ck</a>'); //@TODO warum zurueck zu vorlesungen?
 			
 			break;
-			
-			
+		
 		case 7:
 			//neuen Pruefer zuordnen
 			
@@ -359,6 +369,55 @@
 			
 			echo('<a href="content/user_pruefungen.php" data-change="main">zur&uuml;ck</a>');
 			
+			
+			break;
+			
+		case 10:
+			//neue Pruefung hinzufügen mit VID unbekannt
+			
+			echo("Hier wird eine neue Pr&uuml;fung hinzugef&uuml;gt! <br><br>");
+			
+			echo'<form class="pure-form"  action="content/user_pruefungen.php?art=4">';
+			//Dropdown für Vorlesungen:
+			echo'Vorlesung:';
+			$query='SELECT VID, VBez FROM vorlesungen';
+			$result=mysql_query($query);
+			echo('<select name="vid">');
+			while($row=mysql_fetch_assoc($result))
+			{
+					echo('<option value='.$row['VID'].'>'.$row['VBez'].'</option>');
+	
+			}
+			echo('</select><br />');
+							
+			echo'Pr&uuml;fungsbezeichnung: <input type="text" placeholder="Pr&uuml;fungsbezeichnung" name="pruefbez" /> <br />';
+			echo'Toleranz: <input type="text" placeholder="Toleranz" name="toleranz" /> <br />';							
+			echo'Bewertungschema: '	;																				
+			
+			//drop down liste Bewertungsschema-ID und Bezeichnung
+			$query='SELECT SchemaID, SchemaBez FROM pruefungsschema';
+			$result=mysql_query($query);
+			echo('<select name="SchemaID">');
+			while($row=mysql_fetch_assoc($result))
+			{
+					echo('<option value='.$row['SchemaID'].'>'.$row['SchemaID'].' - '.$row['SchemaBez'].'</option>');
+	
+			}
+			echo('</select><br />');
+			
+			/*
+			// Hier wird das Schema nachgeladen  (Woher bekommt der die Schema ID?) Woher soll ich das wissen?
+			echo('<a href="content/user_pruefungs_schemata.php?aid=11" data-change="inline">Schema anzeigen</a><br />'); //@TODO switch case ged�ns 
+			// Hier kann ein neues Schema angelegt werden
+			echo('<a href="content/user_pruefungs_schemata.php?new=1" data-change="inline">Neues Schema anlegen</a><br /><br />'); //@TODO switch case ged�ns
+			
+			//@TODO: Schema anzeigen*/
+						
+			?>		
+									<button type="submit">Pr&uuml;fung anlegen</button>
+							</form>
+			<?php		
+							echo('<br /><br /><a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>');	
 			
 			break;
 	}

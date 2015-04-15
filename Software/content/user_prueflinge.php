@@ -13,7 +13,15 @@
    		
    }
    
-   //0=Startseite; 1=Pruefling bearbeiten; 2=Pruefling update 3=Pruefling loeschen; 4=Pruefling loeschen delete; 5=neuen Pruefling anlegen; 6= neuen Pruefling anlegen insert;
+   /* 0=Startseite; 
+    * 1=Pruefling bearbeiten; 
+    * 2=Pruefling update;
+    * 3=Pruefling loeschen; 
+    * 4=Pruefling loeschen delete; 
+    * 5=neuen Pruefling anlegen; 
+    * 6= neuen Pruefling anlegen insert;
+    */
+    
    switch ($_GET['art']){
    	
    	case 0:
@@ -44,7 +52,6 @@
    	case 2:
    		//Pruefling update
    		
-   		//WER DAS LIEST IST DUMM hihihi :)
    		//TODO hier muss das update rein, nachdem der Pruefling bearbeitet wurde 
    		
    		break;
@@ -83,14 +90,14 @@
    		echo("Hier wird ein neuer Pr&uuml;fling hinzugef&uuml;gt! <br><br>");
    		?>
    						<form class="pure-form"  action="content/user_prueflinge.php?art=6" class="pure-form">
-   								Nachname: <br> <input type="text" placeholder="Nachname" name="nname" /> <br>
-   								Vorname: <br> <input type="text" placeholder="Vorname" name="vname" /> <br>
-   								Email-Adresse: <br> <input type="text" placeholder="Email" name="email" /> <br>
+   								Nachname: <input type="text" placeholder="Nachname" name="nname" /> <br>
+   								Vorname: <input type="text" placeholder="Vorname" name="vname" /> <br>
+   								Email-Adresse: <input type="text" placeholder="Email" name="email" /> <br>
    		<?php												
    								//drop down liste für Kurs
    								$query='SELECT KID, KBez FROM kurse';
    								$result=mysql_query($query);
-   								echo('Kurs: <br> <select name="KID">');
+   								echo('Kurs: <select name="KID">');
    								while($row=mysql_fetch_assoc($result))
    								{
    										echo('<option value='.$row['KID'].'>'.$row['KBez'].'</option>');
@@ -98,7 +105,7 @@
    								}
    								echo('</select><br>');
    		?>						
-   								Initialpasswort: <br> <input type="text" placeholder="Initialpasswort" name="password" /> <br>
+   								Initialpasswort: <input type="text" placeholder="Initialpasswort" name="password" /> <br>
    								<button class="pure-button pure-button-primary" type="submit">Anlegen</button>
    								<br>
    								<a href="content/user_prueflinge.php" data-change="main" class="pure-button">zur&uuml;ck</a>

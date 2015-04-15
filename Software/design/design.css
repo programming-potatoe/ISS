@@ -17,12 +17,6 @@ a {
   text-decoration:        none;
 }
 
-//table, th, td{
-//  width:				800px;
-//  border-left: 			1px lightgrey solid;
-//  border-bottom:		1px grey solid;
-//  border-spacing:		0;
-//}
 table{
 	width:				800px;
 	align:				center;
@@ -111,16 +105,15 @@ form input, form select{
 .pageSidebarEntry{
 	width:				130px;
 	float:				left;
+	text-align:			center;
 }
 
 .pageSidebarEntry a{
 	height:				30px;
 	width:				130px;
-	padding-left:		20px;
 	color:				black;
 	cursor: 			pointer;
 	display:			block;
-	
 }
 
 .pageSidebarEntry a:hover{

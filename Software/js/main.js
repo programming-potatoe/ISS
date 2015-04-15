@@ -97,9 +97,12 @@
 
                 $document.on('click', 'a[data-change="main"]', function() {
                         var href = $(this).attr('href');
-                        $(".pageSidebar").children().children().css("background", "lightblue");
-                        $(".pageSidebar").children().children().children().css("background", "lightblue");
-                        $(this).css( "background-color", "blue" );
+                        
+                       
+                        $(".pageSidebar").children().children().css({"background": "lightblue"});
+                        $(".pageSidebar").children().children().children().css({"background": "lightblue"});
+                        
+                        $(this).css({"background-color":"blue"});
                         
                         if($(this).parent().attr('class') == 'inlineContent')
                         {

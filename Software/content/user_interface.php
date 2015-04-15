@@ -9,7 +9,7 @@
 <div class="mainContent">
         <header class="pageHeader">
 					<p class="headerFont"><i class="fa fa-leaf "></i> Intelligent Score System - ISS</p>
-					<a href="#" class="logout pure-button">Logout</a> 
+					<a href="#" class="logout pure-button" style="margin-left: 90%; margin-top: -40px;">Logout</a> 
 					<br />
 					<div class="user">User: <?php echo $_SESSION['user_vname']." ".$_SESSION['user_name']; ?></div>
         </header>
@@ -23,13 +23,12 @@
 			case 0:
 					?>
 		   
-                        
                         <div class="pageSidebarEntry">
                         	<a href="content/user_home.php" data-change="main">Home</a>
-                        	<div class="pageSidebarMenu">
+                        	<!--<div class="pageSidebarMenu">
                         		<a href="#">Link1</a>
                         		<a href="#">Link2</a>
-                        	</div>
+                        	</div>-->
                         </div>
                         
                         <div class="pageSidebarEntry">
@@ -42,32 +41,28 @@
                         <div class="pageSidebarEntry">
                         <a href="content/user_mitarbeiter.php" data-change="main">Mitarbeiter</a>
                         <div class="pageSidebarMenu">
-                        		<a href="#">Link1</a>
-                        		<a href="#">Link2</a>
+                        		<a href="content/user_mitarbeiter.php?art=5" data-change="main">Anlegen</a>
                         	</div>
                         </div>
                         
                         <div class="pageSidebarEntry">
                         	<a href="content/user_kurse.php" data-change="main">Kurse</a>
                         	<div class="pageSidebarMenu">
-                        		<a href="#">Link1</a>
-                        		<a href="#">Link2</a>
+                        		<a href="content/user_kurse.php?art=5" data-change="main">Anlegen</a>
                         	</div>
                         </div>
                         
                         <div class="pageSidebarEntry">
                         	<a href="content/user_vorlesungen.php" data-change="main">Vorlesungen</a>
                         	<div class="pageSidebarMenu">
-                        		<a href="#">Link1</a>
-                        		<a href="#">Link2</a>
+                        		<a href="content/user_vorlesungen.php?art=5" data-change="main">Anlegen</a>
                         	</div>
                         </div>
                         
                         <div class="pageSidebarEntry">
                         	<a href="content/user_pruefungen.php" data-change="main">Pr&uuml;fungen</a>
                         	<div class="pageSidebarMenu">
-                        		<a href="#">Link1</a>
-                        		<a href="#">Link2</a>
+                        		<a href="content/user_pruefungen.php?art=10" data-change="main">Anlegen</a>
                         	</div>
                         </div>
                         

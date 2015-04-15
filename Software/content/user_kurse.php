@@ -13,7 +13,15 @@
    			$_GET['art'] = 0;
    		
    		}
-   		//0=Startseite; 1=neuen Kurs bearbeiten; 2=Kurs updaten; 3=Kurs loeschen auswaehlen, 4=Kurs loeschen, 5= neuen Kurs anlegen, 6= Kurs insert
+   		/*  0=Startseite;
+		 *  1=neuen Kurs bearbeiten;
+		 *  2=Kurs updaten;
+		 *  3=Kurs loeschen auswaehlen;
+		 *  4=Kurs loeschen;
+		 *  5= neuen Kurs anlegen;
+		 *  6= Kurs insert;
+		 */
+		 
    		switch ($_GET['art']){
    		
    			case 0:
@@ -40,7 +48,7 @@
 				echo("Hier wird bearbeitet! <br><br>");
 ?>
 				<form class="pure-form"  action="content/user_kurse.php?art=2">
-						Kurs ID: <br><input type="text" value="<?php echo $_GET['kid']?>" name="kid" readonly/><br>
+						Kurs ID: <input type="text" value="<?php echo $_GET['kid']?>" name="kid" readonly/><br>
 						Neue Kursbezeichnung: <br> <input type="text" placeholder="Kursbezeichnung" name="nkbez" /> <br>
 						<button type="submit">&Auml;ndern</button>
 				</form>
@@ -99,7 +107,7 @@
 				echo("Hier wird ein neuer Kurs hinzugef&uuml;gt! <br><br>");
 ?>
 				<form class="pure-form"  action="content/user_kurse.php?art=6">
-						Kursbezeichnung: <br> <input type="text" placeholder="Kursbezeichnung" name="kbez" /> <br>
+						Kursbezeichnung: <input type="text" placeholder="Kursbezeichnung" name="kbez" /> <br>
 						<button type="submit">Anlegen</button>
 				</form>
 <?php		

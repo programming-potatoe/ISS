@@ -14,7 +14,15 @@
    	 
    }
     
-   //0=Startseite; 1=Vorlesung bearbeiten; 2=Vorlesung update; 3=Vorlesung loeschen; 4=Vorlesung loeschen delete; 5= neue Vorlesung anlegen; 6= neue Vorlesung anlegen insert;
+   /* 0=Startseite; 
+    * 1=Vorlesung bearbeiten; 
+    * 2=Vorlesung update; 
+    * 3=Vorlesung loeschen; 
+    * 4=Vorlesung loeschen delete; 
+    * 5= neue Vorlesung anlegen; 
+    * 6= neue Vorlesung anlegen insert;
+    */
+    
    switch ($_GET['art']){
    
    	case 0:
@@ -40,7 +48,14 @@
    		echo '<table class="pure-table"><tr><th>Vorlesungs ID</th><th>VorlesungsBez</th><th>Dozent</th><th>Kursbez</th><th>Bearbeiten</th><th>L&ouml;schen</th></tr>';
    			
    		while ($row = mysql_fetch_assoc($result)) {
-   			echo '<tr><td>'.$row['VID'].'</td><td>'.$row['VBez'].'</td><td>'.$row['PName'].'</td><td>'.$row['KBez'].'</td><td><a href="content/user_vorlesungen.php?art=1&vid='.$row['VID'].'" data-change="main"><i class="fa fa-pencil"></i></a></td><td><a href="content/user_vorlesungen.php?art=3&vid='.$row['VID'].'" data-change="main"><i class="fa fa-trash-o"></i></a></td></tr>';
+   			echo '<tr>
+   					<td>'.$row['VID'].'</td>
+   					<td>'.$row['VBez'].'</td>
+   					<td>'.$row['PName'].'</td>
+   					<td>'.$row['KBez'].'</td>
+   					<td><a href="content/user_vorlesungen.php?art=1&vid='.$row['VID'].'" data-change="main"><i class="fa fa-pencil"></i></a></td>
+   					<td><a href="content/user_vorlesungen.php?art=3&vid='.$row['VID'].'" data-change="main"><i class="fa fa-trash-o"></i></a></td>
+   				</tr>';
    		}
    			
    		echo "</table>";
@@ -53,12 +68,12 @@
    		echo("Hier wird bearbeitet! <br><br>Vorlesung bearbeiten:<br>");
    		?>
    						<form class="pure-form"  action="content/user_vorlesungen.php?art=2">
-   								Vorlesungs ID: <br><input type="text" value="<?php echo $_GET['vid']?>" name="vid" readonly/><br>
+   								Vorlesungs ID: <input type="text" value="<?php echo $_GET['vid']?>" name="vid" readonly/><br>
    		<?php						
    						//drop down liste für Dozent
    						$query='SELECT PID, PName FROM pruefer WHERE PArt IN (0,1,2)';
    						$result=mysql_query($query);
-   						echo('Dozent: <br> <select name="nPID">');
+   						echo('Dozent: <select name="nPID">');
    						while($row=mysql_fetch_assoc($result))
    						{
    								echo('<option value='.$row['PID'].'>'.$row['PName'].'</option>');
@@ -69,7 +84,7 @@
    						//drop down liste für Kurs
    						$query='SELECT KID, KBez FROM kurse';
    						$result=mysql_query($query);
-   						echo('Kurs: <br> <select name="nKID">');
+   						echo('Kurs: <select name="nKID">');
    						while($row=mysql_fetch_assoc($result))
    						{
    								echo('<option value='.$row['KID'].'>'.$row['KBez'].'</option>');
@@ -77,7 +92,7 @@
    						}
    						echo('</select> <br>');						
    		?>							
-   								Neue Vorlesungsbezeichnung: <br> <input type="text" placeholder="Vorlesungsbezeichnung" name="nvbez" /> <br>
+   								Neue Vorlesungsbezeichnung: <input type="text" placeholder="Vorlesungsbezeichnung" name="nvbez" /> <br>
    								<button type="submit">&Auml;ndern</button>
    						</form>
    					
@@ -93,7 +108,8 @@
    							
    							if($_SESSION['user_rights'] == 0 | $_SESSION['user_rights'] == 1 | $_SESSION['user_rights'] == 2)
    							{
-   									echo '<a href="content/user_pruefungen.php?art=1&pruefid='.$row['PruefID'].'" data-change="main"><i class="fa fa-pencil"></i></a></td><td><a href="content/user_pruefungen.php?art=3&pruefid='.$row['PruefID'].'" data-change="main"><i class="fa fa-trash-o"></i></a>';
+   									echo '	<a href="content/user_pruefungen.php?art=1&pruefid='.$row['PruefID'].'" data-change="main"><i class="fa fa-pencil"></i></a></td>
+   											<td><a href="content/user_pruefungen.php?art=5&pruefid='.$row['PruefID'].'" data-change="main"><i class="fa fa-trash-o"></i></a>';
    							}
    							
    							echo '</td></tr>';
@@ -101,7 +117,7 @@
    					
    						echo "</table>";
    						
-   						echo '<br>Eine Pr&uuml;fung <a href="content/user_pruefungen.php?art=5&vid='.$_GET['vid'].'" data-change="main">hinzuf&uuml;gen</a>?<br><br>';		
+   						echo '<br>Eine Pr&uuml;fung <a href="content/user_pruefungen.php?art=3&vid='.$_GET['vid'].'" data-change="main">hinzuf&uuml;gen</a>?<br><br>';		
    										
    						echo('<a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>');			
    		   		
@@ -165,13 +181,13 @@
    		
    		?>
    						<form class="pure-form"  action="content/user_vorlesungen.php?art=6">
-   								Vorlesungsbezeichung: <br> <input type="text" placeholder="Vorlesungsbezeichnung" name="vbez" /> <br>
+   								Vorlesungsbezeichung: <input type="text" placeholder="Vorlesungsbezeichnung" name="vbez" /> <br>
    			
    		<?php
    						//drop down liste für Dozent
    						$query='SELECT PID, PName FROM pruefer WHERE PArt IN (0,1,2)';
    						$result=mysql_query($query);
-   						echo('Dozent: <br> <select name="PID">');
+   						echo('Dozent: <select name="PID">');
    						while($row=mysql_fetch_assoc($result))
    						{
    								echo('<option value='.$row['PID'].'>'.$row['PName'].'</option>');
@@ -182,7 +198,7 @@
    						//drop down liste für Kurs
    						$query='SELECT KID, KBez FROM kurse';
    						$result=mysql_query($query);
-   						echo('Kurs: <br> <select name="KID">');
+   						echo('Kurs: <select name="KID">');
    						while($row=mysql_fetch_assoc($result))
    						{
    								echo('<option value='.$row['KID'].'>'.$row['KBez'].'</option>');

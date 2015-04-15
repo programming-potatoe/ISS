@@ -13,7 +13,15 @@
    	
    }
    
-   //0=Startseite; 1=Mitarbeiter bearbeiten; 2=Mitarbeiter bearbeiten update; 3=Mitarbeiter loeschen; 4=Mitarbeiter delete; 5=neuen Mitarbeiter anlegen; 6=Mitarbeiter insert;
+   /*  0=Startseite;
+    *  1=Mitarbeiter bearbeiten;
+    *  2=Mitarbeiter bearbeiten update;
+    *  3=Mitarbeiter loeschen;
+    *  4=Mitarbeiter delete;
+    *  5=neuen Mitarbeiter anlegen;
+    *  6=Mitarbeiter insert;
+    */
+    
    switch ($_GET['art']){
    	
    	case 0:
@@ -22,12 +30,8 @@
 	
 			echo 'Hier k&ouml;nnen Mitarbeiter bearbeitet werden <br> Neuen Mitarbeiter <a href="content/user_mitarbeiter.php?art=5" data-change="main">hinzuf&uuml;gen</a>?<br><br>';
 			
-			
-			
-			
 			$query = "SELECT p.PID, p.PName, PVName, p.PEmail, p.PArt FROM pruefer p where p.part in(1, 2, 3)";
 			$result = mysql_query($query);
-				
 				
 			echo '<table class="pure-table"><tr><th>PrID</th><th>Name</th><th>Vorname</th><th>Art</th><th>Bearbeiten</th><th>L&ouml;schen</th></th>';
 				
@@ -112,7 +116,7 @@
    		
    		break;
    	case 2:
-
+		//Mitarbeiter bearbeiten update
       		if (!isset($_POST['nname']) || !isset($_POST['vname']) || !isset($_POST['email']))
    		{
    			
@@ -169,7 +173,7 @@
    		 
    		echo('<a href="content/user_mitarbeiter.php" data-change="main">zur&uuml;ck</a>');
    		 
-    		break;	
+    	break;	
 
    	case 4:
    		//Mitarbeiter delete
@@ -194,20 +198,20 @@
    		echo 'Neuen Mitarbeiter anlegen';
    		?>
    		   		<form class="pure-form"  action="content/user_mitarbeiter.php?art=6">
-   		   		Nachname: <br> <input type="text" placeholder="Nachname" name="nname" required/> <br>
-   		   		Vorname: <br> <input type="text" placeholder="Vorname" name="vname" required/> <br>
-   		   		Email-Adresse: <br> <input type="text" placeholder="Email" name="email" required/> <br>
+   		   		Nachname: <input type="text" placeholder="Nachname" name="nname" required/> <br>
+   		   		Vorname: <input type="text" placeholder="Vorname" name="vname" required/> <br>
+   		   		Email-Adresse: <input type="text" placeholder="Email" name="email" required/> <br>
    		   		
-   		   		Art:<br> 
+   		   		Art: 
    		   		<select name="art">
    		   		<option selected="selected" value="1">Dozent und Pr&uuml;fer</option>
    		   		<option value="2">Pr&uuml;fer</option>
    		   		<option value="3">Dozent</option>
    		   		</select>
    		   		<br>
-   		   		Initialpasswort: <br> <input type="text" placeholder="Initialpasswort" name="password" required/> <br>
+   		   		Initialpasswort: <input type="text" placeholder="Initialpasswort" name="password" required/> <br>
    		   		<button type="submit">Anlegen</button>
-   		   						</form>
+   		   		</form>
    		   		<?php 
    		
    		break;
