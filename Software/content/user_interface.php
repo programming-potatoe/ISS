@@ -62,7 +62,7 @@
                         <div class="pageSidebarEntry">
                         	<a href="content/user_pruefungen.php" data-change="main">Pr&uuml;fungen</a>
                         	<div class="pageSidebarMenu">
-                        		<a href="content/user_pruefungen.php?art=10" data-change="main">Anlegen</a>
+                        		<a href="content/user_pruefungen.php?art=3" data-change="main">Anlegen</a>
                         	</div>
                         </div>
                         

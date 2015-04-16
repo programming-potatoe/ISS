@@ -27,7 +27,7 @@
 	 *  7=neuen Pruefer zuordnen;
 	 *  8=neuen Pruefer zuordnen insert;
 	 *  9=dummy;
-	 * 	10=neue Prüfung hinzufügen mit VID unbekannt;
+	 * 	OBSOLET 10=neue Prüfung hinzufügen mit VID unbekannt;
 	 *  11=Prüfungsdetails ansehen;
 	 */
 	switch ($_GET['art']){
@@ -190,12 +190,33 @@
 			break;
 
 		case 3:
-			//neue Pruefung hinzufügen mit VID bekannt
+			//neue Pruefung hinzufügen
 			
 			echo("Hier wird eine neue Pr&uuml;fung hinzugef&uuml;gt! <br />");
 			
 			echo'<form class="pure-form"  action="content/user_pruefungen.php?art=4">';
-			echo"Vorlesungs ID: <input type='text' value='{$_GET['vid']}' name='vid' readonly/><br />";						
+			
+			if(isset($_GET['vid']))
+			{
+				//Vorlesungs ID bekannt
+				echo"Vorlesungs ID: <input type='text' value='{$_GET['vid']}' name='vid' readonly/><br />";	
+			}
+			else
+			{
+				//Vorlesung unbekannt
+				//Dropdown für Vorlesungen:
+				echo'Vorlesung:';
+				$query='SELECT VID, VBez FROM vorlesungen';
+				$result=mysql_query($query);
+				echo('<select name="vid">');
+				while($row=mysql_fetch_assoc($result))
+				{
+					echo('<option value='.$row['VID'].'>'.$row['VBez'].'</option>');
+	
+				}
+				echo('</select><br />');
+			}
+						
 			echo'Pr&uuml;fungsbezeichnung: <input type="text" placeholder="Pr&uuml;fungsbezeichnung" name="pruefbez" /> <br />';	
 			echo'Toleranz: <input type="text" placeholder="Toleranz" name="toleranz" /> <br />';						
 			echo'Bewertungschema: '	;													
@@ -210,14 +231,14 @@
 			}
 			echo('</select><br />');
 			
-			/*
+			
 			// Hier wird das Schema nachgeladen  (Woher bekommt der die Schema ID?) Woher soll ich das wissen?
-			echo('<a href="content/user_pruefungs_schemata.php?aid=11" data-change="inline">Schema anzeigen</a><br />'); //@TODO switch case ged�ns 
+			echo('<a href="content/user_pruefungs_schemata.php?art=1&schemaid=11" data-change="inline">Schema anzeigen</a><br />'); //@TODO switch case ged�ns 
 			// Hier kann ein neues Schema angelegt werden
-			echo('<a href="content/user_pruefungs_schemata.php?new=1" data-change="inline">Neues Schema anlegen</a><br /><br />'); //@TODO switch case ged�ns
+			//echo('<a href="content/user_pruefungs_schemata.php?new=1" data-change="inline">Neues Schema anlegen</a><br /><br />'); //@TODO switch case ged�ns
 			
 			//@TODO: Schema anzeigen
-			*/						
+									
 			?>		
 									<button type="submit">Pr&uuml;fung anlegen</button>
 							</form>
@@ -374,7 +395,7 @@
 			
 			break;
 			
-		case 10:
+		/*case 10:
 			//neue Pruefung hinzufügen mit VID unbekannt
 			
 			echo("Hier wird eine neue Pr&uuml;fung hinzugef&uuml;gt! <br><br>");
@@ -413,7 +434,7 @@
 			// Hier kann ein neues Schema angelegt werden
 			echo('<a href="content/user_pruefungs_schemata.php?new=1" data-change="inline">Neues Schema anlegen</a><br /><br />'); //@TODO switch case ged�ns
 			
-			//@TODO: Schema anzeigen*/
+			//@TODO: Schema anzeigen
 						
 			?>		
 									<button type="submit">Pr&uuml;fung anlegen</button>
@@ -421,7 +442,7 @@
 			<?php		
 							echo('<br /><br /><a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>');	
 			
-			break;
+			break;*/
 
 		case 11:
 			

@@ -52,8 +52,8 @@
                 },
                 insert_pageContent : function (file) {
                         $.post(file, function(data) {
-                        			$('.inlineContent').hide(0);
-                                 $('.inlineContent').html(data);
+                        		 $('.inlineContent').hide(0);
+                                 $('.inlineContent').html('<html><head></head><body>' + data + '</body></html>');
                                  $('.inlineContent').fadeIn(500);
                         });
 
@@ -133,7 +133,7 @@
                 
                 $document.on('click', 'a[data-change="inline"]', function() {
                         var href = $(this).attr('href');
-                        $(this).replaceWith('<span class="inlineContent"></span>');
+                        $(this).replaceWith('<iframe class="inlineContent" border="none"></iframe>');
                         ISS.insert_pageContent(href);
 
                         return false;
