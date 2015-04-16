@@ -235,7 +235,7 @@
 			echo "$vid - $pruefbez - $schemaID; <br>";
 			
 			
-			$query = 'INSERT INTO pruefungsleistungen VALUES (NULL, '.$_SESSION['user_ID'].', '.$vid.', "'.$pruefbez.'", '.$schemaID.', NULL)';
+			$query = 'INSERT INTO pruefungsleistungen VALUES (NULL, '.$_SESSION['user_ID'].', '.$vid.', "'.$pruefbez.'", '.$schemaID.', '.$toleranz.')';
 			
 			if(mysql_query($query))
 			{

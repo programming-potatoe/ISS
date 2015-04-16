@@ -1,9 +1,9 @@
-﻿-- phpMyAdmin SQL Dump
+-- phpMyAdmin SQL Dump
 -- version 4.2.11
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 23. Mrz 2015 um 10:01
+-- Erstellungszeit: 16. Apr 2015 um 17:55
 -- Server Version: 5.6.21
 -- PHP-Version: 5.6.3
 
@@ -200,27 +200,31 @@ CREATE TABLE IF NOT EXISTS `pruefungsleistungen` (
   `PID` int(11) NOT NULL,
   `VID` int(11) NOT NULL,
   `PruefBez` varchar(50) DEFAULT NULL,
-  `SchemaID` int(11) NOT NULL, `Toleranz` int(11)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+  `SchemaID` int(11) NOT NULL,
+  `Toleranz` float DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `pruefungsleistungen`
 --
 
-INSERT INTO `pruefungsleistungen` (`PruefID`, `PID`, `VID`, `PruefBez`, `SchemaID`) VALUES
-(16, 1, 7, 'Klausur', 11),
-(17, 1, 7, 'Klausur', 11),
-(18, 1, 8, 'Klausur', 11),
-(19, 1, 10, 'Klausur', 11),
-(20, 1, 8, 'Klausur', 11),
-(21, 1, 8, '', 12),
-(22, 1, 8, '', 11),
-(23, 1, 8, '', 11),
-(24, 1, 7, '', 11),
-(25, 1, 9, '', 11),
-(26, 1, 9, '', 11),
-(27, 1, 8, '', 11),
-(28, 1, 8, '', 11);
+INSERT INTO `pruefungsleistungen` (`PruefID`, `PID`, `VID`, `PruefBez`, `SchemaID`, `Toleranz`) VALUES
+(16, 1, 7, 'Klausur', 11, NULL),
+(17, 1, 7, 'Klausur', 11, NULL),
+(18, 1, 8, 'Klausur', 11, NULL),
+(19, 1, 10, 'Klausur', 11, NULL),
+(20, 1, 8, 'Klausur', 11, NULL),
+(21, 1, 8, '', 12, NULL),
+(22, 1, 8, '', 11, NULL),
+(23, 1, 8, '', 11, NULL),
+(24, 1, 7, '', 11, NULL),
+(25, 1, 9, '', 11, NULL),
+(26, 1, 9, '', 11, NULL),
+(27, 1, 8, '', 11, NULL),
+(28, 1, 8, 'Klausur', 11, NULL),
+(29, 1, 9, 'Testklausur', 11, NULL),
+(30, 1, 7, 'Klausur', 13, 0.5),
+(31, 1, 10, 'Klausur', 14, 0.1);
 
 -- --------------------------------------------------------
 
@@ -234,7 +238,7 @@ CREATE TABLE IF NOT EXISTS `pruefungsleistungsobjekt` (
   `PruefID` int(11) NOT NULL,
   `PruefObjKommentar` varchar(200) DEFAULT NULL,
   `PruefStatus` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `pruefungsleistungsobjekt`
@@ -273,7 +277,13 @@ INSERT INTO `pruefungsleistungsobjekt` (`PruefObjID`, `PrID`, `PruefID`, `PruefO
 (43, 9, 27, NULL, 0),
 (44, 5, 28, NULL, 0),
 (45, 8, 28, NULL, 0),
-(46, 9, 28, NULL, 0);
+(46, 9, 28, NULL, 0),
+(47, 6, 30, NULL, 0),
+(48, 7, 30, NULL, 0),
+(49, 5, 31, NULL, 0),
+(50, 8, 31, NULL, 0),
+(51, 9, 31, NULL, 0),
+(52, 10, 31, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -316,7 +326,7 @@ CREATE TABLE IF NOT EXISTS `vorlesungen` (
 
 INSERT INTO `vorlesungen` (`VID`, `KID`, `PID`, `VBez`) VALUES
 (7, 6, 1, 'Mathematik'),
-(8, 5, 1, 'Physik'),
+(8, 5, 1, ''),
 (9, 6, 3, 'Rechnerarchitekturen'),
 (10, 5, 1, 'Physik');
 
@@ -417,12 +427,12 @@ MODIFY `PrID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 -- AUTO_INCREMENT für Tabelle `pruefungsleistungen`
 --
 ALTER TABLE `pruefungsleistungen`
-MODIFY `PruefID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
+MODIFY `PruefID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT für Tabelle `pruefungsleistungsobjekt`
 --
 ALTER TABLE `pruefungsleistungsobjekt`
-MODIFY `PruefObjID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=47;
+MODIFY `PruefObjID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=53;
 --
 -- AUTO_INCREMENT für Tabelle `pruefungsschema`
 --
