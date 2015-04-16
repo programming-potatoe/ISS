@@ -13,7 +13,16 @@
    	 
    }
    
-   //0=Startseite; 1=Detailansicht; 2=Schema bearbeiten; 3=Schema insert; 4=Schema loeschen; 5=Schema loeschen delete; 6=neu Anlegen Schritt 1; 7=neu Anlegen Schritt 2; 8=neu Anlegen insert;
+   /*  0=Startseite;
+    *  1=Detailansicht;
+    *  2=Schema bearbeiten;
+    *  3=Schema insert;
+    *  4=Schema loeschen;
+    *  5=Schema loeschen delete;
+    *  6=neu Anlegen Schritt 1;
+    *  7=neu Anlegen Schritt 2;
+    *  8=neu Anlegen insert;
+    */
    switch ($_GET['art']){
    	 
    	case 0:

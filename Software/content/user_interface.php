@@ -69,17 +69,12 @@
                         <div class="pageSidebarEntry">
                         	<a href="content/user_pruefungs_schemata.php" data-change="main">Vorlagen</a>
                         	<div class="pageSidebarMenu">
-                        		<a href="#">Link1</a>
-                        		<a href="#">Link2</a>
+                        		<a href="content/user_pruefungs_schemata.php?art=6" data-change="main">Anlegen</a>
                         	</div>
                         </div>
                         
                         <div class="pageSidebarEntry">
 							<a href="content/user_profil.php" data-change="main">Profil</a>
-							<div class="pageSidebarMenu">
-                        		<a href="#">Link1</a>
-                        		<a href="#">Link2</a>
-                        	</div>
                         </div>
 		      
 		   
@@ -88,46 +83,104 @@
 			//Dozent + Pruefer
 		   case 1:
 		   		?>
-		   <ul>
-                        <li><a href="content/user_home.php" data-change="main">Home</a></li>
-                        <li><a href="content/user_vorlesungen.php" data-change="main">Vorlesungen</a></li>
-                        <li><a href="content/user_pruefungen.php" data-change="main">Pr&uuml;fungen</a></li>
-                        <li><a href="content/user_pruefungs_schemata.php" data-change="main">Vorlagen</a></li>
-								<li><a href="content/user_profil.php" data-change="main">Profil</a></li>
-		   </ul>		   
+		   
+                        <div class="pageSidebarEntry">
+                        	<a href="content/user_home.php" data-change="main">Home</a>
+                        </div>
+                        
+                        <div class="pageSidebarEntry">
+                        	<a href="content/user_vorlesungen.php" data-change="main">Vorlesungen</a>
+                        	<div class="pageSidebarMenu">
+                        		<a href="content/user_vorlesungen.php?art=5" data-change="main">Anlegen</a>
+                        	</div>
+                        </div>
+                        
+                        <div class="pageSidebarEntry">
+                        	<a href="content/user_pruefungen.php" data-change="main">Pr&uuml;fungen</a>
+                        	<div class="pageSidebarMenu">
+                        		<a href="content/user_pruefungen.php?art=10" data-change="main">Anlegen</a>
+                        	</div>
+                        </div>
+                        
+                        <div class="pageSidebarEntry">
+                        	<a href="content/user_pruefungs_schemata.php" data-change="main">Vorlagen</a>
+                        	<div class="pageSidebarMenu">
+                        		<a href="content/user_pruefungs_schemata.php?art=6" data-change="main">Anlegen</a>
+                        	</div>
+                        </div>
+                        
+                        <div class="pageSidebarEntry">
+							<a href="content/user_profil.php" data-change="main">Profil</a>
+                        </div>
+		   		   
 		   
 		   <?php
 		   		break;
 		   //Dozent
 		   case 2:
 		   		?>
-		   <ul>
-                        <li><a href="content/user_home.php" data-change="main">Home</a></li>
-                        <li><a href="content/user_vorlesungen.php" data-change="main">Vorlesungen</a></li>
-                        <li><a href="content/user_pruefungen.php" data-change="main">Pr&uuml;fungen</a></li>
-                        <li><a href="content/user_pruefungs_schemata.php" data-change="main">Vorlagen</a></li>
-							   <li><a href="content/user_profil.php" data-change="main">Profil</a></li>
-		   </ul>		   
-		   
+                        <div class="pageSidebarEntry">
+                        	<a href="content/user_home.php" data-change="main">Home</a>
+                        </div>
+                        
+                        <div class="pageSidebarEntry">
+                        	<a href="content/user_vorlesungen.php" data-change="main">Vorlesungen</a>
+                        	<div class="pageSidebarMenu">
+                        		<a href="content/user_vorlesungen.php?art=5" data-change="main">Anlegen</a>
+                        	</div>
+                        </div>
+                        
+                        <div class="pageSidebarEntry">
+                        	<a href="content/user_pruefungen.php" data-change="main">Pr&uuml;fungen</a>
+                        	<div class="pageSidebarMenu">
+                        		<a href="content/user_pruefungen.php?art=10" data-change="main">Anlegen</a>
+                        	</div>
+                        </div>
+                        
+                        <div class="pageSidebarEntry">
+                        	<a href="content/user_pruefungs_schemata.php" data-change="main">Vorlagen</a>
+                        	<div class="pageSidebarMenu">
+                        		<a href="content/user_pruefungs_schemata.php?art=6" data-change="main">Anlegen</a>
+                        	</div>
+                        </div>
+                        
+                        <div class="pageSidebarEntry">
+							<a href="content/user_profil.php" data-change="main">Profil</a>
+                        </div>
 		   <?php
 		   		break;
 		   //Pruefer
 		   case 3:
 		   		?>
-		   <ul>
-                        <li><a href="content/user_home.php" data-change="main">Home</a></li>
-                        <li><a href="content/user_pruefungen.php" data-change="main">Pr&uuml;fungen</a></li>
-								<li><a href="content/user_profil.php" data-change="main">Profil</a></li>
-		   </ul>		   
+		  
+                        <div class="pageSidebarEntry">
+                        	<a href="content/user_home.php" data-change="main">Home</a>
+                        </div>
+                        
+                        <div class="pageSidebarEntry">
+                        	<a href="content/user_pruefungen.php" data-change="main">Pr&uuml;fungen</a>
+                        </div>
+                        
+						<div class="pageSidebarEntry">
+							<a href="content/user_profil.php" data-change="main">Profil</a>
+                        </div>
 		   
 		   <?php
 		   		break;
 		   //Pruefling
 		   case 4:?>
 		   <ul>
-                        <li><a href="content/user_home.php" data-change="main">Home</a></li>
-                        <li><a href="content/user_pruefungen.php" data-change="main">Pr&uuml;fungen</a></li>
-								<li><a href="content/user_profil.php" data-change="main">Profil</a></li>
+                        <div class="pageSidebarEntry">
+                        	<a href="content/user_home.php" data-change="main">Home</a>
+                        </div>
+                        
+                        <div class="pageSidebarEntry">
+                        	<a href="content/user_pruefungen.php" data-change="main">Pr&uuml;fungen</a>
+                        </div>
+                        
+						<div class="pageSidebarEntry">
+							<a href="content/user_profil.php" data-change="main">Profil</a>
+                        </div>
 		   </ul>		   
 		   
 		   <?php

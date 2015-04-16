@@ -15,6 +15,8 @@
 		 
 	}
 	
+	$rights = $_SESSION['user_rights'];
+	
 	/*  0=Startseite;
 	 *  1=Pruefung bearbeiten;
 	 *  2=Pruefung update;
@@ -24,34 +26,45 @@
 	 *  6=Pruefung loeschen delete;
 	 *  7=neuen Pruefer zuordnen;
 	 *  8=neuen Pruefer zuordnen insert;
-	 *  9=dummy
+	 *  9=dummy;
 	 * 	10=neue Prüfung hinzufügen mit VID unbekannt;
+	 *  11=Prüfungsdetails ansehen;
 	 */
 	switch ($_GET['art']){
 		 
 		case 0:
 			//Startseite
-			
-			echo 'Hier k&ouml;nnen Pr&uumlfungen beobachtet werden<br><br>';
 				
-			$rights = $_SESSION['user_rights'];
-				
-			if($rights == 0)
+			//Visible + Feedback + Prüfer zuordnen
+			if($rights == 0 | $rights == 1 | $rights == 2)
 			{
-				echo 'Alle vorhandenen P&uuml;fungen: <br><br>';
-				$query = "SELECT PruefID, PName, VBez, Pruefbez, SchemaID FROM pruefer p, pruefungsleistungen pr, vorlesungen v WHERE pr.PID = p.PID AND v.VID = pr.VID";
+				echo "<br><br>F&uuml;r folgende Pr&uuml;fungen m&uuml;ssen visible geschaltet und Feedback abgegeben werden:<br><br>";
+					
+				$query ="SELECT pl.PruefID, pl.PruefBez, v.vbez, k.kbez
+								FROM pruefungsleistungen pl, pruefer p, vorlesungen v, kurse k, pruefungsleistungsobjekt po
+								WHERE pl.PID = p.PID
+								AND pl.vid = v.vid
+								AND v.kid = k.kid
+								AND p.PID = ".$_SESSION['user_ID']."
+								AND po.pruefstatus = 0
+								AND po.pruefID = pl.pruefID
+								GROUP BY pruefID";
+			
 				$result = mysql_query($query);
 					
-				echo '<table class="pure-table"><tr><th>Pruefungs ID</th><th>Ersteller</th><th>Vorlesung</th><th>Pr&uuml;fungsbez</th><th>Schema ID</th></tr>';
+				echo '<table class="pure-table"><tr><th>Pruefungs ID</th><th>Pr&uuml;fungsBez</th><th>Vorlesung</th><th>Kurs</th><th>Anzeigen</th></tr>';
 					
-				while ($row = mysql_fetch_assoc($result)) {
-					echo '<tr><td>'.$row['PruefID'].'</td><td>'.$row['PName'].'</td><td>'.$row['VBez'].'</td><td>'.$row['Pruefbez'].'</td><td>'.$row['SchemaID'].'</td></tr>';
+				while($row = mysql_fetch_assoc($result))
+				{
+					echo '<tr><td>'.$row['PruefID'].'</td><td>'.$row['PruefBez'].'</td><td>'.$row['vbez'].'</td><td>'.$row['kbez'].'</td><td>
+					<a href="content/user_pruefungen.php?art=11&pruefid='.$row['PruefID'].'" data-change="main"><i class="fa fa-eye"></i></a></td></tr>';
 				}
 					
 				echo "</table>";
 			}
+			
 				
-			//Bewertung
+			//Bewertung abgeben
 			if($rights == 0 | $rights == 1 | $rights == 3)
 			{
 				echo "<br><br>F&uuml;r folgende Pr&uuml;fungen ist eine Bewertung vorgesehen:<br><br>";
@@ -73,48 +86,19 @@
 					
 				while($row = mysql_fetch_assoc($result))
 				{
-					echo '<tr><td>'.$row['PruefID'].'</td><td>'.$row['PruefBez'].'</td><td>'.$row['vbez'].'</td><td>'.$row['kbez'].'</td><td><a href="content/user_bewertungen.php?art=&pruefid='.$row['PruefID'].'" data-change="main"><i class="fa fa-eye"></i></a></td></tr>';
+					echo '	<tr>
+							<td>'.$row['PruefID'].'</td>
+							<td>'.$row['PruefBez'].'</td>
+							<td>'.$row['vbez'].'</td>
+							<td>'.$row['kbez'].'</td>
+							<td><a href="content/user_bewertungen.php?art=1&pruefid='.$row['PruefID'].'" data-change="main"><i class="fa fa-eye"></i></a></td>
+							</tr>';
 				}
 					
 				echo "</table>";
 			}
 			
-			//Visible + Feedback
-			if($rights == 0 | $rights == 1 | $rights == 2)
-			{
-				echo "<br><br>F&uuml;r folgende Pr&uuml;fungen m&uuml;ssen visible geschaltet und Feedback abgegeben werden:<br><br>";
-					
-				$query ="SELECT pl.PruefID, pl.PruefBez, v.vbez, k.kbez
-								FROM pruefungsleistungen pl, pruefer p, vorlesungen v, kurse k, pruefungsleistungsobjekt po
-								WHERE pl.PID = p.PID
-								AND pl.vid = v.vid
-								AND v.kid = k.kid
-								AND p.PID = ".$_SESSION['user_ID']."
-								AND po.pruefstatus = 0
-								AND po.pruefID = pl.pruefID
-								GROUP BY pruefID";
 			
-				$result = mysql_query($query);
-					
-				echo '<table class="pure-table"><tr><th>Pruefungs ID</th><th>Pr&uuml;fungsBez</th><th>Vorlesung</th><th>Kurs</th><th>Anzeigen</th></tr>';
-					
-				while($row = mysql_fetch_assoc($result))
-				{
-					echo '<tr><td>'.$row['PruefID'].'</td><td>'.$row['PruefBez'].'</td><td>'.$row['vbez'].'</td><td>'.$row['kbez'].'</td><td>';
-							if($_SESSION['user_rights']==4)
-							{
-							
-								echo '<a href="content/user_bewertungen.php?art=9&pruefid='.$row['PruefID'].'"';
-							}
-							else 
-							{
-								echo '<a href="content/user_bewertungen.php?art=999&pruefid='.$row['PruefID'].'"'; //@TODO link zum bereich wo er visible schalten kann
-							}
-							echo 'data-change="main"><i class="fa fa-eye"></i></a></td></tr>';
-				}
-					
-				echo "</table>";
-			}
 				
 			//Studenten Anschicht:
 			if($rights == 4)
@@ -136,7 +120,23 @@
 					
 				while($row = mysql_fetch_assoc($result))
 				{
-					echo '<tr><td>'.$row['PruefID'].'</td><td>'.$row['PruefBez'].'</td><td>'.$row['vbez'].'</td><td>'.$row['kbez'].'</td><td><a href="content/user_bewertungen.php?art=	9&pruefid='.$row['PruefID'].'" data-change="main"><i class="fa fa-eye"></i></a></td></tr>';
+					echo '<tr><td>'.$row['PruefID'].'</td><td>'.$row['PruefBez'].'</td><td>'.$row['vbez'].'</td><td>'.$row['kbez'].'</td><td><a href="content/user_bewertungen.php?art=10&pruefid='.$row['PruefID'].'" data-change="main"><i class="fa fa-eye"></i></a></td></tr>';
+				}
+					
+				echo "</table>";
+			}
+			
+			//Leiter sehen alle Prüfungen
+			if($rights == 0)
+			{
+				echo 'Alle vorhandenen P&uuml;fungen: <br><br>';
+				$query = "SELECT PruefID, PName, VBez, Pruefbez, SchemaID FROM pruefer p, pruefungsleistungen pr, vorlesungen v WHERE pr.PID = p.PID AND v.VID = pr.VID";
+				$result = mysql_query($query);
+					
+				echo '<table class="pure-table"><tr><th>Pruefungs ID</th><th>Ersteller</th><th>Vorlesung</th><th>Pr&uuml;fungsbez</th><th>Schema ID</th></tr>';
+					
+				while ($row = mysql_fetch_assoc($result)) {
+					echo '<tr><td>'.$row['PruefID'].'</td><td>'.$row['PName'].'</td><td>'.$row['VBez'].'</td><td>'.$row['Pruefbez'].'</td><td>'.$row['SchemaID'].'</td></tr>';
 				}
 					
 				echo "</table>";
@@ -192,11 +192,12 @@
 		case 3:
 			//neue Pruefung hinzufügen mit VID bekannt
 			
-			echo("Hier wird eine neue Pr&uuml;fung hinzugef&uuml;gt! <br><br>");
+			echo("Hier wird eine neue Pr&uuml;fung hinzugef&uuml;gt! <br />");
 			
 			echo'<form class="pure-form"  action="content/user_pruefungen.php?art=4">';
-			echo"Vorlesungs ID: <input type='text' value='{$_GET['vid']}' name='vid' readonly/><br /><br />";						
-			echo'Pr&uuml;fungsbezeichnung: <input type="text" placeholder="Pr&uuml;fungsbezeichnung" name="pruefbez" /> <br /><br />';						
+			echo"Vorlesungs ID: <input type='text' value='{$_GET['vid']}' name='vid' readonly/><br />";						
+			echo'Pr&uuml;fungsbezeichnung: <input type="text" placeholder="Pr&uuml;fungsbezeichnung" name="pruefbez" /> <br />';	
+			echo'Toleranz: <input type="text" placeholder="Toleranz" name="toleranz" /> <br />';						
 			echo'Bewertungschema: '	;													
 			//drop down liste Bewertungsschema-ID und Bezeichnung
 			$query='SELECT SchemaID, SchemaBez FROM pruefungsschema';
@@ -207,15 +208,16 @@
 					echo('<option value='.$row['SchemaID'].'>'.$row['SchemaID'].' - '.$row['SchemaBez'].'</option>');
 	
 			}
-			echo('</select><br /><br />');
-
+			echo('</select><br />');
+			
+			/*
 			// Hier wird das Schema nachgeladen  (Woher bekommt der die Schema ID?) Woher soll ich das wissen?
 			echo('<a href="content/user_pruefungs_schemata.php?aid=11" data-change="inline">Schema anzeigen</a><br />'); //@TODO switch case ged�ns 
 			// Hier kann ein neues Schema angelegt werden
 			echo('<a href="content/user_pruefungs_schemata.php?new=1" data-change="inline">Neues Schema anlegen</a><br /><br />'); //@TODO switch case ged�ns
 			
 			//@TODO: Schema anzeigen
-									
+			*/						
 			?>		
 									<button type="submit">Pr&uuml;fung anlegen</button>
 							</form>
@@ -322,14 +324,14 @@
 				echo $row['PVName'].' '.$row['PName'].'<br>';
 			}
 			
-			echo '<br><br> Weiteren Pr&uuml;fer hinzuf&uuml;gen:<br><br>';
+			echo '<br><br> Weiteren Pr&uuml;fer hinzuf&uuml;gen:<br>';
 			echo '<form class="pure-form"  action="content/user_pruefungen.php?art=8">';
-			echo 'Pr&uuml;fungs ID: <br> <input type="text" value="'.$_GET['pruefid'].'" name="pruefID" readonly/><br>';
+			echo 'Pr&uuml;fungs ID: <input type="text" value="'.$_GET['pruefid'].'" name="pruefID" readonly/><br>';
 			
 			//drop down liste für Dozent
 			$query = 'SELECT PID, PName FROM pruefer WHERE PArt IN (0,1,2)';
 			$result = mysql_query($query);
-			echo('Dozent: <br> <select name="nprueid">');
+			echo('Pr&uuml;fer: <select name="nprueid">');
 			while($row = mysql_fetch_assoc($result))
 			{
 				echo('<option value='.$row['PID'].'>'.$row['PName'].'</option>');
@@ -339,7 +341,7 @@
 			
 			echo '<button type="submit">Zuordnen</button>';
 			echo '</form>';
-			echo '<a href="content/user_pruefungen.php?art=7&pruefid='.$_GET['newpruefer'].'" data-change="main">zur&uuml;ck</a>';
+			echo '<a href="content/user_pruefungen.php?art=0" data-change="main">zur&uuml;ck</a>';
 			
 			break;
 			
@@ -352,8 +354,8 @@
 			{
 				echo 'Neuer Pr&uuml;fer zugeordnet.<br><br>';
 					
-				echo 'Weiteren Pr&uuml;fer <a href="content/user_pruefungen.php?newpruefer='.$_POST['pruefID'].'" data-change="main">zuordnen</a>?<br>';
-				echo '<a href="content/user_pruefungen.php?art=1&pruefid='.$_POST['pruefID'].'" data-change="main">zur&uuml;ck</a>';
+				echo 'Weiteren Pr&uuml;fer <a href="content/user_pruefungen.php?art=7&pruefid='.$_POST['pruefID'].'" data-change="main">zuordnen</a>?<br>';
+				echo '<a href="content/user_pruefungen.php?art=0" data-change="main">zur&uuml;ck</a>';
 			}
 			else
 			{
@@ -420,6 +422,18 @@
 							echo('<br /><br /><a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>');	
 			
 			break;
+
+		case 11:
+			
+			$pid = htmlspecialchars($_GET['pruefid']);
+			
+			echo "Hier die Details zur Prüfung:<br /><br />";
+			
+			echo "<a href='content/user_pruefungen.php?art=7&pruefid=$pid' data-change='main'>Pr&uuml;fer zuordnen</a><br />";
+			echo "<a href='content/user_bewertungen.php?art=4&pruefid=$pid' data-change='main'>Feedback geben</a><br />";
+			echo "<a href='content/user_bewertungen.php?art=8&pruefid=$pid' data-change='main'>Visible schalten</a><br />";
+			
+		break;	
 	}
 														
 
