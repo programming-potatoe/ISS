@@ -4,7 +4,7 @@
           define('__ROOT__', dirname(dirname(__FILE__)));
    }
    require_once(__ROOT__ ."/utils/functions.php");
-
+   require(__ROOT__ ."/utils/gamma.php");
 	
 	check_berechtigung('j', 'j', 'j', 'j', 'j');
 	
@@ -372,7 +372,7 @@ switch ($_GET['art']){
 				}
 					
 				
-				$query ="SELECT ps.SchemaID, ps.PruefGenauigkeit, a.ANr, a.AMaxPunkte, a.AID
+				$query ="SELECT ps.SchemaID, ps.PruefGenauigkeit, a.ANr, a.AMaxPunkte, a.AID, pl.toleranz
 							FROM pruefungsleistungen pl, pruefungsleistungsobjekt po, pruefungsschema ps, aufgaben a
 							WHERE ps.SchemaID = a.SchemaID
 							AND ps.SchemaID = pl.SchemaID
@@ -382,16 +382,17 @@ switch ($_GET['art']){
 					
 				$result = mysql_query($query);
 				$row = mysql_fetch_array($result);
+				$tolerance = $row['toleranz'];
 				$pruefgenau =	$row['PruefGenauigkeit'];
 				$summe = 0;
 				
 				
 				//Ausgabe der Tabelle:
 				
-				echo "<br><br><br><table><tr><td>Aufgaben NR</td><td>MaxPunkte</td>";
+				echo "<br /><table class='pure-table'><tr><th>Aufgaben NR</th><th>MaxPunkte</th>";
 				for($i=0; $i < $pruefgenau; $i++)
 				{
-				echo "<td>".$i."</td>";
+				echo "<th>".$i."</th>";
 				}
 				
 						echo "</tr>";
@@ -429,55 +430,58 @@ switch ($_GET['art']){
 				
 						echo '</td>';
 				}
-								echo "</tr>";
-				
-								echo '<tr><td>Prozent:</td><td></td>';
-										$prozentsatze = array();
-										for($i=0; $i < $pruefgenau; $i++)
-										{
-										echo '<td>';
-				
-										if(isset($sarray[$i]))
-										{
-												$prozentsatze[$i] = ($sarray[$i]*100)/$summe;
-												echo ($prozentsatze[$i].'%');
-				}
-				
-				echo '</td>';
-					}
 				echo "</tr>";
-				
-								echo "</table><br><br>";
+
+				echo '<tr><td>Prozent:</td><td></td>';
+						$prozentsatze = array();
+						for($i=0; $i < $pruefgenau; $i++)
+						{
+						echo '<td>';
+
+						if(isset($sarray[$i]))
+						{
+								$prozentsatze[2*$i] = ($sarray[$i])/$summe;
+								echo (round($prozentsatze[2*$i]*100,2) .'%');
+						}
+						echo '</td>';
+						}
+				echo "</tr>";
+
+				echo "</table><br><br>";
 				//Berechnung
 				$score = 0;
 				//von links aufsummiert:
-				include(gamma.php);
-				$leftarray = array();
-				$rightarray = array();
-				for($i = 0; $i < $pruefgenau; $i++)
+				
+				$leftarray[1] = $prozentsatze[0];
+				$rightarray[1] = $prozentsatze[(2*$pruefgenau-2)];
+				for($i = 3; $i < 2*$pruefgenau; $i += 2)
 				{
-					$leftarray[] = $prozentsatze[$i];
-					$rightarray[] = $prozentsatze[$pruefgenau-$i-1];
+					$leftarray[$i] = $leftarray[$i-2]+$prozentsatze[$i-1];
+					$rightarray[$i] = $rightarray[$i-2]+$prozentsatze[(2*$pruefgenau-1)-$i];
 				}
+				
 				$r_left = 0.0;
 				$r_right = 0.0;
-				for($i = 0; $i < $pruefgenau; $i++)
+				for($i = 1; $i < 2*$pruefgenau; $i += 2)
 				{
 								if($leftarray[$i] > 0)
 								{
 									$r_left += exp(log_gamma($i+$leftarray[$i])-log_gamma($i+1)-log_gamma($leftarray[$i]));
 								}
+								
 								if($rightarray[$i] > 0)
 								{
 									$r_right += exp(log_gamma($i+$rightarray[$i])-log_gamma($i+1)-log_gamma($rightarray[$i]));
 								}
 				}
-				$r_left = 1- $r_left/($pruefgenau-5);
-				$r_right = $r_right/($pruefgenau-5);
+				$r_left = 1- $r_left/($pruefgenau);
+				$r_right = $r_right/($pruefgenau);
 				$score = (1-$tolerance) * min($r_left,$r_right) + $tolerance * max($r_left,$r_right);
+				$score = round($score,2);
+				echo "Toleranz: $tolerance <br /><br />";
 				
 				//Endgültige Score:
-				echo "Score:   ".$score."% <br><br>";
+				echo "Score:   ".$score*100 ."% <br><br>";
 				
 				
 				
