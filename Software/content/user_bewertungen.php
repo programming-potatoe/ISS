@@ -6,18 +6,28 @@
    require_once(__ROOT__ ."/utils/functions.php");
 
 	
-   
 	check_berechtigung('j', 'j', 'j', 'j', 'j');
 	
-	
-		if(!isset($_GET['art'])){
-				
-			$_GET['art'] = 0;
-				
+		
+		if(!isset($_GET['art'])){			
+			$_GET['art'] = 0;	
 		}
 		
-		//0=Startseite; 1=Bewertung abgeben; 2=Bewertung eintragen; 3=Bewertung speichern; 4=Feedback eingeben; 5=Feedback speichern;6=Feedback+visible; 7=wirklich visible schalten?; 8=visible update; 9=Ansicht fuer Prueflinge
-		switch ($_GET['art']){
+		/*  0=Startseite;
+		 *  1=Bewertung abgeben;
+		 *  2=Bewertung eintragen;
+		 *  3=Bewertung speichern;
+		 *  4=Abfrage Feedback für welchen Student;
+		 *  5=Feedback erstellen
+		 *  6=Feedback speichern;
+		 *  OBSOLET 7=Feedback+visible;
+		 *  8=wirklich visible schalten?;
+		 *  9=visible update;
+		 *  10=Ansicht fuer Prueflinge
+		 *  999=dummy;
+		 */
+		 
+switch ($_GET['art']){
 				
 			case 0:
 				//Startseite
@@ -31,17 +41,19 @@
 				//Bewertung abgeben
 				check_berechtigung('j', 'j', 'j', 'j', 'n');
 				
-				echo 'Hier kann eine Bewertung abgeben werden.<br><br>';
+				$pid = htmlspecialchars($_GET['pruefid']);
+				
+				echo 'Hier kann eine Bewertung abgegeben werden.<br><br>';
 					
 				echo '<form action="content/user_bewertungen.php?art=2">';
-				echo 'Pr&uuml;fungs ID: <br> <input type="text" value="'.$_GET['id'].'" name="pruefID" readonly/><br>';
+				echo 'Pr&uuml;fungs ID: <br> <input type="text" value="'.$pid.'" name="pruefID" readonly/><br>';
 				
 				//	drop down liste für Student
 				$query ="SELECT pr.PrID, pr.PrName
 								FROM pruefling pr, pruefungsleistungsobjekt po
 								WHERE pr.PrID = po.PrID
 								AND po.pruefstatus = 0
-								AND po.PruefID = ".$_GET['id'];
+								AND po.PruefID = ".$pid;
 				
 				$result = mysql_query($query);
 				echo('Student: <br> <select name="prid">');
@@ -154,7 +166,7 @@
 					
 					
 				//@TODO: Validierung Punktezahl fehlt!
-				//@TODO: Bewertungen werden mehrfach angelegt.
+				//@TODO: Bewertungen werden mehrfach angelegt. Aber nicht verrechnet...
 				
 					
 				while($row = mysql_fetch_assoc($AIDresult))
@@ -173,31 +185,61 @@
 					}
 					}
 				
+				echo '<br /><a href="content/user_pruefungen.php" data-change="main">OK, zur&uuml;ck</a>';
 				
 				break;
 				
 			case 4:
-				//Feedback eingeben
+				//Feedback eingeben für welchen Student
 				check_berechtigung('j', 'j', 'j', 'j', 'n');
 				
-				//@TODO: Feedbacks werden gnadenlos überschrieben.. muss so
+				//@TODO: Feedbacks werden gnadenlos überschrieben.. muss so sein.
 				
+				$pid = htmlspecialchars($_GET['pruefid']);
 					
 				echo '<form action="content/user_bewertungen.php?art=5">';
-				echo 'Pr&uuml;fungs ID: <br> <input type="text" value="'.$_POST['pruefID'].'" name="pruefID" readonly/><br>';
-				echo 'Pr&uuml;flings ID: <br> <input type="text" value="'.$_POST['prid'].'" name="prID" readonly/><br>';
-				echo 'Feedback: <br> <textarea placeholder="Feedback" name="dozfeedback"/><br> Maximal 200 Zeichen <br><br>';
+				echo 'Pr&uuml;fungs ID: <input type="text" value="'.$pid.'" name="pruefid" readonly/><br>';
+				//drop down liste für Student
+				$query ='SELECT pr.PrID, pr.PrName
+								FROM pruefling pr, pruefungsleistungsobjekt po
+								WHERE pr.PrID = po.PrID
+								AND po.pruefstatus = 0
+								AND po.PruefID = '.$pid;
+				
+				$result = mysql_query($query);
+				echo('Student: <select name="prid">');
+				while($row = mysql_fetch_assoc($result))
+				{
+					echo('<option value='.$row['PrID'].'>'.$row['PrName'].'</option>');
+						
+				}
+				echo('</select><br><br>');
+				
 				echo '<button type="submit">Absenden</button><br><br>';
 				echo '</form>';
 				
 				break;
 				
 			case 5:
+				echo '<form action="content/user_bewertungen.php?art=6">';
+				echo 'Pr&uuml;fungs ID: <input type="text" value="'.$_POST['pruefid'].'" name="pruefid" readonly/><br>';
+				echo 'Pr&uuml;flings ID: <input type="text" value="'.$_POST['prid'].'" name="prid" readonly/><br>';
+				echo 'Feedback: <br> <textarea placeholder="Feedback" name="dozfeedback"/><br> Maximal 200 Zeichen <br><br>';
+				echo '<button type="submit">Absenden</button><br><br>';
+				echo '</form>';
+				
+				echo '<br /><a href="content/user_pruefungen.php" data-change="main">Abbrechen</a>';
+			break;
+							
+			case 6:
 				//Feedback speichern
 				check_berechtigung('j', 'j', 'j', 'j', 'n');
 				
-				$feedback = mysql_real_escape_string($_POST['dozfeedback']);
-				$query = "UPDATE pruefungsleistungsobjekt po, pruefungsleistungen pl SET po.PruefObjKommentar = '".$feedback."' WHERE pl.pruefID = po.pruefID AND po.prID = ".$_POST['prid']." AND po.pruefID = ".$_POST['adozpruefID'];
+				$pid = htmlspecialchars($_POST['pruefid']);
+				$prid = htmlspecialchars($_POST['prid']);
+				$feedback = htmlspecialchars($_POST['dozfeedback']);
+				
+				$query = "UPDATE pruefungsleistungsobjekt po, pruefungsleistungen pl SET po.PruefObjKommentar = '".$feedback."' WHERE pl.pruefID = po.pruefID AND po.prID = ".$prid." AND po.pruefID = ".$pid;
 					
 				if(mysql_query($query))
 				{
@@ -213,21 +255,23 @@
 				
 				break;
 				
-			case 6:
+			/*case 7:
 				//Feedback+visible
 				check_berechtigung('j', 'j', 'j', 'j', 'n');
+				
+				$pid = htmlspecialchars($_GET['pruefid']);
 				
 				echo "Hier wird Feedback eingetragen und visible geschaltet.";
 				
 				echo '<form action="content/user_bewertungen.php">';
-				echo 'Pr&uuml;fungs ID: <br> <input type="text" value="'.$_GET['pruef'].'" name="pruefID" readonly/><br>';
+				echo 'Pr&uuml;fungs ID: <br> <input type="text" value="'.$pid.'" name="pruefid" readonly/><br>';
 				
 				//drop down liste für Student
 				$query ='SELECT pr.PrID, pr.PrName
 								FROM pruefling pr, pruefungsleistungsobjekt po
 								WHERE pr.PrID = po.PrID
 								AND po.pruefstatus = 0
-								AND po.PruefID = '.$_GET['pruefid'];
+								AND po.PruefID = '.$pid;
 				
 				$result = mysql_query($query);
 				echo('Student: <br> <select name="prid">');
@@ -248,13 +292,13 @@
 					
 				echo '<br><a href="content/user_pruefungen.php" data-change="main">zur&uuml;ck</a>';
 				
-				break;
+				break;*/
 				
-			case 7:
+			case 8:
 				//wirklich visible schalten?
 				check_berechtigung('j', 'j', 'j', 'j', 'n');
 				
-				$pruefid = mysql_real_escape_string($_POST['pruefid']);
+				$pruefid = htmlspecialchars($_GET['pruefid']);
 					
 				$query = "SELECT PruefBez FROM pruefungsleistungen WHERE PruefID = ".$pruefid;
 					
@@ -262,12 +306,12 @@
 					
 				echo "Sicher, dass Sie die Pr&uuml;fung ".$row['PruefBez']." visible schalten wollen? <br><br> Diese Aktion kann <b>nicht</b> r&uuml;ckg&auml;ngig gemacht werden! <br><br>";
 					
-				echo '<br><a href="content/user_bewertungen.php?art=8&pruefid='.$pruefid.'" data-change="main">JA</a><br>';
+				echo '<br><a href="content/user_bewertungen.php?art=9&pruefid='.$pruefid.'" data-change="main">JA</a><br>';
 				echo '<br><a href="content/user_pruefungen.php" data-change="main">NEIN, Abbrechen</a><br>';
 				
 				break;
 				
-			case 8:
+			case 9:
 				//visible update
 				check_berechtigung('j', 'j', 'j', 'j', 'n');
 				
@@ -282,20 +326,20 @@
 						
 					if(mysql_query($query))
 					{
-							
+						echo "Score erfolgreich visible geschalten!<br />";
 					}
 					else
 					{
-						echo "An Error occured - Try Again! PruefObjID = ".$row['PruefObjID'];
+						echo "An Error occured - Try Again! PruefObjID = ".$row['PruefObjID']."<br />";
 					}
 				}
 					
 					
-				echo '<br><a href="content/user_pruefungen.php" data-change="main">OK, zur&uuml;ck</a><br>';
+				echo '<br /><a href="content/user_pruefungen.php" data-change="main">OK, zur&uuml;ck</a>';
 				
 				break;
 				
-			case 9:
+			case 10:
 				//Ansicht fuer Prueflinge
 				check_berechtigung('j', 'j', 'j', 'j', 'j');
 				
