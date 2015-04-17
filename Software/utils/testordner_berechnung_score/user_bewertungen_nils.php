@@ -10,11 +10,6 @@
 	check_berechtigung('j', 'j', 'j', 'j', 'j');
 	
 	
-	
-	
-	
-		
-		
 		if(!isset($_GET['art'])){
 				
 			$_GET['art'] = 0;
@@ -400,8 +395,8 @@
 				
 										if(isset($sarray[$i]))
 										{
-												$prozentsatze[$i] = ($sarray[$i]*100)/$summe);
-												echo ($prozentsatze[$i].'%';
+												$prozentsatze[$i] = ($sarray[$i]*100)/$summe;
+												echo ($prozentsatze[$i].'%');
 				}
 				
 				echo '</td>';
