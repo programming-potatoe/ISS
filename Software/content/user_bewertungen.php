@@ -45,26 +45,26 @@ switch ($_GET['art']){
 				
 				echo 'Hier kann eine Bewertung abgegeben werden.<br><br>';
 					
-				echo '<form action="content/user_bewertungen.php?art=2">';
-				echo 'Pr&uuml;fungs ID: <br> <input type="text" value="'.$pid.'" name="pruefID" readonly/><br>';
+				echo '<form class="pure-form" action="content/user_bewertungen.php?art=2">';
+				echo 'Pr&uuml;fungs ID: <input type="text" value="'.$pid.'" name="pruefID" readonly/><br>';
 				
 				//	drop down liste für Student
-				$query ="SELECT pr.PrID, pr.PrName
+				$query ="SELECT pr.PrID, pr.PrVName, pr.PrName
 								FROM pruefling pr, pruefungsleistungsobjekt po
 								WHERE pr.PrID = po.PrID
 								AND po.pruefstatus = 0
 								AND po.PruefID = ".$pid;
 				
 				$result = mysql_query($query);
-				echo('Student: <br> <select name="prid">');
+				echo('Student: <select name="prid">');
 				while($row = mysql_fetch_assoc($result))
 				{
-					echo('<option value='.$row['PrID'].'>'.$row['PrName'].'</option>');
+					echo("<option value='{$row['PrID']}'>{$row['PrVName']} {$row['PrName']}</option>");
 						
 				}
 				echo('</select><br><br>');
 					
-				echo '<button type="submit">Erstellen</button>';
+				echo '<button type="submit" class="pure-button">Erstellen</button>';
 				echo '</form>';
 				echo '<a href="content/user_pruefungen.php" data-change="main">zur&uuml;ck</a>';
 				
@@ -74,19 +74,21 @@ switch ($_GET['art']){
 				//Bewertung eintragen
 				check_berechtigung('j', 'j', 'j', 'j', 'n');
 				
-				$pruefID = mysql_real_escape_string($_POST['pruefID']);
-				$prID = mysql_real_escape_string($_POST['prid']);
+				$pruefID = htmlspecialchars($_POST['pruefID']);
+				$prID = htmlspecialchars($_POST['prid']);
 					
-				$row = mysql_fetch_array(mysql_query("SELECT PruefObjID FROM pruefungsleistungsobjekt WHERE PruefID = ".$pruefID." AND PrID = ".$prID));
+				$row = mysql_fetch_array(mysql_query("SELECT PruefObjID FROM pruefungsleistungsobjekt WHERE PruefID = $pruefID AND PrID = $prID"));
 				$pruefObjID = $row['PruefObjID'];
 					
-				echo "Pr&uuml;fling mit ID ".$prID." wird hier bewertet<br><br>";
+				echo "Pr&uuml;fling mit ID $prID wird hier bewertet <br /><br />";
 					
 				//	Array mit bissherigen Bewertungen erstellen
 					
-				$query ="SELECT b.BPunkte, a.ANr, b.bbewertungsstufe FROM bewertungen b, aufgaben a
-								WHERE b.PruefObjID = ".$pruefObjID."
+				$query ="		SELECT b.BPunkte, a.ANr, b.bbewertungsstufe 
+								FROM bewertungen b, aufgaben a
+								WHERE b.PruefObjID = $pruefObjID
 								AND b.AID = a.AID
+								AND b.PID = {$_SESSION['user_ID']}
 								ORDER BY a.ANr ASC , b.bbewertungsstufe ASC";
 				
 				$result = mysql_query($query);
@@ -109,42 +111,38 @@ switch ($_GET['art']){
 				$row = mysql_fetch_array($result);
 					
 					
-				echo '<form action="content/user_bewertungen.php?art=3">';
-				echo 'Schema ID: <br> <input type="text" value="'.$row['SchemaID'].'" name="bewschemaID" readonly/><br>';
-				echo 'Pr&uuml;fungs ID: <br> <input type="text" value="'.$pruefID.'" name="bewpruefID" readonly/><br>';
-				echo 'Pr&uuml;flings ID: <br> <input type="text" value="'.$prID.'" name="bewprID" readonly/><br><br>';
+				echo '<form class="pure-form" action="content/user_bewertungen.php?art=3">';
+				echo 'Schema ID: <input type="text" value="'.$row['SchemaID'].'" name="bewschemaID" readonly/><br>';
+				echo 'Pr&uuml;fungs ID: <input type="text" value="'.$pruefID.'" name="bewpruefID" readonly/><br>';
+				echo 'Pr&uuml;flings ID: <input type="text" value="'.$prID.'" name="bewprID" readonly/><br><br>';
 					
 				echo "<table class='pure-table'><tr><th>Aufgaben NR</th><th>MaxPunkte</th>";
 				for($i=0; $i < $row['PruefGenauigkeit']; $i++)
 				{
-				echo "<th>".$i."</th>";
+					echo "<th>".$i."</th>";
 				}
 					
-						echo "</tr>";
+				echo "</tr>";
 					
 				do{
-				echo '<tr><td>'.$row['ANr'].'</td><td>'.$row['AMaxPunkte'].'</td>';
-				for($i=0; $i < $row['PruefGenauigkeit']; $i++)
-				{
-				echo '<td><input type="text" name="'.$row['AID'].'_'.$i.'" value="';
-						
-							if(isset($barray[$row['ANr']][$i]))
-											{
-													echo $barray[$row['ANr']][$i];
-				}
-														
-													echo '" size="5" maxlength="5"></input></td>';
-													}
-														
-													echo "</tr>";
+					echo '<tr><td>'.$row['ANr'].'</td><td>'.$row['AMaxPunkte'].'</td>';
+					for($i=0; $i < $row['PruefGenauigkeit']; $i++)
+					{
+						echo '<td><input type="text" name="'.$row['AID'].'_'.$i.'" value="';
+						if(isset($barray[$row['ANr']][$i]))
+						{
+							echo $barray[$row['ANr']][$i];
+						}							
+						echo '" size="5" maxlength="5"></input></td>';
+					}							
+					echo "</tr>";
+					
 					} while ($row = mysql_fetch_assoc($result));
 														
-													echo "</table><br><br>";
-														
-													echo '<button type="submit">Erstellen</button>';
-													echo '</form>';
-					echo '<a href="content/user_pruefungen.php" data-change="main">abbrechen</a>';
-				
+					echo "</table><br><br>";
+					echo '<button type="submit" class="pure-button">Erstellen</button>';
+					echo '&nbsp;&nbsp;<a href="content/user_pruefungen.php" class="pure-button" data-change="main">Abbrechen</a>';
+					echo '</form>';
 				break;
 		
 			case 3:
@@ -165,25 +163,30 @@ switch ($_GET['art']){
 					
 					
 					
-				//@TODO: Validierung Punktezahl fehlt!
-				//@TODO: Bewertungen werden mehrfach angelegt. Aber nicht verrechnet...
+					
+					
+				//@TODO: Validierung Punktezahl fehlt! MIKEEE, hier kommt muss noch Kot von dir rein :D
+				//@TODO: Doppelte Bewertungen werden öfter gespeichert (kein Update!) -> Folge: Für Bewertungserstellung Prüfer/Dozent unproblematisch, allerdings ist die Berechnung der Score damit fehlerhaft.
 				
+				
+					
+					
 					
 				while($row = mysql_fetch_assoc($AIDresult))
 				{
 					for($i = 0; $i < $pruefGenau; $i++)
 					{
-					if($_POST[$row['AID'].'_'.$i] > 0)
-					{
-						$query = 'INSERT INTO bewertungen VALUES(NULL, '.$row['AID'].', '.$pruefObjID.', '.$_SESSION['user_ID'].', '.$_POST[$row['AID'].'_'.$i].', '.$i.')';
+						if($_POST[$row['AID'].'_'.$i] >= 0)
+						{
+							$query = 'INSERT INTO bewertungen VALUES(NULL, '.$row['AID'].', '.$pruefObjID.', '.$_SESSION['user_ID'].', '.$_POST[$row['AID'].'_'.$i].', '.$i.')';
 				
-						if(mysql_query($query))
-					{
-					echo $row['AID'].'_'.$i.'  '.$_POST[$row['AID'].'_'.$i].'<br>';
+							if(mysql_query($query))
+							{
+								echo $row['AID'].'_'.$i.'  '.$_POST[$row['AID'].'_'.$i].'<br>';
+							}
+						}
 					}
-					}
-					}
-					}
+				}
 				
 				echo '<br /><a href="content/user_pruefungen.php" data-change="main">OK, zur&uuml;ck</a>';
 				
@@ -197,10 +200,10 @@ switch ($_GET['art']){
 				
 				$pid = htmlspecialchars($_GET['pruefid']);
 					
-				echo '<form action="content/user_bewertungen.php?art=5">';
+				echo '<form class="pure-form" action="content/user_bewertungen.php?art=5">';
 				echo 'Pr&uuml;fungs ID: <input type="text" value="'.$pid.'" name="pruefid" readonly/><br>';
 				//drop down liste für Student
-				$query ='SELECT pr.PrID, pr.PrName
+				$query ='SELECT pr.PrID, pr.PrName, pr.PrVName
 								FROM pruefling pr, pruefungsleistungsobjekt po
 								WHERE pr.PrID = po.PrID
 								AND po.pruefstatus = 0
@@ -210,25 +213,25 @@ switch ($_GET['art']){
 				echo('Student: <select name="prid">');
 				while($row = mysql_fetch_assoc($result))
 				{
-					echo('<option value='.$row['PrID'].'>'.$row['PrName'].'</option>');
-						
+					echo("<option value='{$row['PrID']}'>{$row['PrVName']} {$row['PrName']}</option>");	
 				}
 				echo('</select><br><br>');
 				
-				echo '<button type="submit">Absenden</button><br><br>';
+				echo '<button type="submit" class="pure-button">Absenden</button><br><br>';
 				echo '</form>';
 				
 				break;
 				
 			case 5:
-				echo '<form action="content/user_bewertungen.php?art=6">';
+				echo '<form class="pure-form" action="content/user_bewertungen.php?art=6">';
 				echo 'Pr&uuml;fungs ID: <input type="text" value="'.$_POST['pruefid'].'" name="pruefid" readonly/><br>';
 				echo 'Pr&uuml;flings ID: <input type="text" value="'.$_POST['prid'].'" name="prid" readonly/><br>';
 				echo 'Feedback: <br> <textarea placeholder="Feedback" name="dozfeedback"/><br> Maximal 200 Zeichen <br><br>';
-				echo '<button type="submit">Absenden</button><br><br>';
+				echo '<button type="submit" class="pure-button">Absenden</button>';
+				echo '&nbsp &nbsp<a href="content/user_pruefungen.php" class="pure-button" data-change="main">Abbrechen</a>';
 				echo '</form>';
 				
-				echo '<br /><a href="content/user_pruefungen.php" data-change="main">Abbrechen</a>';
+				
 			break;
 							
 			case 6:
@@ -398,22 +401,21 @@ switch ($_GET['art']){
 						echo "</tr>";
 				
 				do{
-				echo '<tr><td>'.$row['ANr'].'</td><td>'.$row['AMaxPunkte'].'</td>';
+					echo '<tr><td>'.$row['ANr'].'</td><td>'.$row['AMaxPunkte'].'</td>';
 					
-				$summe = $summe + $row['AMaxPunkte']; //für Berechnung
+					$summe = $summe + $row['AMaxPunkte']; //für Berechnung
 					
-				for($i=0; $i < $pruefgenau; $i++)
-				{
-				echo '<td>';
+					for($i=0; $i < $pruefgenau; $i++)
+					{
+						echo '<td>';
 				
-				if(isset($barray[$row['ANr']][$i]))
-				{
-					echo $barray[$row['ANr']][$i];
-				}
+						if(isset($barray[$row['ANr']][$i]))
+						{
+							echo $barray[$row['ANr']][$i];
+						}
 				
-				echo '</td>';
-				}
-				
+						echo '</td>';
+					}
 						echo "</tr>";
 				} while ($row = mysql_fetch_assoc($result));
 				
@@ -421,14 +423,17 @@ switch ($_GET['art']){
 				echo '<tr><td>Summe:</td><td>'.$summe.'</td>';
 				for($i=0; $i < $pruefgenau; $i++)
 				{
-				echo '<td>';
+					echo '<td>';
 				
-				if(isset($sarray[$i]))
-				{
-				echo $sarray[$i];
-						}
+					if(isset($sarray[$i]))
+					{
+						echo $sarray[$i];
+					}
+					else {
+						$sarray[$i] = 0;
+					}
 				
-						echo '</td>';
+					echo '</td>';
 				}
 				echo "</tr>";
 
