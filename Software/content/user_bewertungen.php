@@ -114,10 +114,10 @@ switch ($_GET['art']){
 				echo 'Pr&uuml;fungs ID: <br> <input type="text" value="'.$pruefID.'" name="bewpruefID" readonly/><br>';
 				echo 'Pr&uuml;flings ID: <br> <input type="text" value="'.$prID.'" name="bewprID" readonly/><br><br>';
 					
-				echo "<table><tr><td>Aufgaben NR</td><td>MaxPunkte</td>";
+				echo "<table class='pure-table'><tr><th>Aufgaben NR</th><th>MaxPunkte</th>";
 				for($i=0; $i < $row['PruefGenauigkeit']; $i++)
 				{
-				echo "<td>".$i."</td>";
+				echo "<th>".$i."</th>";
 				}
 					
 						echo "</tr>";

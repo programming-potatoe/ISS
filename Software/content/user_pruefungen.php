@@ -349,8 +349,8 @@
 			echo '<form class="pure-form"  action="content/user_pruefungen.php?art=8">';
 			echo 'Pr&uuml;fungs ID: <input type="text" value="'.$_GET['pruefid'].'" name="pruefID" readonly/><br>';
 			
-			//drop down liste für Dozent
-			$query = 'SELECT PID, PName FROM pruefer WHERE PArt IN (0,1,2)';
+			//drop down liste für Prüfer
+			$query = 'SELECT PID, PName FROM pruefer WHERE PArt IN (0,1,3)';
 			$result = mysql_query($query);
 			echo('Pr&uuml;fer: <select name="nprueid">');
 			while($row = mysql_fetch_assoc($result))
