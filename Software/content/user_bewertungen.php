@@ -64,9 +64,10 @@ switch ($_GET['art']){
 				}
 				echo('</select><br><br>');
 					
-				echo '<button type="submit" class="pure-button">Erstellen</button>';
+				echo '<button type="submit" class="pure-button">Erstellen</button>&nbsp;&nbsp;';
+				echo '<a href="content/user_pruefungen.php" data-change="main" class="pure-button">Abbrechen</a>';
 				echo '</form>';
-				echo '<a href="content/user_pruefungen.php" data-change="main">zur&uuml;ck</a>';
+				
 				
 				break;
 				
@@ -170,7 +171,7 @@ switch ($_GET['art']){
 				
 				
 					
-					
+				$status = 1;	
 					
 				while($row = mysql_fetch_assoc($AIDresult))
 				{
@@ -178,11 +179,40 @@ switch ($_GET['art']){
 					{
 						if($_POST[$row['AID'].'_'.$i] >= 0)
 						{
-							$query = 'INSERT INTO bewertungen VALUES(NULL, '.$row['AID'].', '.$pruefObjID.', '.$_SESSION['user_ID'].', '.$_POST[$row['AID'].'_'.$i].', '.$i.')';
+							//Eintrag bereits vorhanden?
+							
+							$query = "	SELECT BID FROM bewertungen
+										WHERE AID = {$row['AID']} 
+										AND PruefObjID = $pruefObjID 
+										AND BBewertungsstufe = $i 
+										AND PID = {$_SESSION['user_ID']}
+										";
+							
+							$BIDresult = mysql_query($query);
+							$BIDrow = mysql_fetch_array($BIDresult);
+							
+							if($BIDrow != "")
+							{//Eintrag vorhanden, update:
+									
+								$query = "	UPDATE bewertungen 
+											SET BPunkte = ".$_POST[$row['AID'].'_'.$i]." 
+											WHERE BID = {$BIDrow['BID']} ";
+									
+								if(mysql_query($query))
+								{
+									//Erfolgsmeldung
+								}
+
+							}
+							else
+							{//Eintrag nicht vorhanden, neu anlegen:
+								
+								$query = 'INSERT INTO bewertungen VALUES(NULL, '.$row['AID'].', '.$pruefObjID.', '.$_SESSION['user_ID'].', '.$_POST[$row['AID'].'_'.$i].', '.$i.')';
 				
-							if(mysql_query($query))
-							{
-								echo $row['AID'].'_'.$i.'  '.$_POST[$row['AID'].'_'.$i].'<br>';
+								if(mysql_query($query))
+								{
+									//Erfolgsmeldung
+								}
 							}
 						}
 					}
