@@ -195,22 +195,40 @@
    	case 5:
    		//neuen Mitarbeiter anlegen
    		
-   		echo 'Neuen Mitarbeiter anlegen';
+   		
    		?>
+   		<h2 class="formheadline">Neuen Mitarbeiter anlegen</h2>
    		   		<form class="pure-form"  action="content/user_mitarbeiter.php?art=6">
-   		   		Nachname: <input type="text" placeholder="Nachname" name="nname" required/> <br>
-   		   		Vorname: <input type="text" placeholder="Vorname" name="vname" required/> <br>
-   		   		Email-Adresse: <input type="text" placeholder="Email" name="email" required/> <br>
-   		   		
-   		   		Art: 
-   		   		<select name="art">
-   		   		<option selected="selected" value="1">Dozent und Pr&uuml;fer</option>
-   		   		<option value="2">Pr&uuml;fer</option>
-   		   		<option value="3">Dozent</option>
-   		   		</select>
-   		   		<br>
-   		   		Initialpasswort: <input type="text" placeholder="Initialpasswort" name="password" required/> <br>
-   		   		<button type="submit">Anlegen</button>
+   		   			<table class="formtable">
+   		   				<tr>
+   		   					<td>Nachname: </td><td><input type="text" placeholder="Nachname" name="nname" required/> </td>
+   		   				</tr>
+   		   				<tr>
+   		   					<td>Vorname: </td>
+   		   					<td><input type="text" placeholder="Vorname" name="vname" required/> </td>
+   		   				</tr>
+   		   				<tr>
+   		   					<td>Email-Adresse:</td>
+   		   					<td><input type="text" placeholder="Email" name="email" required/> </td>
+   		   				</tr>
+   		   				<tr>
+   		   					<td>Art:</td> 
+   		   					<td><select name="art">
+   		   						<option selected="selected" value="1">Dozent und Pr&uuml;fer</option>
+   		   						<option value="2">Pr&uuml;fer</option>
+   		   						<option value="3">Dozent</option>
+   		   						</select>
+   		   					</td>
+   		   				</tr>
+   		   				<tr>
+   		   					<td>Initialpasswort:</td> 
+   		   					<td><input type="text" placeholder="Initialpasswort" name="password" required/> </td>
+   		   				</tr>
+   		   				<tr>
+   		   					<td>&nbsp;</td>
+   		   					<td><button type="submit" class="pure-button pure-button-primary">Anlegen</button></td>
+   		   				</tr>
+   		   			</table>
    		   		</form>
    		   		<?php 
    		

@@ -21,17 +21,27 @@
    	case 0:
    		//Startseite
    
-   		echo"Hier k&ouml;nnen Nutzereinstellungen gemacht werden <br><br>";
+   		//echo"Hier k&ouml;nnen Nutzereinstellungen gemacht werden <br><br>";
    		
    		?>
+   		<h2 class="formheadline">Profileinstellungen &auml;ndern</h2>
+   		<h4 class="formheadline">Password &auml;ndern:</h4>
    		
-   		<p>Password &auml;ndern:</p>
-   		
-   		<form action="./content/user_profil.php?art=1">
-   						Aktuelles Passwort: <br> <input type="password" placeholder="Altes Passwort" name="opassword" /> <br>
-   						Neues Passwort: <br> <input type="password" placeholder="Neues Passwort" name="password1" /> <br>
-   						Passwort wiederholen: <br> <input type="password" placeholder="Passwort wiederholen" name="password2" /> <br>
-   						<button type="submit">Abschicken</button>
+   		<form class="pure-form" action="./content/user_profil.php?art=1">
+   			<table class="formtable">
+   				<tr>
+   					<td>Aktuelles Passwort: </td><td><input type="password" placeholder="Altes Passwort" name="opassword" /> </td>
+   				</tr>
+   				<tr>
+   					<td>Neues Passwort:</td> <td><input type="password" placeholder="Neues Passwort" name="password1" /> </td>
+   				</tr>
+   				<tr>
+   					<td>Passwort wiederholen:</td> <td><input type="password" placeholder="Passwort wiederholen" name="password2" /> </td>
+   				</tr>
+   				<tr>
+   					<td>&nbsp;</td><td><button type="submit" class="pure-button pure-button-primary">Abschicken</button></td>
+   				</tr>
+   			</table>
    		</form>
    		
    		<?php

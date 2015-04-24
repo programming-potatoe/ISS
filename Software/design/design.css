@@ -140,9 +140,33 @@ form input, form select{
 	color: 				black;
 	
 }
-.fa:hover{
+table.fa :hover{
 	
 	color:				grey;
 }
-
-
+.formtable{
+	
+	margin-left:		25%;
+	text-align:			left;
+	
+}
+.formheadline{
+	
+	text-align: 		center;
+	margin-top:			1em;
+	margin-bottom:		2em;
+	
+	
+}
+.pure-form select{
+	
+	border: 1px solid red;
+	
+	
+}
+form.pure-form table select{
+	
+	
+	padding-right: 10px;
+	padding-top: 3px;
+}

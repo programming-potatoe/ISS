@@ -28,7 +28,7 @@
    	case 0:
    		//Startseite
    
-   		echo 'Hier k&ouml;nnen Schemata angelegt & bearbeitet werden <br> Neues Schema <a href="content/user_pruefungs_schemata.php?art=6" data-change="main">hinzuf&uuml;gen</a>?<br><br>';
+   		echo 'Hier k&ouml;nnen Schemata angelegt & bearbeitet werden <br><br>';
    		
    		$query = "SELECT p.SchemaID, p.SchemaBez, p.PruefGenauigkeit, COUNT(a.ANr) AS Anzahl FROM pruefungsschema p LEFT OUTER JOIN  aufgaben a ON p.SchemaID = a.SchemaID GROUP BY p.SchemaID";
    		$result = mysql_query($query);
@@ -123,16 +123,27 @@
    	case 6:
    		//Anlegen Schritt 1 
    		
-   		echo("Hier wird ein neues Schema hinzugef&uuml;gt! <br><br>");
+   		
    		?>
+   						<h2 class="formheadline">Neue Vorlage anlegen</h2>
    						<form class="pure-form"  action="content/user_pruefungs_schemata.php?art=7">
-   								Schemabezeichung: <br> <input type="text" placeholder="Schemabezeichnung" name="schemabez" /> <br>
-   								Pr&uuml;fungsgenauigkeit: <br> <input type="text" placeholder="Pr&uuml;fungsgenauigkeit" name="pruegenau" /> <br>
-   								Anzahl Aufgaben: <br> <input type="text" placeholder="Anzahl" name="anzahl" /> <br>						
-   								<button type="submit">Weiter</button>
+   							<table class="formtable">
+   								<tr>
+   									<td>Schemabezeichung:</td> <td><input type="text" placeholder="Schemabezeichnung" name="schemabez" /> </td>
+   								</tr>
+   								<tr>
+   									<td>Pr&uuml;fungsgenauigkeit:</td><td><input type="text" placeholder="Pr&uuml;fungsgenauigkeit" name="pruegenau" /> </td>
+   								</tr>
+   								<tr>
+   									<td>Anzahl Aufgaben:</td> <td><input type="text" placeholder="Anzahl" name="anzahl" /></td>					
+   								</tr>
+   								<tr>
+   									<td>&nbsp;</td><td><button type="submit" class="pure-button pure-button-primary">Weiter</button></td>
+   								</tr>
+   							</table>
    						</form>
    		<?php		
-   						echo('<a href="content/user_pruefungs_schemata.php" data-change="main">zur&uuml;ck</a>');	
+   						//echo('<a href="content/user_pruefungs_schemata.php" data-change="main">zur&uuml;ck</a>');	
    		
    		break;
    		

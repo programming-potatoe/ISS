@@ -177,41 +177,48 @@
    	case 5:
    		//neue Vorlesung anlegen
      	
-   		echo("Hier wird eine neue Vorlesung hinzugef&uuml;gt! <br><br>");
    		
-   		?>
+   		?>				<h2 class="formheadline">Neue Vorlesung anlegen</h2>
    						<form class="pure-form"  action="content/user_vorlesungen.php?art=6">
-   								Vorlesungsbezeichung: <input type="text" placeholder="Vorlesungsbezeichnung" name="vbez" /> <br>
-   			
-   		<?php
-   						//drop down liste für Dozent
-   						$query='SELECT PID, PName FROM pruefer WHERE PArt IN (0,1,2)';
-   						$result=mysql_query($query);
-   						echo('Dozent: <select name="PID">');
-   						while($row=mysql_fetch_assoc($result))
-   						{
-   								echo('<option value='.$row['PID'].'>'.$row['PName'].'</option>');
-   						
-   						}
-   						echo('</select><br>');
-   							
-   						//drop down liste für Kurs
-   						$query='SELECT KID, KBez FROM kurse';
-   						$result=mysql_query($query);
-   						echo('Kurs: <select name="KID">');
-   						while($row=mysql_fetch_assoc($result))
-   						{
-   								echo('<option value='.$row['KID'].'>'.$row['KBez'].'</option>');
-   						
-   						}
-   						echo('</select>');
-   		?>
-   								<br>	
-   								<button type="submit">Anlegen</button>
+   							<table class="formtable">
+   								<tr>
+   									<td>Vorlesungsbezeichung:</td><td> <input type="text" placeholder="Vorlesungsbezeichnung" name="vbez" /> </td>
+   								</tr>
+   								<tr>
+   									<td>
+   										<?php
+					   						//	drop down liste für Dozent
+					   						$query='SELECT PID, PName FROM pruefer WHERE PArt IN (0,1,2)';
+					   						$result=mysql_query($query);
+					   						echo('Dozent:</td><td> <select name="PID" class="hallo">');
+					   						while($row=mysql_fetch_assoc($result))
+					   						{
+					   								echo('<option value='.$row['PID'].'>'.$row['PName'].'</option>');
+					   						
+					   						}
+					   						echo('</select></td></tr><tr><td>');
+   												
+					   						//drop down liste für Kurs
+					   						$query='SELECT KID, KBez FROM kurse';
+					   						$result=mysql_query($query);
+					   						echo('Kurs:</td><td> <select name="KID">');
+					   						while($row=mysql_fetch_assoc($result))
+					   						{
+					   								echo('<option value='.$row['KID'].'>'.$row['KBez'].'</option>');
+   											
+					   						}
+					   						echo('</select>');
+					   					?>
+   									</td>	
+   								</tr>
+   								<tr>
+   									<td>&nbsp;</td>
+   									<td><button type="submit" class="pure-button pure-button-primary">Anlegen</button></td>
+   								</tr>
+   							</table>
    						</form>
    		<?php		
-   						echo('<a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>');	
-   		
+   						
    		break;
    		
    	case 6:

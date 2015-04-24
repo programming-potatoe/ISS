@@ -104,14 +104,23 @@
 			case 5:
 				//neuen Kurs anlegen
 				
-				echo("Hier wird ein neuer Kurs hinzugef&uuml;gt! <br><br>");
+				
 ?>
+				<h2 class="formheadline">Neuen Kurs anlegen</h2>
 				<form class="pure-form"  action="content/user_kurse.php?art=6">
-						Kursbezeichnung: <input type="text" placeholder="Kursbezeichnung" name="kbez" /> <br>
-						<button type="submit">Anlegen</button>
+					<table class="formtable">
+						<tr>
+							<td>Kursbezeichnung: </td>
+							<td><input type="text" placeholder="Kursbezeichnung" name="kbez" /> </td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td><button type="submit" class="pure-button pure-button-primary">Anlegen</button></td>
+						</tr>
+					</table>
 				</form>
 <?php		
-				echo('<a href="content/user_kurse.php" data-change="main">zur&uuml;ck</a>');	
+				
 		break;
 			case 6:
 				//Kurs insert

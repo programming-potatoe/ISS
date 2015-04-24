@@ -87,28 +87,51 @@
    	case 5:
    		//neuen Pruefling anlegen
    		
-   		echo("Hier wird ein neuer Pr&uuml;fling hinzugef&uuml;gt! <br><br>");
+   		
    		?>
+   						<h2 class="formheadline">Neuen Pr&uuml;fling anlegen</h2>
    						<form class="pure-form"  action="content/user_prueflinge.php?art=6" class="pure-form">
-   								Nachname: <input type="text" placeholder="Nachname" name="nname" /> <br>
-   								Vorname: <input type="text" placeholder="Vorname" name="vname" /> <br>
-   								Email-Adresse: <input type="text" placeholder="Email" name="email" /> <br>
-   		<?php												
-   								//drop down liste für Kurs
-   								$query='SELECT KID, KBez FROM kurse';
-   								$result=mysql_query($query);
-   								echo('Kurs: <select name="KID">');
-   								while($row=mysql_fetch_assoc($result))
-   								{
-   										echo('<option value='.$row['KID'].'>'.$row['KBez'].'</option>');
-   						
-   								}
-   								echo('</select><br>');
-   		?>						
-   								Initialpasswort: <input type="text" placeholder="Initialpasswort" name="password" /> <br>
-   								<button class="pure-button pure-button-primary" type="submit">Anlegen</button>
-   								<br>
-   								<a href="content/user_prueflinge.php" data-change="main" class="pure-button">zur&uuml;ck</a>
+   								<table class="formtable">
+   									<tr>
+   										<td>Nachname: </td>
+   										<td><input type="text" placeholder="Nachname" name="nname" /> </td>
+   									</tr>
+   									<tr>
+   										<td>Vorname: </td>
+   										<td><input type="text" placeholder="Vorname" name="vname" /> </td>
+   								</tr>
+   								<tr>
+   									<td>Email-Adresse: </td>
+   									<td><input type="text" placeholder="Email" name="email" /> </td>
+   								</tr>
+   								<tr>
+   									<td>
+   										<?php												
+			   								//drop down liste für Kurs
+		   									$query='SELECT KID, KBez FROM kurse';
+			   								$result=mysql_query($query);
+			   								echo('Kurs: </td><td><select name="KID">');
+			   								while($row=mysql_fetch_assoc($result))
+			   								{
+		   										echo('<option value='.$row['KID'].'>'.$row['KBez'].'</option>');
+			   						
+   											}
+   											echo('</select><br>');
+   										?>						
+   									</td>
+   								</tr>
+   								<tr>
+   									<td>Initialpasswort: </td>
+   									<td><input type="text" placeholder="Initialpasswort" name="password" /> </td>
+   								</tr>	
+   								<tr>
+   									<td></td>
+   									<td><button class="pure-button pure-button-primary" type="submit">Anlegen</button></td>
+   								</tr>
+   								<tr>
+   									<td>&nbsp;</td>
+   								</tr>
+   							</table>
    						</form>
    		<?php		
 

@@ -135,58 +135,64 @@
 		case 3:
 			//neue Pruefung hinzufügen
 			
-			echo("Hier wird eine neue Pr&uuml;fung hinzugef&uuml;gt! <br />");
+			echo('<h2 class="formheadline">Neue Pr&uuml;fung anlegen</h2>');
 			
-			echo'<form class="pure-form"  action="content/user_pruefungen.php?art=4">';
+			echo'<form class="pure-form" action="content/user_pruefungen.php?art=4">';
+			
+			echo '<table class="formtable"><tr>';
 			
 			if(isset($_GET['vid']))
 			{
 				//Vorlesungs ID bekannt
-				echo"Vorlesungs ID: <input type='text' value='{$_GET['vid']}' name='vid' readonly/><br />";	
+				echo"<td>Vorlesungs ID:</td> <td><input type='text' value='{$_GET['vid']}' name='vid' readonly/></td><td></td>";	
 			}
 			else
 			{
 				//Vorlesung unbekannt
 				//Dropdown für Vorlesungen:
-				echo'Vorlesung:';
+				echo'<td>Vorlesung:</td>';
 				$query='SELECT VID, VBez FROM vorlesungen';
 				$result=mysql_query($query);
-				echo('<select name="vid">');
+				echo('<td><select name="vid">');
 				while($row=mysql_fetch_assoc($result))
 				{
 					echo('<option value='.$row['VID'].'>'.$row['VBez'].'</option>');
 	
 				}
-				echo('</select><br />');
+				echo('</select></td><td></td>');
 			}
 						
-			echo'Pr&uuml;fungsbezeichnung: <input type="text" placeholder="Pr&uuml;fungsbezeichnung" name="pruefbez" /> <br />';	
-			echo'Toleranz: <input type="text" placeholder="Toleranz" name="toleranz" /> <br />';						
-			echo'Bewertungschema: '	;													
+			echo'</tr><tr><td>Pr&uuml;fungsbezeichnung:</td> <td><input type="text" placeholder="Pr&uuml;fungsbezeichnung" name="pruefbez" /> </td><td></td>';	
+			echo'</tr><tr><td>Toleranz:</td> <td><input type="text" placeholder="Toleranz" name="toleranz" /> </td><td></td>';						
+			echo'</tr><tr><td>Bewertungschema:</td>';													
 			//drop down liste Bewertungsschema-ID und Bezeichnung
 			$query='SELECT SchemaID, SchemaBez FROM pruefungsschema';
 			$result=mysql_query($query);
-			echo('<select name="SchemaID">');
+			echo('<td><select name="SchemaID">');
 			while($row=mysql_fetch_assoc($result))
 			{
 					echo('<option value='.$row['SchemaID'].'>'.$row['SchemaID'].' - '.$row['SchemaBez'].'</option>');
 	
 			}
-			echo('</select><br />');
-			
+			echo('</select></td><td><a href="content/user_pruefungs_schemata.php?art=1&schemaid=11" data-change="inline" class="pure-button">Schema anzeigen</a> </td>');  //@TODO switch case ged�ns
+
 			
 			// Hier wird das Schema nachgeladen  (Woher bekommt der die Schema ID?) Woher soll ich das wissen?
-			echo('<a href="content/user_pruefungs_schemata.php?art=1&schemaid=11" data-change="inline">Schema anzeigen</a><br />'); //@TODO switch case ged�ns 
+			 
 			// Hier kann ein neues Schema angelegt werden
 			//echo('<a href="content/user_pruefungs_schemata.php?new=1" data-change="inline">Neues Schema anlegen</a><br /><br />'); //@TODO switch case ged�ns
 			
 			//@TODO: Schema anzeigen
 									
 			?>		
-									<button type="submit">Pr&uuml;fung anlegen</button>
+									<tr>
+										<td>&nbsp;</td>
+										<td><button type="submit" class="pure-button pure-button-primary">Pr&uuml;fung anlegen</button></td><td></td>
+									</tr>
+								</table>
 							</form>
 			<?php		
-							echo('<br /><br /><a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>');	
+							//echo('<br /><br /><a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>');	
 			
 			break;
 			
