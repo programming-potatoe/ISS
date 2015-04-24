@@ -82,7 +82,7 @@
 			//Leiter sehen alle Prüfungen
 			if($rights == 0)
 			{
-				echo "<a href='content/user_pruefungen.php?art=22' data-change='main'>Pr&uuml;fungen bearbeiten</a><br />";
+				echo "<a href='content/user_pruefungen.php?art=23' data-change='main'>Alle Pr&uuml;fungen ansehen</a><br />";
 			}
 			
 			break;
