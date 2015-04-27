@@ -5,7 +5,7 @@
    }
    require_once(__ROOT__ ."/utils/functions.php");
 
-   check_berechtigung('j', 'n', 'n', 'n', 'n');
+	check_berechtigung('j', 'n', 'n', 'n', 'n');
 	
 	if(!isset($_GET['art'])){
    	
@@ -26,10 +26,14 @@
    	
    	case 0:
    		//Startseite
-	
-   		echo 'Hier k&ouml;nnen Prueflinge bearbeitet werden <br> Es werden nur selbsterstellte Pr&uuml;flinge angezeigt.<br> Neuen Pr&uuml;fling <a href="content/user_prueflinge.php?art=5" data-change="main">hinzuf&uuml;gen</a>?<br><br>';
    		
-   		$query = "SELECT PrID, PrName, PrVName, Kbez FROM pruefling, kurse WHERE PID = ".$_SESSION['user_ID']." AND kurse.KID = pruefling.KID ORDER BY PrID";
+   		?>
+   		
+   		<h2 class="headline">Pr&uuml;flinge</h2>
+   		
+   		
+   		<?php 
+		$query = "SELECT PrID, PrName, PrVName, Kbez FROM pruefling, kurse WHERE PID = ".$_SESSION['user_ID']." AND kurse.KID = pruefling.KID ORDER BY PrID";
    		$result = mysql_query($query);
    			
    		echo '<table class="pure-table"><tr><th>PrID</th><th>PrName</th><th>PrVName</th><th>Kurs</th><th>Bearbeiten</th><th>L&ouml;schen</th</tr>';
@@ -65,7 +69,8 @@
    		$row = mysql_fetch_array(mysql_query($query));
    		echo $row['PrName'].'  '.$row['PrVName'].' wirklich loeschen? <a href="content/user_prueflinge.php?art=4&prid='.$_GET['prid'].'" data-change="main">Ja, l&ouml;schen</a><br><br>';
    		
-   		echo('<a href="content/user_prueflinge.php" data-change="main">zur&uuml;ck</a>');
+   		
+   		create_confirm('Wollen Sie '.$row['PrVName'].'  '.$row['PrName'].' wirklich entfernen?', 'content/user_prueflinge.php?art=4&prid='.$_GET['prid'], 'content/user_prueflinge.php');
    		 
    		break;
    	case 4:
@@ -74,13 +79,13 @@
    		$query = "DELETE FROM pruefling WHERE PrID = ".$_GET['prid'];
    		if(mysql_query($query))
    		{
-   			echo "Gel&ouml;scht!<br>";
+   			create_dialog('Erfolgeich entfernt!', 'content/user_prueflinge.php');
    		}
    		else
    		{
-   			echo "Fehler - nicht gel&ouml;scht!<br>";
+   			create_dialog('Fehler - Der Eintrag konnte nicht entfernt werden!');
    		}
-   		echo('<a href="content/user_prueflinge.php" data-change="main">zur&uuml;ck</a>');
+   		
    		
    		break;
    		
@@ -89,20 +94,20 @@
    		
    		
    		?>
-   						<h2 class="formheadline">Neuen Pr&uuml;fling anlegen</h2>
+   						<h2 class="headline">Neuen Pr&uuml;fling anlegen</h2>
    						<form class="pure-form"  action="content/user_prueflinge.php?art=6" class="pure-form">
    								<table class="formtable">
    									<tr>
    										<td>Nachname: </td>
-   										<td><input type="text" placeholder="Nachname" name="nname" /> </td>
+   										<td><input type="text" placeholder="Nachname" name="nname" required="required"/> </td>
    									</tr>
    									<tr>
    										<td>Vorname: </td>
-   										<td><input type="text" placeholder="Vorname" name="vname" /> </td>
+   										<td><input type="text" placeholder="Vorname" name="vname" required="required" /> </td>
    								</tr>
    								<tr>
    									<td>Email-Adresse: </td>
-   									<td><input type="text" placeholder="Email" name="email" /> </td>
+   									<td><input type="email" placeholder="Email" name="email" required="required"/> </td>
    								</tr>
    								<tr>
    									<td>
@@ -122,7 +127,7 @@
    								</tr>
    								<tr>
    									<td>Initialpasswort: </td>
-   									<td><input type="text" placeholder="Initialpasswort" name="password" /> </td>
+   									<td><input type="text" placeholder="Initialpasswort" name="password" required="required"/> </td>
    								</tr>	
    								<tr>
    									<td></td>
@@ -151,15 +156,13 @@
    		
    		if(mysql_query($query))
    		{
-   			echo "Ein neuer Pr&uuml;fling wurde hinzugef&uuml;gt.<br><br>";
-   		
-   			echo 'Einen weiteren Pr&uuml;fling <a href="content/user_prueflinge.php?art=5" data-change="main">hinzuf&uuml;gen</a>?<br>';
-   			echo '<a href="content/user_prueflinge.php" data-change="main">zur&uuml;ck</a>';
+
+   			create_dialog('Erfolgreich angelegt!', 'content/user_prueflinge.php');
+   			
    		}
    		else
    		{
-   			echo 'Error - Try Again';
-   			echo '<a href="content/user_prueflinge.php" data-change="main">zur&uuml;ck</a>';   			
+   			create_dialog('Fehler! Bitte erneut versuchen.', 'content/user_prueflinge.php');
    		}
    		 
    		

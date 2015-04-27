@@ -125,7 +125,7 @@
    		
    		
    		?>
-   						<h2 class="formheadline">Neue Vorlage anlegen</h2>
+   						<h2 class="headline">Neue Vorlage anlegen</h2>
    						<form class="pure-form"  action="content/user_pruefungs_schemata.php?art=7">
    							<table class="formtable">
    								<tr>

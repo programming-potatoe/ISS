@@ -4,6 +4,7 @@
           define('__ROOT__', dirname(dirname(__FILE__)));
    }
    require_once(__ROOT__ ."/utils/functions.php");
+   
 	check_berechtigung('j', 'n', 'n', 'n', 'n');
    
    
@@ -28,7 +29,12 @@
    //Startseite
 	
 	
-			echo 'Hier k&ouml;nnen Mitarbeiter bearbeitet werden <br> Neuen Mitarbeiter <a href="content/user_mitarbeiter.php?art=5" data-change="main">hinzuf&uuml;gen</a>?<br><br>';
+   			?>
+   		   		
+   		   		<h2 class="headline">Mitarbeiter</h2>
+   		   		
+   		   		
+   		   	<?php 
 			
 			$query = "SELECT p.PID, p.PName, PVName, p.PEmail, p.PArt FROM pruefer p where p.part in(1, 2, 3)";
 			$result = mysql_query($query);
@@ -61,57 +67,72 @@
    	case 1:
    		//Mitarbeiter bearbeiten   		
    		
-   		echo 'Hier k&ouml;nnen die Mitarbeiter bearbeitet werden';
+   		echo '<h2 class="headline">Mitarbeiter bearbeiten</h2>';
    		
    		$query = "SELECT PID, PName, PVName, PPwd, PEmail, PArt FROM pruefer WHERE PID = ".$_GET['pid'];
    		$row = mysql_fetch_array(mysql_query($query));
    		 
    		
-   		echo'
+   		echo '
    		<form class="pure-form"  action="content/user_mitarbeiter.php?art=2">
-   				
-   		<input type="hidden" name="pid" value="'.$row['PID'].'">
-   				
-   		Nachname: <br> <input type="text" placeholder="Nachname" name="nname" value="'.$row['PName'].'" required/> <br>
-   		Vorname: <br> <input type="text" placeholder="Vorname" name="vname"  value="'.$row['PVName'].'" required/> <br>
-   		Email-Adresse: <br> <input type="text" placeholder="Email" name="email" value="'.$row['PEmail'].'"  required/> <br>
+   			<table class="formtable">
+		
+   				<input type="hidden" name="pid" value="'.$row['PID'].'">
+   				<tr>
+			
+   					<td>Nachname: </td><td><input type="text" placeholder="Nachname" name="nname" value="'.$row['PName'].'" required/></td>
+				</tr>
+				<tr>
+					<td>Vorname: </td><td><input type="text" placeholder="Vorname" name="vname"  value="'.$row['PVName'].'" required/> </td>
+   				</tr>
+   				<tr>
+   					<td>Email-Adresse: </td> <td><input type="text" placeholder="Email" name="email" value="'.$row['PEmail'].'"  required/> </td>
+   				</tr>
+   				<tr>
    		
-   		Art:<br>
-   		<select name="art">
-   				';
-   		if ($row['PArt']==1)
-   		{
-   			echo '<option selected="selected" value="1">Dozent und Pr&uuml;fer</option>';
-   		}
-   		else 
-   		{
-   			echo '<option value="1">Dozent und Pr&uuml;fer</option>';
-   		}
-   		if ($row['PArt']==2)
-   		{
-   			echo '<option selected="selected" value="2">Pr&uuml;fer</option>';
-   		}
-   		else
-   		{
-   			echo '<option value="2">Pr&uuml;fer</option>';
-   		}
-   		if ($row['PArt']==3)
-   		{
-   			echo '<option selected="selected" value="3">Dozent</option>';
-   		}
-   		else
-   		{
-   			echo '<option value="3">Dozent</option>';
-   		}
-
+   					<td>Art:</td>
+				   	<td><select name="art">
+				   				';
+				   		if ($row['PArt']==1)
+				   		{
+				   			echo '<option selected="selected" value="1">Dozent und Pr&uuml;fer</option>';
+				   		}
+				   		else 
+				   		{
+				   			echo '<option value="1">Dozent und Pr&uuml;fer</option>';
+				   		}
+				   		if ($row['PArt']==2)
+				   		{
+				   			echo '<option selected="selected" value="2">Pr&uuml;fer</option>';
+				   		}
+				   		else
+				   		{
+				   			echo '<option value="2">Pr&uuml;fer</option>';
+				   		}
+				   		if ($row['PArt']==3)
+				   		{
+				   			echo '<option selected="selected" value="3">Dozent</option>';
+				   		}
+				   		else
+				   		{
+				   			echo '<option value="3">Dozent</option>';
+				   		}
+				
+				   		
+				   		echo'</select> </td>
+				</tr>
+				<tr>   
+   					<td>Neues Passwort: </td><td> <input type="text" placeholder="Neues Passwort" name="password"/> </td>
+				</tr>
+				<tr>
+				   	<td colspan="2" style="padding-bottom: 10px;"> Wenn Sie kein neues Passwort vergeben m&ouml;chten, lassen Sie dieses Feld einfach leer.</td>
+				</tr>
+				<tr>
+   					<td>&nbsp;</td>
+					<td><button type="submit" class="pure-button pure-button-primary">Speichern</button></td>
+				</tr>
+			</table>
    		
-   		echo'</select>	<br>
-   
-   		Neues Passwort: <br> <input type="text" placeholder="Neues Passwort" name="password"/> <br> Wenn Sie kein neues Passwort vergeben m&ouml;chten, lassen Sie dieses Feld einfach leer.
-   		<br>
-   		<button type="submit">Speichern</button>
-   				<br>
-   		<a href="content/user_mitarbeiter.php?" data-change="main">Abbrechen</a>
    		</form>';
    		
    		break;
@@ -145,34 +166,33 @@
    		
    		if(mysql_query($query))
    		{
-   			echo "Der Mitarbeiter wurde erfolgreich aktualisiert und es wurde ";
+   			$text = "Der Mitarbeiter wurde erfolgreich aktualisiert und es wurde ";
    			if($_POST['password']=="")
    			{
-   				echo "k";
+   				$text = $text. "k";
    			}
-   			 echo 'ein neues Passwort gesetzt.<br><br>';
-   			 //echo $query;
-   			 echo '<a href="content/user_mitarbeiter.php" data-change="main">zur&uuml;ck</a>';
+   			 $text = $text. 'ein neues Passwort gesetzt.';
+   			 create_dialog($text, 'content/user_mitarbeiter.php');
+
    		}
    		else
    		{
-   			echo 'Error - Try Again<br>';
-   			//echo $query;
-   			echo '<br><a href="content/user_mitarbeiter.php" data-change="main">zur&uuml;ck</a>';
+   			
+   			create_dialog('Fehler - Der Mitarbeite konnte nicht aktualisert werden!', 'content/user_mitarbeiter.php');
+   			
    		}
    		}
    		break;
    	case 3:
    		//Mitarbeiter loeschen
-   		
-   		echo("Hier wird gel&ouml;scht! <br><br>");
    		 
    		$query = "SELECT PName, PVName FROM pruefling WHERE PID = ".$_GET['pid'];
    		$row = mysql_query($query);
-   		echo $row['PrName'].'  '.$row['PrVName'].' wirklich loeschen? <a href="content/user_mitarbeiter.php?art=4&pid='.$_GET['pid'].'" data-change="main">Ja, l&ouml;schen</a><br><br>';
-   		 
-   		echo('<a href="content/user_mitarbeiter.php" data-change="main">zur&uuml;ck</a>');
-   		 
+   		
+   		
+   		create_confirm('Wollen Sie '.$row['PrName'].'  '.$row['PrVName'].' wirklich loeschen?', 'content/user_mitarbeiter.php?art=4&pid='.$_GET['pid'], 'content/user_mitarbeiter.php');
+   		
+
     	break;	
 
    	case 4:
@@ -181,11 +201,11 @@
    		$query = "DELETE FROM pruefer WHERE PID = ".$_GET['pid'];
    		if(mysql_query($query))
    		{
-   			echo "Gel&ouml;scht!<br>";
+   			create_dialog('Der Mitarbeiter wurde erfolgreich entfernt!', 'content/user_mitarbeiter.php');
    		}
    		else
    		{
-   			echo "Fehler - nicht gel&ouml;scht!<br>";
+   			create_dialog('Fehler - Der Mitarbeiter konnte nicht erfolgreich entfernt werden!', 'content/user_mitarbeiter.php');
    		}
    		echo('<a href="content/user_mitarbeiter.php" data-change="main">zur&uuml;ck</a>');
    		
@@ -197,7 +217,7 @@
    		
    		
    		?>
-   		<h2 class="formheadline">Neuen Mitarbeiter anlegen</h2>
+   		<h2 class="headline">Neuen Mitarbeiter anlegen</h2>
    		   		<form class="pure-form"  action="content/user_mitarbeiter.php?art=6">
    		   			<table class="formtable">
    		   				<tr>
@@ -236,15 +256,7 @@
    		
    	case 6:
    		//neuen Mitarbeiter anlegen insert
-   		if (!isset($_POST['nname']) || !isset($_POST['vname']) || !isset($_POST['email']) || !isset($_POST['password']))
-   		{
-   			
-   			echo 'Sie m&uuml;ssen alle Felder ausf&uuml;llen! <br>';
-   			echo '<a href="content/user_mitarbeiter.php?art=5" data-change="main">Zur&uuml;ck</a>';
-   			
-   		}
-   		else
-   		{
+
    		
 	   		$nname = mysql_real_escape_string($_POST['nname']);
 	   		$email = mysql_real_escape_string($_POST['email']);
@@ -258,18 +270,16 @@
    		
    		if(mysql_query($query))
    		{
-   			echo "Ein neuer Mitarbeiter wurde hinzugef&uuml;gt.<br><br>";
-   			 
-   			echo 'Einen weiteren Mitarbeiter <a href="content/user_mitarbeiter.php?art=6" data-change="main">hinzuf&uuml;gen</a>?<br>';
-   			echo '<a href="content/user_mitarbeiter.php" data-change="main">zur&uuml;ck</a>';
+   			
+   			create_dialog('Der Mitarbeiter wurde erfolgreich erstellt!', 'content/user_mitarbeiter.php');
+   			
    		}
    		else
    		{
-   			echo 'Error - Try Again<br>';
-   			//echo 'INSERT INTO mitarbeiter(PID, PName, PVName, PPwd, PEmail, PArt) VALUES (NULL, "'.$nname.'", "'.$vname.'", "'.$password.'", "'.$email.'", "'.$art.'")<br>';
-   			echo '<a href="content/user_mitarbeiter.php" data-change="main">zur&uuml;ck</a>';
+   			create_dialog('Der Mitarbeiter konnte nicht erstellt werden!', 'content/user_mitarbeiter.php');
+   			
    		}
-   		}
+   		
    		break;
 			
    }		

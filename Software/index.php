@@ -26,17 +26,11 @@ if (!isset($_SESSION['login'])) {
                 <!--<script src="./js/md5.js" type="text/javascript"></script>-->
                 <script src="./js/main.js" type="text/javascript"></script>
                 
-              <link rel="stylesheet" href="design/design.css" type="text/css">  
-                
-                <!--  <link rel="stylesheet" href="design/frameworks/yaml/core/base.css" type="text/css">
-                <link rel="stylesheet" href="design/frameworks/yaml/core/base.min.css" type="text/css"/>
-  				<link rel="stylesheet" href="design/frameworks/yaml/forms/gray-theme.css" type="text/css"/>
-  				<link rel="stylesheet" href="design/frameworks/yaml/navigation/vlist.css" type="text/css"/>-->
+            <link rel="stylesheet" href="design/design.css" type="text/css">  
+              
+  			<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
   				
-  				
-  				<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
-  				
-  				<link rel="stylesheet" href="design/frameworks/font-awesome-4.3.0/css/font-awesome.min.css">
+  			<link rel="stylesheet" href="design/frameworks/font-awesome-4.3.0/css/font-awesome.min.css">
   				
   				
   				

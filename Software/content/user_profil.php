@@ -24,8 +24,8 @@
    		//echo"Hier k&ouml;nnen Nutzereinstellungen gemacht werden <br><br>";
    		
    		?>
-   		<h2 class="formheadline">Profileinstellungen &auml;ndern</h2>
-   		<h4 class="formheadline">Password &auml;ndern:</h4>
+   		<h2 class="headline">Profileinstellungen &auml;ndern</h2>
+   		<h4 class="headline">Password &auml;ndern:</h4>
    		
    		<form class="pure-form" action="./content/user_profil.php?art=1">
    			<table class="formtable">

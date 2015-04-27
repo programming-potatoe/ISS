@@ -51,6 +51,45 @@
         		}
         	}
         }
+        function create_dialog($text, $link){
+
+        	echo '<script type="text/javascript">
+   				
+					alert(\''.$text.'\');
+							
+							
+					$.post(\''.$link.'\', function(data) {
+                        	    
+                    	$(\'.pageContent\').html(data);
+                        
+                    });
+                   </script>';
+        	
+        }
+        function create_confirm($text, $link1, $link2){
+        
+        	echo '<script type="text/javascript">
+   	
+					
+					if(confirm("'.$text.'")){
+				
+						$.post(\''.$link1.'\', function(data) {
+               
+                        	$(\'.pageContent\').html(data);
+        
+                        });
+					}else{
+        
+        				$.post(\''.$link2.'\', function(data) {
+               
+                        	$(\'.pageContent\').html(data);
+        
+                        });
+        
+        			}
+                   </script>';
+        	 
+        }
 			/*Returns row with all user Information.*/
         /*function selectUserData()
         {

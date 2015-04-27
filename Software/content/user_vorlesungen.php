@@ -28,7 +28,12 @@
    	case 0:
    		//Startseite
      	
-   		echo 'Hier k&ouml;nnen Vorlesungseinstellungen gemacht werden <br> <br>Neue Vorlesung <a href="content/user_vorlesungen.php?art=5" data-change="main">hinzuf&uuml;gen</a>?<br><br>';
+   		   			?>
+   		   		
+   		   		<h2 class="headline">Vorlesungen</h2>
+   		   		
+   		   		
+   		   	<?php 
    			
    		if($_SESSION['user_rights'] == 0)
    		{
@@ -65,36 +70,48 @@
    	case 1:
    		//Vorlesung bearbeiten
    		
-   		echo("Hier wird bearbeitet! <br><br>Vorlesung bearbeiten:<br>");
+   		
    		?>
+   		   		<h2 class="headline">Vorlesung bearbeiten</h2>
+   		   
    						<form class="pure-form"  action="content/user_vorlesungen.php?art=2">
-   								Vorlesungs ID: <input type="text" value="<?php echo $_GET['vid']?>" name="vid" readonly/><br>
+   							<table class="formtable">
+   								<tr>
+   									<td>Vorlesungs ID:</td> <td><input type="text" value="<?php echo $_GET['vid']?>" name="vid" readonly/></td>
+   								</tr>
+   								<tr>
    		<?php						
-   						//drop down liste für Dozent
-   						$query='SELECT PID, PName FROM pruefer WHERE PArt IN (0,1,2)';
-   						$result=mysql_query($query);
-   						echo('Dozent: <select name="nPID">');
-   						while($row=mysql_fetch_assoc($result))
-   						{
-   								echo('<option value='.$row['PID'].'>'.$row['PName'].'</option>');
-   						
-   						}
-   						echo('</select><br>');
-   							
+		   						//drop down liste für Dozent
+		   						$query='SELECT PID, PName FROM pruefer WHERE PArt IN (0,1,2)';
+		   						$result=mysql_query($query);
+		   						echo('<td>Dozent:</td> <td><select name="nPID">');
+		   						while($row=mysql_fetch_assoc($result))
+		   						{
+		   								echo('<option value='.$row['PID'].'>'.$row['PName'].'</option>');
+		   						
+		   						}
+		   						echo('</select></td>');
+   								
    						//drop down liste für Kurs
    						$query='SELECT KID, KBez FROM kurse';
    						$result=mysql_query($query);
-   						echo('Kurs: <select name="nKID">');
+   						echo('</tr><tr><td>Kurs:</td> <td><select name="nKID">');
    						while($row=mysql_fetch_assoc($result))
    						{
    								echo('<option value='.$row['KID'].'>'.$row['KBez'].'</option>');
    						
    						}
-   						echo('</select> <br>');						
-   		?>							
-   								Neue Vorlesungsbezeichnung: <input type="text" placeholder="Vorlesungsbezeichnung" name="nvbez" /> <br>
-   								<button type="submit">&Auml;ndern</button>
-   						</form>
+   						echo('</select> </td>');						
+   		?>				</tr>
+   						<tr>			
+   							<td>Neue Vorlesungsbezeichnung:</td><td> <input type="text" placeholder="Vorlesungsbezeichnung" name="nvbez" /> </td>
+   						</tr>
+   						<tr>
+   							<td>&nbsp;</td><td><button type="submit" class="pure-button pure-button-primary">&Auml;ndern</button></td>
+   						</tr>
+   					</table>
+   					
+   					</form>
    					
    		<?php	
    						echo "<br><br>Pr&uuml;fungen für diese Vorlesung:";
@@ -118,8 +135,7 @@
    						echo "</table>";
    						
    						echo '<br>Eine Pr&uuml;fung <a href="content/user_pruefungen.php?art=3&vid='.$_GET['vid'].'" data-change="main">hinzuf&uuml;gen</a>?<br><br>';		
-   										
-   						echo('<a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>');			
+   							
    		   		
    			 
    			break;
@@ -178,7 +194,7 @@
    		//neue Vorlesung anlegen
      	
    		
-   		?>				<h2 class="formheadline">Neue Vorlesung anlegen</h2>
+   		?>				<h2 class="headline">Neue Vorlesung anlegen</h2>
    						<form class="pure-form"  action="content/user_vorlesungen.php?art=6">
    							<table class="formtable">
    								<tr>

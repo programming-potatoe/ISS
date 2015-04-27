@@ -37,21 +37,21 @@
 		 
 		case 0:
 			//Startseite
-				
+			echo '<table>';
 			//Visible + Feedback + Prüfer zuordnen
 			if($rights == 0 | $rights == 1 | $rights == 2)
 			{
-				echo "<a href='content/user_pruefungen.php?art=21' data-change='main'>Pr&uuml;fungen bearbeiten</a><br />";
+				echo '<tr><td><a href="content/user_pruefungen.php?art=21" data-change="main" class="pure-button">Pr&uuml;fungen bearbeiten</a></td></tr>';
 			}
 			
 				
 			//Bewertung abgeben
 			if($rights == 0 | $rights == 1 | $rights == 3)
 			{
-				echo "<a href='content/user_pruefungen.php?art=22' data-change='main'>Bewertungen abgeben</a><br />";
+				echo '<tr><td><a href="content/user_pruefungen.php?art=22" data-change="main" class="pure-button">Bewertungen abgeben</a></td></tr>';
 			}
 			
-			
+
 				
 			//Studenten Anschicht:
 			if($rights == 4)
@@ -76,15 +76,15 @@
 					echo '<tr><td>'.$row['PruefID'].'</td><td>'.$row['PruefBez'].'</td><td>'.$row['vbez'].'</td><td>'.$row['kbez'].'</td><td><a href="content/user_bewertungen.php?art=10&pruefid='.$row['PruefID'].'" data-change="main"><i class="fa fa-eye"></i></a></td></tr>';
 				}
 					
-				echo "</table>";
+
 			}
 			
 			//Leiter sehen alle Prüfungen
 			if($rights == 0)
 			{
-				echo "<a href='content/user_pruefungen.php?art=23' data-change='main'>Alle Pr&uuml;fungen ansehen</a><br />";
+				echo '<tr><td><a href="content/user_pruefungen.php?art=23" data-change="main" class="pure-button">Alle Pr&uuml;fungen ansehen</a></td></tr>';
 			}
-			
+			echo "</table>";
 			break;
 			
 		case 1:
@@ -135,7 +135,7 @@
 		case 3:
 			//neue Pruefung hinzufügen
 			
-			echo('<h2 class="formheadline">Neue Pr&uuml;fung anlegen</h2>');
+			echo('<h2 class="headline">Neue Pr&uuml;fung anlegen</h2>');
 			
 			echo'<form class="pure-form" action="content/user_pruefungen.php?art=4">';
 			

@@ -27,7 +27,13 @@
    			case 0:
    				//Standardanzeige:
    					
-   				echo 'Hier k&ouml;nnen Kurseinstellungen gemacht werden <br >Neuen Kurs <a href="content/user_kurse.php?art=5" data-change="main">hinzuf&uuml;gen</a>?<br><br>';
+
+   				?>
+   				   		   		
+   				   		   		<h2 class="headline">Kurse</h2>
+   				   		   		
+   				   		   		
+   				   		   	<?php 
    				
    				$query = "SELECT KID, KBez FROM kurse";
    				$result = mysql_query($query);
@@ -45,16 +51,25 @@
    			case 1:
 				//neuen Kurs bearbeiten
 		
-				echo("Hier wird bearbeitet! <br><br>");
+				
 ?>
+				<h2 class="headline">Kurs bearbeiten</h2>
 				<form class="pure-form"  action="content/user_kurse.php?art=2">
-						Kurs ID: <input type="text" value="<?php echo $_GET['kid']?>" name="kid" readonly/><br>
-						Neue Kursbezeichnung: <br> <input type="text" placeholder="Kursbezeichnung" name="nkbez" /> <br>
-						<button type="submit">&Auml;ndern</button>
+					<table class="formtable">
+						<tr>
+							<td>Kurs ID:</td><td> <input type="text" value="<?php echo $_GET['kid']?>" name="kid" readonly/></td>
+						</tr>
+						<tr>
+							<td>Neue Kursbezeichnung: </td><td> <input type="text" placeholder="Kursbezeichnung" name="nkbez" /> </td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td><td><button type="submit" class="pure-button pure-button-primary">&Auml;ndern</button></td>
+						</tr>
+					</table>
 				</form>
 <?php	
 				
-				echo('<a href="content/user_kurse.php" data-change="main">zur&uuml;ck</a>');			
+							
 		break;
 		
 			case 2: 
@@ -66,25 +81,28 @@
 				$query = 'UPDATE kurse SET KBez = "'.$nkbez.'" WHERE KID = '.$kid;
 				if(mysql_query($query))
 				{
-						echo "&Auml;nderung erfolgreich!<br>";
+						create_dialog('Der Kurs wurde erfolgreich aktualisiert!',  'content/user_kurse.php');
+						
 				}
 				else 
 				{
-						echo "Error - Try Again<br>";
+						create_dialog('Fehler - Der Kurs wurde nicht erfolgreich aktualisiert!', 'content/user_kurse.php');
 				}
-				echo('<a href="content/user_kurse.php" data-change="main">zur&uuml;ck</a>');
+				
 		break;
 
 			case 3:
 				//Kurs loeschen auswaehlen
 				
-				echo("Hier wird gel&ouml;scht! <br><br>");
+				
 				
 				$query = "SELECT KBez FROM kurse WHERE KID = ".$_GET['kid'];				
 				$row = mysql_fetch_array(mysql_query($query));
 				echo $row['KBez'].' wirklich loeschen? <a href="content/user_kurse.php?art=4&kid='.$_GET['kid'].'" data-change="main">Ja, l&ouml;schen</a><br><br>';
 				
-				echo('<a href="content/user_kurse.php" data-change="main">zur&uuml;ck</a>');	
+				create_confirm('Wollen Sie '.$row['KBez'].' wirklich entfernen?', 'content/user_kurse.php?art=4&kid='.$_GET['kid'], 'content/user_kurse.php');
+				
+				
 		break;
 		
 			case 4:
@@ -93,20 +111,21 @@
 				$query = "DELETE FROM kurse WHERE KID = ".$_GET['kid'];
 				if(mysql_query($query)) 
 				{
-					echo "Gel&ouml;scht!<br>";
+					create_dialog('Der Kurs wurde erfolgreich entfernt!', 'content/user_kurse.php');
 				}
 				else 
 				{
-					echo "Fehler - nicht gel&ouml;scht!<br>";
+					create_dialog('Fehler - Der Kurs wurde nicht erfolgreich entfernt!', 'content/user_kurse.php');
+					
 				}
-				echo('<a href="content/user_kurse.php" data-change="main">OK, zur&uuml;ck</a>');
+				
 		break;
 			case 5:
 				//neuen Kurs anlegen
 				
 				
 ?>
-				<h2 class="formheadline">Neuen Kurs anlegen</h2>
+				<h2 class="headline">Neuen Kurs anlegen</h2>
 				<form class="pure-form"  action="content/user_kurse.php?art=6">
 					<table class="formtable">
 						<tr>
@@ -131,14 +150,12 @@
 			   
 			   if(mysql_query($query))
 			   { 
-					echo "Ein neuer Kurs wurde hinzugef&uuml;gt.<br><br>";
-				
-					echo 'Einen weiteren Kurs <a href="content/user_kurse.php?art=5" data-change="main">hinzuf&uuml;gen</a>?<br>';
-					echo '<a href="content/user_kurse.php" data-change="main">zur&uuml;ck</a>';
+					create_dialog('Ein neuer Kurs wurde erfolgreich erstellt!', 'content/user_kurse.php');
+			   	
 				}
 				else 
 				{
-					echo 'Error - Try Again';
+					create_dialog('Fehler - Der neue Kurs wurde nicht erfolgreich erstellt!', 'content/user_kurse.php');
 				}
 		break;
    		}	
