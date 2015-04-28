@@ -158,6 +158,14 @@ table.fa :hover{
 	
 	
 }
+.homeseite{
+	
+	
+	font-size: 			1.5em;
+	margin-top:			1em;
+	
+	
+}
 .pure-form select{
 	
 	border: 1px solid red;
@@ -170,3 +178,4 @@ form.pure-form table select{
 	padding-right: 10px;
 	padding-top: 3px;
 }
+

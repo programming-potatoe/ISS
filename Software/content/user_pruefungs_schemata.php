@@ -27,8 +27,8 @@
    	 
    	case 0:
    		//Startseite
-   
-   		echo 'Hier k&ouml;nnen Schemata angelegt & bearbeitet werden <br><br>';
+   		
+   		echo '<h2 class="headline">Schematas anlegen und bearbeiten</h2>';
    		
    		$query = "SELECT p.SchemaID, p.SchemaBez, p.PruefGenauigkeit, COUNT(a.ANr) AS Anzahl FROM pruefungsschema p LEFT OUTER JOIN  aufgaben a ON p.SchemaID = a.SchemaID GROUP BY p.SchemaID";
    		$result = mysql_query($query);
