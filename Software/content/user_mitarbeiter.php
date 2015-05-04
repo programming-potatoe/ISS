@@ -186,11 +186,13 @@
    	case 3:
    		//Mitarbeiter loeschen
    		 
-   		$query = "SELECT PName, PVName FROM pruefling WHERE PID = ".$_GET['pid'];
-   		$row = mysql_query($query);
+   		$query = "SELECT PName, PVName FROM pruefer WHERE PID = ".$_GET['pid'];
+   		$row = mysql_fetch_array(mysql_query($query));
+
+   		create_dialog($row['PName'], $link);
+   		create_dialog($row, $link);
    		
-   		
-   		create_confirm('Wollen Sie '.$row['PrName'].'  '.$row['PrVName'].' wirklich loeschen?', 'content/user_mitarbeiter.php?art=4&pid='.$_GET['pid'], 'content/user_mitarbeiter.php');
+   		create_confirm('Wollen Sie '.$row['PName'].', '.$row['PVName'].' wirklich loeschen?', 'content/user_mitarbeiter.php?art=4&pid='.$_GET['pid'], 'content/user_mitarbeiter.php');
    		
 
     	break;	

@@ -77,48 +77,10 @@
    		
    				//@TODO: echo "Hier fehlt: bearbeiten, löschen<br><br>";
    		
-   				echo('<a href="content/user_pruefungs_schemata.php" data-change="main">zur&uuml;ck</a>');
+   				//echo('<a href="content/user_pruefungs_schemata.php" data-change="main">zur&uuml;ck</a>');
    		
    		break;
    		
-   	case 2:
-   		//Schema bearbeiten @TODO
-   		
-   		//echo("Hier wird bearbeitet! <br><br>");
-   		
-   		//echo('<a href="content/user_prueflinge.php" data-change="main">zur&uuml;ck</a>');
-   		
-   		break;
-   		
-   	case 3:
-   		//Schema insert  @TODO
-   		
-   		//insert blablabla
-   		
-   		break;
-   		
-   	case 4:
-   		//Schema loeschen @TODO
-   		
-   		
-   		
-   		break;
-   		
-   	case 5:
-   		//Schema loeschen delete @TODO
-   		
-   		/*$query = "DELETE FROM pruefling WHERE PrID = ".$_GET['llid'];
-   		if(mysql_query($query))
-   		{
-   			echo "Gel&ouml;scht!<br>";
-   		}
-   		else
-   		{
-   			echo "Fehler - nicht gel&ouml;scht!<br>";
-   		}
-   		echo('<a href="content/user_prueflinge.php" data-change="main">zur&uuml;ck</a>');*/
-   		
-   		break;
    		
    	case 6:
    		//Anlegen Schritt 1 
@@ -154,20 +116,28 @@
    		$pruegenau = mysql_real_escape_string($_POST['pruegenau']);
    		$anzahl = mysql_real_escape_string($_POST['anzahl']);
    		
-   		echo '<form class="pure-form"  action="content/user_pruefungs_schemata.php?art=8">';
-   		echo 'Schemabezeichnung: <br> <input type="text" value="'.$schemabez.'" name="schemabez" readonly/> <br>';
-   		echo 'Pr&uuml;fungsgenauigkeit: <br> <input type="text" value="'.$pruegenau.'" name="pruegenau" readonly/> <br>';
-   		echo 'Anzahl Aufgaben: <br> <input type="text" value="'.$anzahl.'" name="anzahl" readonly/> <br>	';
-   		echo 'Maximale Punktezahlen: <br> Aufgabe: <br>';
+   		
+   		echo '<h2 class="headline">Neue Vorlage anlegen</h2>
+   		<form class="pure-form"  action="content/user_pruefungs_schemata.php?art=8">
+   		<table class="formtable">';
+   		 
+   		
+   		
+   		
+   		echo '<tr><td>Schemabezeichnung:</td><td><input type="text" value="'.$schemabez.'" name="schemabez" readonly/></td></tr>';
+   		echo '<tr><td>Pr&uuml;fungsgenauigkeit:</td><td><input type="text" value="'.$pruegenau.'" name="pruegenau" readonly/></td></tr>';
+   		echo '<tr><td>Anzahl Aufgaben:</td><td><input type="text" value="'.$anzahl.'" name="anzahl" readonly/></td></tr>';
+   		echo '<tr><td><b>Aufgabe:</b></td><td><b>Maximale Punktezahlen:</b></td></tr>';
    		for ($i = 1; $i <= $anzahl; $i++)
    		{
-   		echo $i.' : <input type="text" placeholder="a'.$i.'" name="'.$i.'" /> <br>	';
+   		echo '<tr><td>'.$i.'</td><td> <input type="text" placeholder="Aufgabe'.$i.'" name="'.$i.'" /></td></tr>';
 				}
    							
-   						echo '		<button type="submit">Anlegen</button>';
-				echo '</form>';
+   						echo '<tr><td>&nbsp;</td><td><button type="submit" class="pure-button pure-button-primary">Anlegen</button></td></tr>';
+   						echo '</table>';
+   						echo '</form>';
    		
-   						echo '<a href="content/user_pruefungs_schemata.php" data-change="main">Abbrechen</a>';
+   						//echo '<a href="content/user_pruefungs_schemata.php" data-change="main">Abbrechen</a>';
    		
    		break;
    		

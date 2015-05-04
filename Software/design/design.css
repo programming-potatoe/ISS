@@ -20,7 +20,7 @@ a {
 table{
 	width:				800px;
 	align:				center;
-	text-align:			center;
+	text-align:			center;	
 	
 }
 table th{
@@ -138,12 +138,16 @@ form input, form select{
 .fa{
 	
 	color: 				black;
+		
 	
 }
-table.fa :hover{
+table .fa:HOVER{
 	
 	color:				grey;
+	
 }
+
+
 .formtable{
 	
 	margin-left:		25%;

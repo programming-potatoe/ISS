@@ -75,7 +75,7 @@
    		   		<h2 class="headline">Vorlesung bearbeiten</h2>
    		   
    						<form class="pure-form"  action="content/user_vorlesungen.php?art=2">
-   							<table class="formtable">
+   							<table class="formtable" style="margin-bottom: 20px;">
    								<tr>
    									<td>Vorlesungs ID:</td> <td><input type="text" value="<?php echo $_GET['vid']?>" name="vid" readonly/></td>
    								</tr>
@@ -109,12 +109,13 @@
    						<tr>
    							<td>&nbsp;</td><td><button type="submit" class="pure-button pure-button-primary">&Auml;ndern</button></td>
    						</tr>
-   					</table>
-   					
-   					</form>
+   						<tr>
+   						<td colspan="2">&nbsp;</td>
+   						</tr>
+						<tr><td colspan="2" style="margin-top:10px;">
    					
    		<?php	
-   						echo "<br><br>Pr&uuml;fungen für diese Vorlesung:";
+   						echo "<b>Pr&uuml;fungen für diese Vorlesung:</b>";
    						$query = "SELECT PruefID, Pruefbez FROM pruefungsleistungen p, vorlesungen v WHERE v.VID = p.VID AND p.VID = ".$_GET['vid'];
    						$result = mysql_query($query);
    						
@@ -133,10 +134,15 @@
    						}
    					
    						echo "</table>";
-   						
-   						echo '<br>Eine Pr&uuml;fung <a href="content/user_pruefungen.php?art=3&vid='.$_GET['vid'].'" data-change="main">hinzuf&uuml;gen</a>?<br><br>';		
-   							
-   		   		
+   								
+   						echo '</td></tr>
+   					
+   					<tr><td colspan="2">&nbsp;</td></tr>
+   					
+   					<tr><td>&nbsp;</td><td><a href="content/user_pruefungen.php?art=3&vid='.$_GET['vid'].'" data-change="main" class="pure-button">Pr&uuml;fung f&uuml;r diese Vorlesung anlegen</a></td>
+   					
+   					</table>
+   								</form>';
    			 
    			break;
    			

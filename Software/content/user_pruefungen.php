@@ -37,18 +37,19 @@
 		 
 		case 0:
 			//Startseite
-			echo '<table>';
+			echo '<h2 class="headline">Bitte w&auml;hlen Sie einen Men&uuml;punkt aus</h2>';
+			echo '<table class="pure-table" style="border: 0px solid white;">';
 			//Visible + Feedback + Prüfer zuordnen
 			if($rights == 0 | $rights == 1 | $rights == 2)
 			{
-				echo '<tr><td><a href="content/user_pruefungen.php?art=21" data-change="main" class="pure-button">Pr&uuml;fungen bearbeiten</a></td></tr>';
+				echo '<tr><td><a href="content/user_pruefungen.php?art=21" data-change="main" class="pure-button pure-button-primary">Pr&uuml;fungen bearbeiten</a></td></tr>';
 			}
 			
 				
 			//Bewertung abgeben
 			if($rights == 0 | $rights == 1 | $rights == 3)
 			{
-				echo '<tr><td><a href="content/user_pruefungen.php?art=22" data-change="main" class="pure-button">Bewertungen abgeben</a></td></tr>';
+				echo '<tr><td><a href="content/user_pruefungen.php?art=22" data-change="main" class="pure-button pure-button-primary">Bewertungen abgeben</a></td></tr>';
 			}
 			
 
@@ -82,7 +83,7 @@
 			//Leiter sehen alle Prüfungen
 			if($rights == 0)
 			{
-				echo '<tr><td><a href="content/user_pruefungen.php?art=23" data-change="main" class="pure-button">Alle Pr&uuml;fungen ansehen</a></td></tr>';
+				echo '<tr><td><a href="content/user_pruefungen.php?art=23" data-change="main" class="pure-button pure-button-primary">Alle Pr&uuml;fungen ansehen</a></td></tr>';
 			}
 			echo "</table>";
 			break;
@@ -90,7 +91,7 @@
 		case 1:
 			//Pruefung bearbeiten
 			
-			echo("Hier wird bearbeitet! <br><br>");
+			echo '<h2 class="headline">Pr&uuml;fung bearbeiten</h2>';
 			
 			
 			
@@ -108,7 +109,7 @@
 			<?php	
 							echo '<br> Pr&uuml;fer <a href="content/user_pruefungen.php?art=9&pruefid='.$_GET['id'].'" data-change="main">zuordnen</a> <br><br>';
 							
-							echo('<a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>');
+							//echo('<a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>');
 			
 			break;
 			
@@ -144,7 +145,9 @@
 			if(isset($_GET['vid']))
 			{
 				//Vorlesungs ID bekannt
-				echo"<td>Vorlesungs ID:</td> <td><input type='text' value='{$_GET['vid']}' name='vid' readonly/></td><td></td>";	
+				$query = 'select VBez from vorlesungen where vid='.$_GET['vid'];
+				$result = mysql_fetch_array(mysql_query($query));
+				echo"<td>Vorlesungs Bezeichnung:</td> <td><input type='text' value='{$result['VBez']}' readonly/></td><td></td><input type='hidden' name='vid' value='{$_GET['vid']}'";	
 			}
 			else
 			{
@@ -243,7 +246,7 @@
 					}
 				}
 			
-				echo '<a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>';
+				//echo '<a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>';
 			}
 			else
 			{
@@ -401,12 +404,14 @@
 			
 			$row = mysql_fetch_array(mysql_query($query));
 			
-			echo "Hier die Details zur Prüfung: {$row['PruefBez']}<br /><br />";
+			echo '<h2 class="headline">Bearbeiten der Pr&uuml;fung</h2>';
 			
-			echo "<a href='content/user_pruefungen.php?art=7&pruefid=$pruefid' data-change='main'>Pr&uuml;fer zuordnen</a><br />";
-			echo "<a href='content/user_bewertungen.php?art=4&pruefid=$pruefid' data-change='main'>Feedback geben</a><br />";
-			echo "<a href='content/user_bewertungen.php?art=8&pruefid=$pruefid' data-change='main'>Visible schalten</a><br />";
 			
+			echo '<table class="pure-table" style="border: 0px solid white;">';
+			echo "<tr><td><a href='content/user_pruefungen.php?art=7&pruefid=$pruefid' data-change='main' class='pure-button'>Pr&uuml;fer zuordnen</a></td></tr>";
+			echo "<tr><td><a href='content/user_bewertungen.php?art=4&pruefid=$pruefid' data-change='main' class='pure-button'>Feedback geben</a></td></tr>";
+			echo "<tr><td><a href='content/user_bewertungen.php?art=8&pruefid=$pruefid' data-change='main' class='pure-button'>Visible schalten</a></td></tr>";
+			echo '</table>';
 		break;	
 	
 		case 21:
@@ -428,17 +433,15 @@
 			
 				$result = mysql_query($query);
 					
-				echo '<table class="pure-table"><tr><th>Pruefungs ID</th><th>Pr&uuml;fungsBez</th><th>Vorlesung</th><th>Kurs</th><th>Anzeigen</th></tr>';
+				echo '<table class="pure-table"><tr><th>Pruefungs ID</th><th>Pr&uuml;fungsBez</th><th>Vorlesung</th><th>Kurs</th><th>Bearbeiten</th></tr>';
 					
 				while($row = mysql_fetch_assoc($result))
 				{
 					echo '<tr><td>'.$row['PruefID'].'</td><td>'.$row['PruefBez'].'</td><td>'.$row['vbez'].'</td><td>'.$row['kbez'].'</td><td>
-					<a href="content/user_pruefungen.php?art=11&pruefid='.$row['PruefID'].'" data-change="main"><i class="fa fa-eye"></i></a></td></tr>';
+					<a href="content/user_pruefungen.php?art=11&pruefid='.$row['PruefID'].'" data-change="main"><i class="fa fa-pencil"></i></a></td></tr>';
 				}
 					
 			echo "</table>";
-			
-			echo "<a href='content/user_pruefungen.php?art=0' data-change='main'>Zur&uuml;ck</a><br />";
 			
 			break;
 			
@@ -462,7 +465,7 @@
 			
 				$result = mysql_query($query);
 					
-				echo '<table class="pure-table"><tr><th>Pruefungs ID</th><th>Pr&uuml;fungsBez</th><th>Vorlesung</th><th>Kurs</th><th>Anzeigen</th></tr>';
+				echo '<table class="pure-table"><tr><th>Pruefungs ID</th><th>Pr&uuml;fungsBez</th><th>Vorlesung</th><th>Kurs</th><th>Bewerten</th></tr>';
 					
 				while($row = mysql_fetch_assoc($result))
 				{
@@ -471,13 +474,12 @@
 							<td>'.$row['PruefBez'].'</td>
 							<td>'.$row['vbez'].'</td>
 							<td>'.$row['kbez'].'</td>
-							<td><a href="content/user_bewertungen.php?art=1&pruefid='.$row['PruefID'].'" data-change="main"><i class="fa fa-eye"></i></a></td>
+							<td><a href="content/user_bewertungen.php?art=1&pruefid='.$row['PruefID'].'" data-change="main"><i class="fa fa-edit"></i></a></td>
 							</tr>';
 				}
 					
 				echo "</table>";
 			
-			echo "<a href='content/user_pruefungen.php?art=0' data-change='main'>Zur&uuml;ck</a><br />";
 		break;
 	
 		case 23:
