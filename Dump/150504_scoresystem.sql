@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 16. Apr 2015 um 17:55
+-- Erstellungszeit: 04. Mai 2015 um 11:24
 -- Server Version: 5.6.21
 -- PHP-Version: 5.6.3
 
@@ -31,31 +31,23 @@ CREATE TABLE IF NOT EXISTS `aufgaben` (
   `ANr` int(11) DEFAULT NULL,
   `AMaxPunkte` int(11) DEFAULT NULL,
   `SchemaID` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `aufgaben`
 --
 
 INSERT INTO `aufgaben` (`AID`, `ANr`, `AMaxPunkte`, `SchemaID`) VALUES
-(31, 1, 10, 11),
-(32, 2, 10, 11),
-(33, 3, 10, 11),
-(34, 4, 10, 11),
-(35, 5, 5, 11),
-(36, 1, 5, 12),
-(37, 2, 5, 12),
-(38, 3, 5, 12),
-(39, 4, 5, 12),
-(40, 5, 5, 12),
-(41, 1, 2, 13),
-(42, 2, 2, 13),
-(43, 3, 2, 13),
-(44, 1, 4, 14),
-(45, 2, 4, 14),
-(46, 3, 4, 14),
-(47, 4, 4, 14),
-(48, 5, 4, 14);
+(49, 1, 10, 15),
+(50, 2, 20, 15),
+(51, 3, 10, 15),
+(52, 4, 15, 15),
+(53, 5, 5, 15),
+(54, 1, 10, 16),
+(55, 2, 10, 16),
+(56, 3, 10, 16),
+(57, 4, 10, 16),
+(58, 5, 10, 16);
 
 -- --------------------------------------------------------
 
@@ -72,25 +64,6 @@ CREATE TABLE IF NOT EXISTS `bewertungen` (
   `BBewertungsstufe` int(11) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
 
---
--- Daten für Tabelle `bewertungen`
---
-
-INSERT INTO `bewertungen` (`BID`, `AID`, `PruefObjID`, `PID`, `BPunkte`, `BBewertungsstufe`) VALUES
-(26, 31, 15, 1, 5, 2),
-(27, 31, 15, 1, 5, 4),
-(28, 32, 15, 1, 5, 0),
-(29, 32, 15, 1, 2, 3),
-(30, 32, 15, 1, 3, 4),
-(31, 33, 15, 1, 10, 4),
-(32, 34, 15, 1, 10, 4),
-(33, 35, 15, 1, 5, 2),
-(34, 31, 22, 1, 10, 4),
-(35, 32, 22, 1, 10, 4),
-(36, 33, 22, 1, 10, 4),
-(37, 34, 22, 1, 10, 4),
-(38, 35, 22, 1, 5, 4);
-
 -- --------------------------------------------------------
 
 --
@@ -100,7 +73,7 @@ INSERT INTO `bewertungen` (`BID`, `AID`, `PruefObjID`, `PID`, `BPunkte`, `BBewer
 CREATE TABLE IF NOT EXISTS `kurse` (
 `KID` int(11) NOT NULL,
   `KBez` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `kurse`
@@ -108,7 +81,8 @@ CREATE TABLE IF NOT EXISTS `kurse` (
 
 INSERT INTO `kurse` (`KID`, `KBez`) VALUES
 (5, 'TINF13IN'),
-(6, 'TINF12IN');
+(6, 'TINF12IN'),
+(7, 'TINF11IN');
 
 -- --------------------------------------------------------
 
@@ -131,10 +105,9 @@ CREATE TABLE IF NOT EXISTS `pruefer` (
 
 INSERT INTO `pruefer` (`PID`, `PName`, `PVName`, `PPwd`, `PEmail`, `PArt`) VALUES
 (1, 'Richter', 'Alexander', 'hallo123', 'leiter@dhbw.de', 0),
-(2, 'Rumpelszielzchen', 'Alfons', 'passwort1', 'alfons.r@obersalzberg.de', 1),
-(3, 'Musterdozent', 'Max', 'Musterpasswort', 'musteremail@muster.de', 1),
+(3, 'Vossen', 'Paulus', 'paulusvossen', 'vossen@dhbw.de', 1),
 (4, 'Externus', 'Pruefus', 'pruferus', 'pruefer@daimler.de', 2),
-(5, 'Schneider', 'Günther', 'passwort123', 'schneider@gmx.net', 2);
+(5, 'Schneider', 'GÃ¼nther', 'passwort123', 'schneider@gmx.net', 3);
 
 -- --------------------------------------------------------
 
@@ -152,14 +125,10 @@ CREATE TABLE IF NOT EXISTS `pruefer_pruefungsleistungen` (
 --
 
 INSERT INTO `pruefer_pruefungsleistungen` (`PruefID`, `PID`) VALUES
-(16, 1),
-(16, 1),
-(18, 1),
-(16, 1),
-(19, 1),
-(18, 1),
-(18, 3),
-(18, 4);
+(32, 5),
+(33, 1),
+(32, 3),
+(34, 5);
 
 -- --------------------------------------------------------
 
@@ -182,12 +151,9 @@ CREATE TABLE IF NOT EXISTS `pruefling` (
 --
 
 INSERT INTO `pruefling` (`PrID`, `PrName`, `PrVName`, `PrPwd`, `PID`, `KID`, `PrEmail`) VALUES
-(5, 'Schmidt', 'Mike', 'mike', 1, 5, 'mike@dhbw.de'),
-(6, 'Steidl', 'Max', 'maximax', 1, 6, 'max@dhbw.de'),
-(7, 'Dierolf', 'Nils', 'nilsinils', 1, 6, 'nils@dhbw.de'),
-(8, 'Pocher', 'Oliver', 'oliolioli', 1, 5, 'oli@dhbw.de'),
-(9, 'Schmidt', 'Andre', 'hallo', 1, 5, 'email.andre@web.de'),
-(10, 'Vossen', 'Paulus', 'hallo456', 1, 5, 'vossen@dhbw.de');
+(1, 'Schmidt', 'Mike', 'mike', 1, 5, 'mike@dhbw.de'),
+(2, 'Steidl', 'Max', 'maximax', 1, 5, 'max@dhbw.de'),
+(3, 'Dierolf', 'Nils', 'nilsinils', 1, 5, 'nils@dhbw.de');
 
 -- --------------------------------------------------------
 
@@ -202,29 +168,16 @@ CREATE TABLE IF NOT EXISTS `pruefungsleistungen` (
   `PruefBez` varchar(50) DEFAULT NULL,
   `SchemaID` int(11) NOT NULL,
   `Toleranz` float DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `pruefungsleistungen`
 --
 
 INSERT INTO `pruefungsleistungen` (`PruefID`, `PID`, `VID`, `PruefBez`, `SchemaID`, `Toleranz`) VALUES
-(16, 1, 7, 'Klausur', 11, NULL),
-(17, 1, 7, 'Klausur', 11, NULL),
-(18, 1, 8, 'Klausur', 11, NULL),
-(19, 1, 10, 'Klausur', 11, NULL),
-(20, 1, 8, 'Klausur', 11, NULL),
-(21, 1, 8, '', 12, NULL),
-(22, 1, 8, '', 11, NULL),
-(23, 1, 8, '', 11, NULL),
-(24, 1, 7, '', 11, NULL),
-(25, 1, 9, '', 11, NULL),
-(26, 1, 9, '', 11, NULL),
-(27, 1, 8, '', 11, NULL),
-(28, 1, 8, 'Klausur', 11, NULL),
-(29, 1, 9, 'Testklausur', 11, NULL),
-(30, 1, 7, 'Klausur', 13, 0.5),
-(31, 1, 10, 'Klausur', 14, 0.1);
+(32, 1, 11, 'Programmentwurf', 15, 0.9),
+(33, 1, 12, 'Klausur', 16, 0.3),
+(34, 1, 13, 'Klausur', 15, 0.1);
 
 -- --------------------------------------------------------
 
@@ -238,52 +191,22 @@ CREATE TABLE IF NOT EXISTS `pruefungsleistungsobjekt` (
   `PruefID` int(11) NOT NULL,
   `PruefObjKommentar` varchar(200) DEFAULT NULL,
   `PruefStatus` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `pruefungsleistungsobjekt`
 --
 
 INSERT INTO `pruefungsleistungsobjekt` (`PruefObjID`, `PrID`, `PruefID`, `PruefObjKommentar`, `PruefStatus`) VALUES
-(14, 6, 16, NULL, 1),
-(15, 7, 16, 'Du warst toll!', 1),
-(16, 6, 17, NULL, 1),
-(17, 7, 17, NULL, 1),
-(18, 5, 18, NULL, 1),
-(19, 8, 18, NULL, 1),
-(20, 5, 19, NULL, 1),
-(21, 8, 19, NULL, 1),
-(22, 9, 19, 'Hey Alter, End krass!', 1),
-(23, 5, 20, NULL, 0),
-(24, 8, 20, NULL, 0),
-(25, 9, 20, NULL, 0),
-(26, 5, 21, NULL, 0),
-(27, 8, 21, NULL, 0),
-(28, 9, 21, NULL, 0),
-(29, 5, 22, NULL, 0),
-(30, 8, 22, NULL, 0),
-(31, 9, 22, NULL, 0),
-(32, 5, 23, NULL, 0),
-(33, 8, 23, NULL, 0),
-(34, 9, 23, NULL, 0),
-(35, 6, 24, NULL, 0),
-(36, 7, 24, NULL, 0),
-(37, 6, 25, NULL, 0),
-(38, 7, 25, NULL, 0),
-(39, 6, 26, NULL, 0),
-(40, 7, 26, NULL, 0),
-(41, 5, 27, NULL, 0),
-(42, 8, 27, NULL, 0),
-(43, 9, 27, NULL, 0),
-(44, 5, 28, NULL, 0),
-(45, 8, 28, NULL, 0),
-(46, 9, 28, NULL, 0),
-(47, 6, 30, NULL, 0),
-(48, 7, 30, NULL, 0),
-(49, 5, 31, NULL, 0),
-(50, 8, 31, NULL, 0),
-(51, 9, 31, NULL, 0),
-(52, 10, 31, NULL, 0);
+(53, 1, 32, NULL, 0),
+(54, 2, 32, NULL, 0),
+(55, 3, 32, NULL, 0),
+(56, 1, 33, NULL, 0),
+(57, 2, 33, NULL, 0),
+(58, 3, 33, NULL, 0),
+(59, 1, 34, NULL, 0),
+(60, 2, 34, NULL, 0),
+(61, 3, 34, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -295,17 +218,15 @@ CREATE TABLE IF NOT EXISTS `pruefungsschema` (
 `SchemaID` int(11) NOT NULL,
   `SchemaBez` varchar(50) DEFAULT NULL,
   `PruefGenauigkeit` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `pruefungsschema`
 --
 
 INSERT INTO `pruefungsschema` (`SchemaID`, `SchemaBez`, `PruefGenauigkeit`) VALUES
-(11, NULL, 5),
-(12, NULL, 5),
-(13, 'Mein Schema', 5),
-(14, 'Schema Mathe', 5);
+(15, 'Schma 1', 5),
+(16, 'Schema 2', 3);
 
 -- --------------------------------------------------------
 
@@ -318,17 +239,16 @@ CREATE TABLE IF NOT EXISTS `vorlesungen` (
   `KID` int(11) NOT NULL,
   `PID` int(11) NOT NULL,
   `VBez` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `vorlesungen`
 --
 
 INSERT INTO `vorlesungen` (`VID`, `KID`, `PID`, `VBez`) VALUES
-(7, 6, 1, 'Mathematik'),
-(8, 5, 1, ''),
-(9, 6, 3, 'Rechnerarchitekturen'),
-(10, 5, 1, 'Physik');
+(11, 5, 3, 'Softwareengineering'),
+(12, 5, 1, 'Elektronik'),
+(13, 5, 4, 'Mathematik');
 
 --
 -- Indizes der exportierten Tabellen
@@ -402,7 +322,7 @@ ALTER TABLE `vorlesungen`
 -- AUTO_INCREMENT für Tabelle `aufgaben`
 --
 ALTER TABLE `aufgaben`
-MODIFY `AID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=49;
+MODIFY `AID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=59;
 --
 -- AUTO_INCREMENT für Tabelle `bewertungen`
 --
@@ -412,7 +332,7 @@ MODIFY `BID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=39;
 -- AUTO_INCREMENT für Tabelle `kurse`
 --
 ALTER TABLE `kurse`
-MODIFY `KID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+MODIFY `KID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT für Tabelle `pruefer`
 --
@@ -422,27 +342,27 @@ MODIFY `PID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 -- AUTO_INCREMENT für Tabelle `pruefling`
 --
 ALTER TABLE `pruefling`
-MODIFY `PrID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+MODIFY `PrID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT für Tabelle `pruefungsleistungen`
 --
 ALTER TABLE `pruefungsleistungen`
-MODIFY `PruefID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
+MODIFY `PruefID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=35;
 --
 -- AUTO_INCREMENT für Tabelle `pruefungsleistungsobjekt`
 --
 ALTER TABLE `pruefungsleistungsobjekt`
-MODIFY `PruefObjID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=53;
+MODIFY `PruefObjID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=62;
 --
 -- AUTO_INCREMENT für Tabelle `pruefungsschema`
 --
 ALTER TABLE `pruefungsschema`
-MODIFY `SchemaID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
+MODIFY `SchemaID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT für Tabelle `vorlesungen`
 --
 ALTER TABLE `vorlesungen`
-MODIFY `VID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+MODIFY `VID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
 --
 -- Constraints der exportierten Tabellen
 --
@@ -451,50 +371,50 @@ MODIFY `VID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 -- Constraints der Tabelle `aufgaben`
 --
 ALTER TABLE `aufgaben`
-ADD CONSTRAINT `aufgaben_ibfk_1` FOREIGN KEY (`SchemaID`) REFERENCES `pruefungsschema` (`SchemaID`);
+ADD CONSTRAINT `aufgaben_ibfk_1` FOREIGN KEY (`SchemaID`) REFERENCES `pruefungsschema` (`SchemaID`) ON DELETE CASCADE;
 
 --
 -- Constraints der Tabelle `bewertungen`
 --
 ALTER TABLE `bewertungen`
-ADD CONSTRAINT `bewertungen_ibfk_1` FOREIGN KEY (`AID`) REFERENCES `aufgaben` (`AID`),
-ADD CONSTRAINT `bewertungen_ibfk_2` FOREIGN KEY (`PruefObjID`) REFERENCES `pruefungsleistungsobjekt` (`PruefObjID`),
-ADD CONSTRAINT `bewertungen_ibfk_3` FOREIGN KEY (`PID`) REFERENCES `pruefer` (`PID`);
+ADD CONSTRAINT `bewertungen_ibfk_1` FOREIGN KEY (`AID`) REFERENCES `aufgaben` (`AID`) ON DELETE CASCADE,
+ADD CONSTRAINT `bewertungen_ibfk_2` FOREIGN KEY (`PruefObjID`) REFERENCES `pruefungsleistungsobjekt` (`PruefObjID`) ON DELETE CASCADE,
+ADD CONSTRAINT `bewertungen_ibfk_3` FOREIGN KEY (`PID`) REFERENCES `pruefer` (`PID`) ON DELETE CASCADE;
 
 --
 -- Constraints der Tabelle `pruefer_pruefungsleistungen`
 --
 ALTER TABLE `pruefer_pruefungsleistungen`
-ADD CONSTRAINT `pruefer_pruefungsleistungen_ibfk_1` FOREIGN KEY (`PruefID`) REFERENCES `pruefungsleistungen` (`PruefID`),
-ADD CONSTRAINT `pruefer_pruefungsleistungen_ibfk_2` FOREIGN KEY (`PID`) REFERENCES `pruefer` (`PID`);
+ADD CONSTRAINT `pruefer_pruefungsleistungen_ibfk_1` FOREIGN KEY (`PruefID`) REFERENCES `pruefungsleistungen` (`PruefID`) ON DELETE CASCADE,
+ADD CONSTRAINT `pruefer_pruefungsleistungen_ibfk_2` FOREIGN KEY (`PID`) REFERENCES `pruefer` (`PID`) ON DELETE CASCADE;
 
 --
 -- Constraints der Tabelle `pruefling`
 --
 ALTER TABLE `pruefling`
-ADD CONSTRAINT `pruefling_ibfk_1` FOREIGN KEY (`KID`) REFERENCES `kurse` (`KID`),
-ADD CONSTRAINT `pruefling_ibfk_2` FOREIGN KEY (`PID`) REFERENCES `pruefer` (`PID`);
+ADD CONSTRAINT `pruefling_ibfk_1` FOREIGN KEY (`KID`) REFERENCES `kurse` (`KID`) ON DELETE CASCADE,
+ADD CONSTRAINT `pruefling_ibfk_2` FOREIGN KEY (`PID`) REFERENCES `pruefer` (`PID`) ON DELETE CASCADE;
 
 --
 -- Constraints der Tabelle `pruefungsleistungen`
 --
 ALTER TABLE `pruefungsleistungen`
-ADD CONSTRAINT `pruefungsleistungen_ibfk_1` FOREIGN KEY (`PID`) REFERENCES `pruefer` (`PID`),
-ADD CONSTRAINT `pruefungsleistungen_ibfk_2` FOREIGN KEY (`VID`) REFERENCES `vorlesungen` (`VID`);
+ADD CONSTRAINT `pruefungsleistungen_ibfk_1` FOREIGN KEY (`PID`) REFERENCES `pruefer` (`PID`) ON DELETE CASCADE,
+ADD CONSTRAINT `pruefungsleistungen_ibfk_2` FOREIGN KEY (`VID`) REFERENCES `vorlesungen` (`VID`) ON DELETE CASCADE;
 
 --
 -- Constraints der Tabelle `pruefungsleistungsobjekt`
 --
 ALTER TABLE `pruefungsleistungsobjekt`
-ADD CONSTRAINT `pruefungsleistungsobjekt_ibfk_1` FOREIGN KEY (`PrID`) REFERENCES `pruefling` (`PrID`),
-ADD CONSTRAINT `pruefungsleistungsobjekt_ibfk_2` FOREIGN KEY (`PruefID`) REFERENCES `pruefungsleistungen` (`PruefID`);
+ADD CONSTRAINT `pruefungsleistungsobjekt_ibfk_1` FOREIGN KEY (`PrID`) REFERENCES `pruefling` (`PrID`) ON DELETE CASCADE,
+ADD CONSTRAINT `pruefungsleistungsobjekt_ibfk_2` FOREIGN KEY (`PruefID`) REFERENCES `pruefungsleistungen` (`PruefID`) ON DELETE CASCADE;
 
 --
 -- Constraints der Tabelle `vorlesungen`
 --
 ALTER TABLE `vorlesungen`
-ADD CONSTRAINT `vorlesungen_ibfk_1` FOREIGN KEY (`KID`) REFERENCES `kurse` (`KID`),
-ADD CONSTRAINT `vorlesungen_ibfk_2` FOREIGN KEY (`PID`) REFERENCES `pruefer` (`PID`);
+ADD CONSTRAINT `vorlesungen_ibfk_1` FOREIGN KEY (`KID`) REFERENCES `kurse` (`KID`) ON DELETE CASCADE,
+ADD CONSTRAINT `vorlesungen_ibfk_2` FOREIGN KEY (`PID`) REFERENCES `pruefer` (`PID`) ON DELETE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
