@@ -192,7 +192,7 @@
    		create_dialog($row['PName'], $link);
    		create_dialog($row, $link);
    		
-   		create_confirm('Wollen Sie '.$row['PName'].', '.$row['PVName'].' wirklich loeschen?', 'content/user_mitarbeiter.php?art=4&pid='.$_GET['pid'], 'content/user_mitarbeiter.php');
+   		create_confirm('Wollen Sie '.$row['PName'].', '.$row['PVName'].' wirklich entfernen?', 'content/user_mitarbeiter.php?art=4&pid='.$_GET['pid'], 'content/user_mitarbeiter.php');
    		
 
     	break;	

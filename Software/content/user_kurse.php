@@ -63,7 +63,7 @@
 							<input type="hidden" value="<?php echo $_GET['kid']?>" name="kid"/></td>
 						</tr>
 						<tr>
-							<td>Neue Kursbezeichnung: </td><td> <input type="text" placeholder="Kursbezeichnung" name="nkbez" /> </td>
+							<td>Neue Kursbezeichnung: </td><td> <input type="text" placeholder="Kursbezeichnung" name="nkbez" required/> </td>
 						</tr>
 						<tr>
 							<td>&nbsp;</td><td><button type="submit" class="pure-button pure-button-primary">&Auml;ndern</button></td>
@@ -101,8 +101,6 @@
 				
 				$query = "SELECT KBez FROM kurse WHERE KID = ".$_GET['kid'];				
 				$row = mysql_fetch_array(mysql_query($query));
-				echo $row['KBez'].' wirklich loeschen? <a href="content/user_kurse.php?art=4&kid='.$_GET['kid'].'" data-change="main">Ja, l&ouml;schen</a><br><br>';
-				
 				create_confirm('Wollen Sie '.$row['KBez'].' wirklich entfernen?', 'content/user_kurse.php?art=4&kid='.$_GET['kid'], 'content/user_kurse.php');
 				
 				
@@ -133,7 +131,7 @@
 					<table class="formtable">
 						<tr>
 							<td>Kursbezeichnung: </td>
-							<td><input type="text" placeholder="Kursbezeichnung" name="kbez" /> </td>
+							<td><input type="text" placeholder="Kursbezeichnung" name="kbez" required/> </td>
 						</tr>
 						<tr>
 							<td>&nbsp;</td>

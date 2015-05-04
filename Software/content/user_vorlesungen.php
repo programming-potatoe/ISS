@@ -104,7 +104,7 @@
    						echo('</select> </td>');						
    		?>				</tr>
    						<tr>			
-   							<td>Neue Vorlesungsbezeichnung:</td><td> <input type="text" placeholder="Vorlesungsbezeichnung" name="nvbez" /> </td>
+   							<td>Neue Vorlesungsbezeichnung:</td><td> <input type="text" placeholder="Vorlesungsbezeichnung" name="nvbez" required/> </td>
    						</tr>
    						<tr>
    							<td>&nbsp;</td><td><button type="submit" class="pure-button pure-button-primary">&Auml;ndern</button></td>
@@ -170,13 +170,13 @@
    	case 3:
    		//Vorlesung loeschen
      	
-   		echo("Hier wird gel&ouml;scht! <br><br>");
+   		
    		
    		$query = "SELECT VBez FROM vorlesungen WHERE VID = ".$_GET['vid'];
    		$row = mysql_fetch_array(mysql_query($query));
-   		echo $row['VBez'].' wirklich loeschen? <a href="content/user_vorlesungen.php?art=4&vid='.$_GET['vid'].'" data-change="main">Ja, l&ouml;schen</a><br><br>';
+   		echo $row['VBez'].' wirklich loeschen? <a href= data-change="main">Ja, l&ouml;schen</a><br><br>';
    		
-   		echo('<a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>');
+   		create_confirm('Wollen Sie '.$row['VBez'].' wirklich entfernen?', 'content/user_vorlesungen.php?art=4&vid='.$_GET['vid'], 'content/user_vorlesungen.php');
    		
    		break;
    		
@@ -186,13 +186,13 @@
    		$query = "DELETE FROM vorlesungen WHERE VID = ".$_GET['vid'];
    		if(mysql_query($query))
    		{
-   			echo "Gel&ouml;scht!<br>";
+   			create_dialog('Die Vorlesung wurde erfolgreich entfernt!', 'content/user_vorlesungen.php');
    		}
    		else
    		{
-   			echo "Fehler - nicht gel&ouml;scht!<br>";
+   			create_dialog('Die Vorlesung konnte nicht erfolgreich entfernt werden!', 'content/user_vorlesungen');
    		}
-   		echo('<a href="content/user_vorlesungen.php" data-change="main">OK, zur&uuml;ck</a>');
+   		
    		
    		break;
    		
@@ -204,7 +204,7 @@
    						<form class="pure-form"  action="content/user_vorlesungen.php?art=6">
    							<table class="formtable">
    								<tr>
-   									<td>Vorlesungsbezeichung:</td><td> <input type="text" placeholder="Vorlesungsbezeichnung" name="vbez" /> </td>
+   									<td>Vorlesungsbezeichung:</td><td> <input type="text" placeholder="Vorlesungsbezeichnung" name="vbez" required/> </td>
    								</tr>
    								<tr>
    									<td>
@@ -254,16 +254,11 @@
    		
    		if(mysql_query($query))
    		{
-   			echo "Ein neue Vorlesung wurde hinzugef&uuml;gt.<br><br>";
-   		
-   			echo 'Eine weitere Vorlesung <a href="content/user_vorlesungen.php?art=5" data-change="main">hinzuf&uuml;gen</a>?<br>';
-   			echo '<a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>';
+   			create_dialog('Die Vorlesung wurde erfolgreich erstellt!', 'content/user_vorlesungen.php');	
    		}
    		else
    		{
-   			echo 'Error - Try Again';
-   			echo($pid);
-   			echo '<a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>';
+   			create_dialog('Die Vorlesung konnte nicht erfolgreich erstellt werden!', 'content/user_vorlesungen.php');
    		}
    			 
    			break;
