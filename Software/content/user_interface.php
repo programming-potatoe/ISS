@@ -166,7 +166,7 @@
                         <div class="pageSidebarEntry">
                         	<a href="content/user_pruefungen.php" data-change="main">Pr&uuml;fungen</a>
                         	<div class="pageSidebarMenu">
-                        		<a href="content/user_pruefungen.php?art=21" data-change="main">Bearbeiten</a>
+                        		<a href="content/user_pruefungen.php?art=22" data-change="main">Bewerten</a>
                         	</div>
                         </div>
                         
