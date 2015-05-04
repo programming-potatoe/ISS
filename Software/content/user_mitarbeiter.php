@@ -39,7 +39,7 @@
 			$query = "SELECT p.PID, p.PName, PVName, p.PEmail, p.PArt FROM pruefer p where p.part in(1, 2, 3)";
 			$result = mysql_query($query);
 				
-			echo '<table class="pure-table"><tr><th>PrID</th><th>Name</th><th>Vorname</th><th>Art</th><th>Bearbeiten</th><th>L&ouml;schen</th></th>';
+			echo '<table class="pure-table"><tr><th>Name</th><th>Vorname</th><th>E-Mail</th><th>Art</th><th>Bearbeiten</th><th>L&ouml;schen</th></th>';
 				
 			while ($row = mysql_fetch_assoc($result)) {
 				echo '<tr><td>'.$row['PName'].'</td><td>'.$row['PVName'].'</td><td>'.$row['PEmail'].'</td><td>';

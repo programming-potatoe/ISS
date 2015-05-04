@@ -50,14 +50,17 @@
    				
    			case 1:
 				//neuen Kurs bearbeiten
-		
+				$query = 'SELECT KBez FROM kurse where kid='.$_GET['kid'];
+				$result = mysql_fetch_array(mysql_query($query));
 				
 ?>
 				<h2 class="headline">Kurs bearbeiten</h2>
 				<form class="pure-form"  action="content/user_kurse.php?art=2">
 					<table class="formtable">
 						<tr>
-							<td>Kurs ID:</td><td> <input type="text" value="<?php echo $_GET['kid']?>" name="kid" readonly/></td>
+							<td>alte Kurs Bezeichnung:</td><td><input type="text" value="<?php echo $result['KBez'];?>" name="kursid" readonly> 
+							
+							<input type="hidden" value="<?php echo $_GET['kid']?>" name="kid"/></td>
 						</tr>
 						<tr>
 							<td>Neue Kursbezeichnung: </td><td> <input type="text" placeholder="Kursbezeichnung" name="nkbez" /> </td>

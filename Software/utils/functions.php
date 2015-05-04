@@ -90,6 +90,8 @@
                    </script>';
         	 
         }
+
+        
 			/*Returns row with all user Information.*/
         /*function selectUserData()
         {

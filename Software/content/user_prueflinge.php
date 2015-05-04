@@ -77,13 +77,14 @@
    		//Pruefling loeschen delete
    		
    		$query = "DELETE FROM pruefling WHERE PrID = ".$_GET['prid'];
+   		
    		if(mysql_query($query))
    		{
    			create_dialog('Erfolgeich entfernt!', 'content/user_prueflinge.php');
    		}
    		else
    		{
-   			create_dialog('Fehler - Der Eintrag konnte nicht entfernt werden!');
+   			create_dialog('Fehler - Der Eintrag konnte nicht entfernt werden!', 'content/user_prueflinge.php');
    		}
    		
    		
