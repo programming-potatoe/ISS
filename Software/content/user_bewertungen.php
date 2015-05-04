@@ -529,7 +529,7 @@ switch ($_GET['art']){
 					$r_left = 1- $r_left/($pruefgenau);
 					$r_right = $r_right/($pruefgenau);
 					$score = (1-$tolerance) * min($r_left,$r_right) + $tolerance * max($r_left,$r_right);
-					$score = round($score,2);
+					$score = round($score,4);
 					echo "Toleranz: $tolerance &nbsp;&nbsp;&nbsp;&nbsp;";
 					
 					//Zwischenergebnis
@@ -540,7 +540,7 @@ switch ($_GET['art']){
 				}
 				
 				
-				echo "<br />Endscore: ".round(($gesamtscore/$anzprufer),2)*100 ."% <br /><br />";
+				echo "<br />Endscore: ".round(($gesamtscore/$anzprufer),4)*100 ."% <br /><br />";
 				
 				
 				

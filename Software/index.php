@@ -28,8 +28,8 @@ if (!isset($_SESSION['login'])) {
                 
             <link rel="stylesheet" href="design/design.css" type="text/css">  
               
-  			<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
-  				
+  			<link rel="stylesheet" href="design/frameworks/pure-release-0.6.0/pure-min.css">
+  	
   			<link rel="stylesheet" href="design/frameworks/font-awesome-4.3.0/css/font-awesome.min.css">
   				
   				
