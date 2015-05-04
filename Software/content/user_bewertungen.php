@@ -526,10 +526,13 @@ switch ($_GET['art']){
 										$r_right += exp(log_gamma($i+$rightarray[$i])-log_gamma($i+1)-log_gamma($rightarray[$i]));
 									}
 					}
-					$r_left = 1- $r_left/($pruefgenau);
-					$r_right = $r_right/($pruefgenau);
+					$r_left = 1- $r_left/($pruefgenau-1);
+					$r_right = $r_right/($pruefgenau-1);
 					$score = (1-$tolerance) * min($r_left,$r_right) + $tolerance * max($r_left,$r_right);
 					$score = round($score,4);
+					
+					echo "r_left = $r_left, r_right = $r_right<br /><br />";
+					
 					echo "Toleranz: $tolerance &nbsp;&nbsp;&nbsp;&nbsp;";
 					
 					//Zwischenergebnis
