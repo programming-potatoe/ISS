@@ -502,7 +502,7 @@ switch ($_GET['art']){
 					echo "</table><br />";
 					//Berechnung
 					$score = 0;
-					//von links aufsummiert:
+					//arrays von links und rechts aufsummiert erstellen
 					
 					$leftarray[1] = $prozentsatze[0];
 					$rightarray[1] = $prozentsatze[(2*$pruefgenau-2)];
@@ -511,10 +511,9 @@ switch ($_GET['art']){
 						$leftarray[$i] = $leftarray[$i-2]+$prozentsatze[$i-1];
 						$rightarray[$i] = $rightarray[$i-2]+$prozentsatze[(2*$pruefgenau-1)-$i];
 					}
-					
 					$r_left = 0.0;
 					$r_right = 0.0;
-					for($i = 1; $i < 2*$pruefgenau; $i += 2)
+					for($i = 1; $i < 2*$pruefgenau-2; $i += 2)
 					{
 									if($leftarray[$i] > 0)
 									{
@@ -530,8 +529,6 @@ switch ($_GET['art']){
 					$r_right = $r_right/($pruefgenau-1);
 					$score = (1-$tolerance) * min($r_left,$r_right) + $tolerance * max($r_left,$r_right);
 					$score = round($score,4);
-					
-					echo "r_left = $r_left, r_right = $r_right<br /><br />";
 					
 					echo "Toleranz: $tolerance &nbsp;&nbsp;&nbsp;&nbsp;";
 					
