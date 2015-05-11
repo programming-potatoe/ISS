@@ -498,7 +498,7 @@ switch ($_GET['art']){
 							echo '</td>';
 							}
 					echo "</tr>";
-	
+					$sarray = array();
 					echo "</table><br />";
 					//Berechnung
 					$score = 0;
