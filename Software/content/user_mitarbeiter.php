@@ -69,7 +69,7 @@
    		
    		echo '<h2 class="headline">Mitarbeiter bearbeiten</h2>';
    		
-   		$query = "SELECT PID, PName, PVName, PPwd, PEmail, PArt FROM pruefer WHERE PID = ".$_GET['pid'];
+   		$query = "SELECT PID, PName, PVName, PEmail, PArt FROM pruefer WHERE PID = ".$_GET['pid'];
    		$row = mysql_fetch_array(mysql_query($query));
    		 
    		
@@ -122,10 +122,14 @@
 				   		echo'</select> </td>
 				</tr>
 				<tr>   
-   					<td>Neues Passwort: </td><td> <input type="text" placeholder="Neues Passwort" name="password"/> </td>
+   					<td>Neues Passwort*: </td><td> <input type="password" placeholder="Neues Passwort" name="password"/> </td>
 				</tr>
+				<tr>   
+   					<td>Neues Passwort wiederholen*: </td><td> <input type="password" placeholder="Neues Passwort" name="password2"/> </td>
+				</tr>
+				
 				<tr>
-				   	<td colspan="2" style="padding-bottom: 10px;"> Wenn Sie kein neues Passwort vergeben m&ouml;chten, lassen Sie dieses Feld einfach leer.</td>
+				   	<td colspan="2" style="padding-bottom: 10px;"> *Wenn Sie kein neues Passwort vergeben m&ouml;chten, lassen Sie diese Felder einfach leer.</td>
 				</tr>
 				<tr>
    					<td>&nbsp;</td>
@@ -141,8 +145,9 @@
       		if (!isset($_POST['nname']) || !isset($_POST['vname']) || !isset($_POST['email']))
    		{
    			
-   			echo 'Sie m&uuml;ssen alle Felder ausf&uuml;llen! <br>';
-   			echo '<a href="content/user_mitarbeiter.php?" data-change="main">Zur&uuml;ck</a>';
+   		//	echo 'Sie m&uuml;ssen alle Felder ausf&uuml;llen! <br>';
+   		//	echo '<a href="content/user_mitarbeiter.php?" data-change="main">Zur&uuml;ck</a>';
+   		create_dialog('Bitte lassen Sie keine Felder leer', 'content/user_mitarbeiter.php');
    			
    		}
    		else
@@ -156,9 +161,17 @@
    		 
    		if ($_POST['password']!="")
    		{
-   			$password = mysql_real_escape_string($_POST['password']);
-   			$query = 'Update pruefer set PName="'.$nname.'", PVName="'.$vname.'", PPwd="'.$password.'", PEmail="'.$email.'", PArt="'.$art.'"  where PID="'.$pid.'"';
-   		} 
+   			
+			
+			if ($_POST['password']!="" && $_POST['password']== $_POST['password2']){
+   				$password = mysql_real_escape_string($_POST['password']);
+   				$query = 'Update pruefer set PName="'.$nname.'", PVName="'.$vname.'", PPwd="'.$password.'", PEmail="'.$email.'", PArt="'.$art.'"  where PID="'.$pid.'"';
+			}
+			else{
+				
+				create_dialog('Das Passwort muss korrekt wiederholt werden.' , 'content/user_mitarbeiter.php');
+			}
+		} 
    		else 
    		{
    			$query = 'Update pruefer set PName="'.$nname.'", PVName="'.$vname.'", PEmail="'.$email.'", PArt="'.$art.'"  where PID="'.$pid.'"';

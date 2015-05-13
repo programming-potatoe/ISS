@@ -38,10 +38,10 @@
    				$query = "SELECT KID, KBez FROM kurse";
    				$result = mysql_query($query);
    					
-   				echo '<table class="pure-table"><tr><th>Kurs ID</th><th>KursBez</th><th>Bearbeiten</th><th>L&ouml;schen</th></tr>';
+   				echo '<table class="pure-table"><tr><th>KursBez</th><th>Bearbeiten</th><th>L&ouml;schen</th></tr>';
    					
    				while ($row = mysql_fetch_assoc($result)) {
-   					echo '<tr><td>'.$row['KID'].'</td><td>'.$row['KBez'].'</td><td><a href="content/user_kurse.php?art=1&kid='.$row['KID'].'" data-change="main"><i class="fa fa-pencil"></i></a></td><td><a href="content/user_kurse.php?art=3&kid='.$row['KID'].'" data-change="main"><i class="fa fa-trash-o"></i></a></td></tr>';
+   					echo '<tr><td>'.$row['KBez'].'</td><td><a href="content/user_kurse.php?art=1&kid='.$row['KID'].'" data-change="main"><i class="fa fa-pencil"></i></a></td><td><a href="content/user_kurse.php?art=3&kid='.$row['KID'].'" data-change="main"><i class="fa fa-trash-o"></i></a></td></tr>';
    				}
    					
    				echo "</table>";

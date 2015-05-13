@@ -20,7 +20,7 @@
 	/*  0=Startseite;
 	 *  1=Pruefung bearbeiten;
 	 *  2=Pruefung update;
-	 *  3=neue Pruefung hinzufügen mit VID bekannt;
+	 *  3=neue Pruefung hinzufügen mit VID bekannt/unbekannt;
 	 *  4=neue Pruefung insert und Objekte erstellen;
 	 *  5=Pruefung loeschen;
 	 *  6=Pruefung loeschen delete;
@@ -70,11 +70,11 @@
 			
 				$result = mysql_query($query);
 					
-				echo '<table class="pure-table"><tr><th>Pruefungs ID</th><th>Pr&uuml;fungsBez</th><th>Vorlesung</th><th>Kurs</th><th>Anzeigen</th></tr>';
+				echo '<table class="pure-table"><tr><th>Pr&uuml;fungsBez</th><th>Vorlesung</th><th>Kurs</th><th>Anzeigen</th></tr>';
 					
 				while($row = mysql_fetch_assoc($result))
 				{
-					echo '<tr><td>'.$row['PruefID'].'</td><td>'.$row['PruefBez'].'</td><td>'.$row['vbez'].'</td><td>'.$row['kbez'].'</td><td><a href="content/user_bewertungen.php?art=10&pruefid='.$row['PruefID'].'" data-change="main"><i class="fa fa-eye"></i></a></td></tr>';
+					echo '<tr><td>'.$row['PruefBez'].'</td><td>'.$row['vbez'].'</td><td>'.$row['kbez'].'</td><td><a href="content/user_bewertungen.php?art=10&pruefid='.$row['PruefID'].'" data-change="main"><i class="fa fa-eye"></i></a></td></tr>';
 				}
 					
 
@@ -168,17 +168,23 @@
 			echo'</tr><tr><td>Pr&uuml;fungsbezeichnung:</td> <td><input type="text" placeholder="Pr&uuml;fungsbezeichnung" name="pruefbez" /> </td><td></td>';	
 			echo'</tr><tr><td>Toleranz:</td> <td><input type="text" placeholder="Toleranz" name="toleranz" /> </td><td></td>';						
 			echo'</tr><tr><td>Bewertungschema:</td>';													
+			$nummer = 0;
 			//drop down liste Bewertungsschema-ID und Bezeichnung
 			$query='SELECT SchemaID, SchemaBez FROM pruefungsschema';
 			$result=mysql_query($query);
-			echo('<td><select name="SchemaID">');
+			echo('<td><select name="SchemaID" id="vorlagenaenderung">');
 			while($row=mysql_fetch_assoc($result))
 			{
-					echo('<option value='.$row['SchemaID'].'>'.$row['SchemaID'].' - '.$row['SchemaBez'].'</option>');
-	
+					if($nummer==0){
+						$nummer = $row['SchemaID'];
+					}
+					echo('<option value='.$row['SchemaID'].'>'.$row['SchemaBez'].'</option>');
 			}
-			echo('</select></td><td><a href="content/user_pruefungs_schemata.php?art=1&schemaid=11" data-change="inline" class="pure-button">Schema anzeigen</a> </td>');  //@TODO switch case ged�ns
-
+			echo('</select></td></<tr>');
+			echo('<tr><td colspan="2">');
+			echo('<div id="vorlagen_vorschau">');
+			show_vorlage($nummer);			
+			echo('</div></td></tr>');
 			
 			// Hier wird das Schema nachgeladen  (Woher bekommt der die Schema ID?) Woher soll ich das wissen?
 			 
@@ -302,7 +308,12 @@
 			echo 'Pr&uuml;fungs ID: <input type="text" value="'.$_GET['pruefid'].'" name="pruefID" readonly/><br>';
 			
 			//drop down liste für Prüfer
-			$query = 'SELECT PID, PName FROM pruefer WHERE PArt IN (0,1,3)';
+			$query = 'SELECT PID, PName FROM pruefer WHERE PArt IN (0,1,3) AND PID NOT IN (SELECT p.PID
+						FROM pruefer_pruefungsleistungen pp, pruefer p, pruefungsleistungen pl 
+						WHERE pp.pruefID = pl.pruefID 
+						AND pp.PID = p.PID 
+						AND pp.pruefID = '.$_GET['pruefid'].')';
+						
 			$result = mysql_query($query);
 			echo('Pr&uuml;fer: <select name="nprueid">');
 			while($row = mysql_fetch_assoc($result))
@@ -433,11 +444,11 @@
 			
 				$result = mysql_query($query);
 					
-				echo '<table class="pure-table"><tr><th>Pruefungs ID</th><th>Pr&uuml;fungsBez</th><th>Vorlesung</th><th>Kurs</th><th>Bearbeiten</th></tr>';
+				echo '<table class="pure-table"><tr><th>Pr&uuml;fungsBez</th><th>Vorlesung</th><th>Kurs</th><th>Bearbeiten</th></tr>';
 					
 				while($row = mysql_fetch_assoc($result))
 				{
-					echo '<tr><td>'.$row['PruefID'].'</td><td>'.$row['PruefBez'].'</td><td>'.$row['vbez'].'</td><td>'.$row['kbez'].'</td><td>
+					echo '<tr><td>'.$row['PruefBez'].'</td><td>'.$row['vbez'].'</td><td>'.$row['kbez'].'</td><td>
 					<a href="content/user_pruefungen.php?art=11&pruefid='.$row['PruefID'].'" data-change="main"><i class="fa fa-pencil"></i></a></td></tr>';
 				}
 					
@@ -465,12 +476,11 @@
 			
 				$result = mysql_query($query);
 					
-				echo '<table class="pure-table"><tr><th>Pruefungs ID</th><th>Pr&uuml;fungsBez</th><th>Vorlesung</th><th>Kurs</th><th>Bewerten</th></tr>';
+				echo '<table class="pure-table"><tr><th>Pr&uuml;fungsBez</th><th>Vorlesung</th><th>Kurs</th><th>Bewerten</th></tr>';
 					
 				while($row = mysql_fetch_assoc($result))
 				{
 					echo '	<tr>
-							<td>'.$row['PruefID'].'</td>
 							<td>'.$row['PruefBez'].'</td>
 							<td>'.$row['vbez'].'</td>
 							<td>'.$row['kbez'].'</td>
@@ -491,20 +501,19 @@
 		$query = "SELECT PruefID, PName, VBez, Pruefbez, SchemaID FROM pruefer p, pruefungsleistungen pr, vorlesungen v WHERE pr.PID = p.PID AND v.VID = pr.VID";
 		$result = mysql_query($query);
 			
-		echo '<table class="pure-table"><tr><th>Pruefungs ID</th><th>Ersteller</th><th>Vorlesung</th><th>Pr&uuml;fungsbez</th><th>Schema ID</th></tr>';
+		echo '<table class="pure-table"><tr><th>Ersteller</th><th>Vorlesung</th><th>Pr&uuml;fungsbez</th><th>Schema ID</th></tr>';
 			
 		while ($row = mysql_fetch_assoc($result)) {
-			echo '<tr><td>'.$row['PruefID'].'</td><td>'.$row['PName'].'</td><td>'.$row['VBez'].'</td><td>'.$row['Pruefbez'].'</td><td>'.$row['SchemaID'].'</td></tr>';
+			echo '<tr><td>'.$row['PName'].'</td><td>'.$row['VBez'].'</td><td>'.$row['Pruefbez'].'</td><td>'.$row['SchemaID'].'</td></tr>';
 		}
 					
 		echo "</table>";	
 			
 		echo "<a href='content/user_pruefungen.php?art=0' data-change='main'>Zur&uuml;ck</a><br />";
 		break;
-	}
-														
+												
 
-	
+	}
 
 ?>
 

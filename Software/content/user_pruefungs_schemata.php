@@ -5,7 +5,7 @@
    }
    require_once(__ROOT__ ."/utils/functions.php");
 	
-   check_berechtigung('j', 'n', 'n', 'n', 'n');
+   check_berechtigung('j', 'j', 'n', 'n', 'n');
 	
    if(!isset($_GET['art'])){
    	 
@@ -33,10 +33,10 @@
    		$query = "SELECT p.SchemaID, p.SchemaBez, p.PruefGenauigkeit, COUNT(a.ANr) AS Anzahl FROM pruefungsschema p LEFT OUTER JOIN  aufgaben a ON p.SchemaID = a.SchemaID GROUP BY p.SchemaID";
    		$result = mysql_query($query);
    			
-   		echo '<table class="pure-table"><tr><th>SchemaID</th><th>SchemaBez</th><th>PruefGenauigkeit</th><th>Aufgabenanzahl</th><th>Anzeigen</th></tr>';
+   		echo '<table class="pure-table"><tr><th>SchemaBez</th><th>PruefGenauigkeit</th><th>Aufgabenanzahl</th><th>Anzeigen</th></tr>';
    			
    		while ($row = mysql_fetch_assoc($result)) {
-   			echo '<tr><td>'.$row['SchemaID'].'</td><td>'.$row['SchemaBez'].'</td><td>'.$row['PruefGenauigkeit'].'</td><td>'.$row['Anzahl'].'</td><td><a href="content/user_pruefungs_schemata.php?art=1&schemaid='.$row['SchemaID'].'" data-change="main"><i class="fa fa-eye"></i></a></td></tr>';
+   			echo '<tr><td>'.$row['SchemaBez'].'</td><td>'.$row['PruefGenauigkeit'].'</td><td>'.$row['Anzahl'].'</td><td><a href="content/user_pruefungs_schemata.php?art=1&schemaid='.$row['SchemaID'].'" data-change="main"><i class="fa fa-eye"></i></a></td></tr>';
    		}
    			
    		echo "</table>";
@@ -53,27 +53,9 @@
    		$row = mysql_fetch_array($result);
    		echo "Schema Bezeichnung: ".$row['SchemaBez']."<br>";
    		echo "Schema NR: ".$row['SchemaID']."<br><br>";
+   		show_vorlage($_GET['schemaid']);
    		
    		
-   		echo '<table class="pure-table"><tr><th>Aufgaben NR</th><th>MaxPunkte</th>';
-   		for($i=0; $i < $row['PruefGenauigkeit']; $i++)
-   		{
-   		echo "<th></th>";
-				}
-   		
-   						echo "</tr>";
-   		
-   						do{
-   				echo '<tr><td>'.$row['ANr'].'</td><td>'.$row['AMaxPunkte'].'</td>';
-   				for($i=0; $i < $row['PruefGenauigkeit']; $i++)
-   					{
-						echo "<td></td>";
-   				}
-   		
-   				echo "</tr>";
-				} while ($row = mysql_fetch_assoc($result));
-   		
-   				echo "</table><br><br>";
    		
    				//@TODO: echo "Hier fehlt: bearbeiten, löschen<br><br>";
    		
@@ -182,7 +164,20 @@
    		echo '<a href="content/user_pruefungs_schemata.php" data-change="main">zur&uuml;ck</a>';
    		
    		break;
-   }
+   
+case 999:
+
+		if(isset($_GET['schemaID']))
+		{
+			$schemaID = htmlspecialchars($_GET['schemaID']);
+			show_vorlage($schemaID);
+			
+		}
+break;
+		
+
+
+}
    
 
 		

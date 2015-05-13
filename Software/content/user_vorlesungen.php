@@ -50,11 +50,10 @@
    		
    		$result = mysql_query($query);
    			
-   		echo '<table class="pure-table"><tr><th>Vorlesungs ID</th><th>VorlesungsBez</th><th>Dozent</th><th>Kursbez</th><th>Bearbeiten</th><th>L&ouml;schen</th></tr>';
+   		echo '<table class="pure-table"><tr><th>VorlesungsBez</th><th>Dozent</th><th>Kursbez</th><th>Bearbeiten</th><th>L&ouml;schen</th></tr>';
    			
    		while ($row = mysql_fetch_assoc($result)) {
    			echo '<tr>
-   					<td>'.$row['VID'].'</td>
    					<td>'.$row['VBez'].'</td>
    					<td>'.$row['PName'].'</td>
    					<td>'.$row['KBez'].'</td>

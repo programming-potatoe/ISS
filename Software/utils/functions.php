@@ -90,6 +90,32 @@
                    </script>';
         	 
         }
+		function show_vorlage($vorlagenid){
+			
+		$query = "SELECT p.SchemaID, p.SchemaBez, p.PruefGenauigkeit, a.ANr, a.AMaxPunkte FROM pruefungsschema p, aufgaben a WHERE p.SchemaID = a.SchemaID AND a.SchemaID = ".$vorlagenid." ORDER BY a.ANr";
+   		$result = mysql_query($query);
+   		$row = mysql_fetch_array($result);
+			echo '<table class="pure-table"><tr><th>Aufgaben NR</th><th>MaxPunkte</th>';
+   		for($i=0; $i < $row['PruefGenauigkeit']; $i++)
+   		{
+   		echo "<th>$i</th>";
+				}
+   		
+   						echo "</tr>";
+   		
+   						do{
+   				echo '<tr><td>'.$row['ANr'].'</td><td>'.$row['AMaxPunkte'].'</td>';
+   				for($i=0; $i < $row['PruefGenauigkeit']; $i++)
+   					{
+						echo "<td>--</td>";
+   				}
+   		
+   				echo "</tr>";
+				} while ($row = mysql_fetch_assoc($result));
+   		
+   				echo "</table><br><br>";
+			
+		}
 
         
 			/*Returns row with all user Information.*/

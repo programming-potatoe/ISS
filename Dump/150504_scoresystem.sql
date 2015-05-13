@@ -282,7 +282,7 @@ ALTER TABLE `pruefer`
 -- Indizes für die Tabelle `pruefer_pruefungsleistungen`
 --
 ALTER TABLE `pruefer_pruefungsleistungen`
- ADD KEY `PruefID` (`PruefID`), ADD KEY `PID` (`PID`);
+ ADD PRIMARY KEY (`PruefID`, `PID`), ADD KEY `PruefID` (`PruefID`), ADD KEY `PID` (`PID`);
 
 --
 -- Indizes für die Tabelle `pruefling`
