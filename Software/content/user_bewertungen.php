@@ -176,78 +176,99 @@ switch ($_GET['art']){
 				$row = mysql_fetch_array(mysql_query("SELECT PruefGenauigkeit FROM pruefungsschema WHERE SchemaID = ".$schemaID));
 				$pruefGenau = $row['PruefGenauigkeit'];
 					
-				$AIDresult = mysql_query("SELECT a.AID FROM aufgaben a, pruefungsschema ps WHERE ps.SchemaID = ".$schemaID." AND a.SchemaID = ps.SchemaID");
-					
-					
-					
-					
-					
-				//@TODO: Validierung Punktezahl fehlt! MIKEEE, hier kommt muss noch Kot von dir rein :D
-				//@TODO: Doppelte Bewertungen werden öfter gespeichert (kein Update!) -> Folge: Für Bewertungserstellung Prüfer/Dozent unproblematisch, allerdings ist die Berechnung der Score damit fehlerhaft.
-				
-				
-					
-				$status = 1;	
-				$counter=0;
+				$AIDresult = mysql_query("SELECT a.AID, a.AMaxPunkte FROM aufgaben a, pruefungsschema ps WHERE ps.SchemaID = ".$schemaID." AND a.SchemaID = ps.SchemaID");
+							
+				$status = 0;	
 					
 				while($row = mysql_fetch_assoc($AIDresult))
 				{
+					$sum = 0;	
+					
+					//Eingabevalidierung
 					for($i = 0; $i < $pruefGenau; $i++)
 					{
 						if($_POST[$row['AID'].'_'.$i] >= 0)
 						{
-							//Eintrag bereits vorhanden?
-							
-							$query = "	SELECT BID FROM bewertungen
-										WHERE AID = {$row['AID']} 
-										AND PruefObjID = $pruefObjID 
-										AND BBewertungsstufe = $i 
-										AND PID = {$_SESSION['user_ID']}
-										";
-							
-							$BIDresult = mysql_query($query);
-							$BIDrow = mysql_fetch_array($BIDresult);
-							
-							if($BIDrow != "")
-							{//Eintrag vorhanden, update:
-									
-								$query = "	UPDATE bewertungen 
-											SET BPunkte = ".$_POST[$row['AID'].'_'.$i]." 
-											WHERE BID = {$BIDrow['BID']} ";
-									
-								if(mysql_query($query))
-								{
-									//Erfolgsmeldung
-									
-								}
-								else{
-									$counter = $counter + 1;
-								}
-
-							}
-							else
-							{//Eintrag nicht vorhanden, neu anlegen:
+							$sum += $_POST[$row['AID'].'_'.$i];
+						}
+					}
+					
+					if($sum != $row['AMaxPunkte'])
+					{
+						$status = 1;
+					}
+					else 
+					{
+						for($i = 0; $i < $pruefGenau; $i++)
+						{					
+							if($_POST[$row['AID'].'_'.$i] >= 0)
+							{
+								//Eintrag bereits vorhanden?
 								
-								$query = 'INSERT INTO bewertungen VALUES(NULL, '.$row['AID'].', '.$pruefObjID.', '.$_SESSION['user_ID'].', '.$_POST[$row['AID'].'_'.$i].', '.$i.')';
-				
-								if(mysql_query($query))
-								{
+								$query = "	SELECT BID FROM bewertungen
+											WHERE AID = {$row['AID']} 
+											AND PruefObjID = $pruefObjID 
+											AND BBewertungsstufe = $i 
+											AND PID = {$_SESSION['user_ID']}
+											";
+								
+								$BIDresult = mysql_query($query);
+								$BIDrow = mysql_fetch_array($BIDresult);
+								
+								if($BIDrow != "")
+								{//Eintrag vorhanden, update:
+										
+									if($_POST[$row['AID'].'_'.$i] == "")
+									{
+										$_POST[$row['AID'].'_'.$i] = 0;
+									}
 									
-									//Erfolgsmeldung
-								
-								}else{
-									$counter = $counter + 1;
+									
+									$query = "	UPDATE bewertungen 
+												SET BPunkte = ".$_POST[$row['AID'].'_'.$i]." 
+												WHERE BID = {$BIDrow['BID']} ";
+										
+									if(mysql_query($query))
+									{
+										//Erfolgsmeldung
+									}
+									else
+									{
+										$status = 2;
+									}
 								}
-								
+								else
+								{//Eintrag nicht vorhanden, neu anlegen:
+									if($_POST[$row['AID'].'_'.$i] == "")
+									{
+											//Do nothing -> Keine Bewertung vorhanden.
+									}
+									else 
+									{									
+										$query = 'INSERT INTO bewertungen VALUES(NULL, '.$row['AID'].', '.$pruefObjID.', '.$_SESSION['user_ID'].', '.$_POST[$row['AID'].'_'.$i].', '.$i.')';
+					
+										if(mysql_query($query))
+										{
+											//Erfolgsmeldung
+										}else{
+											$status = 2;
+										}
+									}
+								}
 							}
 						}
 					}
 				}
 				
-				if($counter == 0){
+				if($status == 0){
 					create_dialog('Erfolgreich gespeichert!', 'content/user_pruefungen.php');
 				}
-				else{
+				else if($status == 1)
+				{
+					create_dialog('Maximale Punktzahl falsch!', 'content/user_pruefungen.php');
+				}
+				else
+				{
 					create_dialog('Beim Speichern ist ein Fehler unterlaufen!', 'content/user_pruefungen.php');
 				}
 				
