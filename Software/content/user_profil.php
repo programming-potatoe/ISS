@@ -65,10 +65,15 @@
    		
    					if(mysql_query($query) == 1)
    					{
-   						echo "Passwort ge&auml;ndert!";
+   						//echo "Passwort ge&auml;ndert!";
+   						create_dialog('Neues Passwort gespeichert!', 'content/user_profil.php');
    					}
    				}
-   				else { echo "Falsches Passwort!"; }
+   				else { //echo "Falsches Passwort!";
+
+   					create_dialog('Falsches Passwort eingegeben!', 'content/user_profil.php');
+   				
+   				}
    			}
    			else
    			{
@@ -79,13 +84,22 @@
    		
    					if(mysql_query($query))
    					{
-   						echo "Passwort ge&auml;ndert!";
+   						//echo "Passwort ge&auml;ndert!";
+   						create_dialog('Neues Passwort gespeichert!', 'content/user_profil.php');
    					}
    				}
-   				else { echo "Falsches Passwort!"; }
+   				else { //echo "Falsches Passwort!";
+
+   						create_dialog('Falsches Passwort eingegeben!', 'content/user_profil.php');
+   				
+   				}
    			}
    		}
-   		else { echo "Neue Passw&ouml;rter stimmen nicht &uuml;berein."; }
+   		else { 
+   		//	echo "Neue Passw&ouml;rter stimmen nicht &uuml;berein.";
+
+   		
+   		}
    		
    		break;
    }
