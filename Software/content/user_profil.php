@@ -98,6 +98,7 @@
    		else { 
    		//	echo "Neue Passw&ouml;rter stimmen nicht &uuml;berein.";
 
+   			create_dialog('Das neue Passwort und die Passwortwiederholung sind nicht gleich!', 'content/user_profil.php');
    		
    		}
    		
