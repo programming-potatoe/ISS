@@ -122,14 +122,12 @@
 			$query = 'UPDATE pruefungsleistungen SET PruefBez = "'.$npruefbez.'" WHERE PruefID = '.$pruefid;
 			if(mysql_query($query))
 			{
-				echo "&Auml;nderung erfolgreich!<br>";
+				create_dialog('Erfolgreich gespeichert!', 'content/user_pruefungen.php');
 			}
 			else
 			{
-				echo "Error - Try Again<br>";
+				create_dialog('Erfolgreich gespeichert!', 'content/user_pruefungen.php');
 			}
-			echo('<a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>');
-
 			
 			break;
 
@@ -213,14 +211,14 @@
 			$schemaID = mysql_real_escape_string($_POST['SchemaID']);
 			$toleranz = htmlspecialchars($_POST['toleranz']);
 			
-			echo "$vid - $pruefbez - $schemaID; <br>";
+			
 			
 			
 			$query = 'INSERT INTO pruefungsleistungen VALUES (NULL, '.$_SESSION['user_ID'].', '.$vid.', "'.$pruefbez.'", '.$schemaID.', '.$toleranz.')';
 			
 			if(mysql_query($query))
 			{
-				echo "Eine neue Pr&uuml;fung wurde hinzugef&uuml;gt.<br><br>";
+				
 			
 				//Da Auto_increment kann ich mir nicht anders helfen = (
 					
@@ -241,22 +239,29 @@
 				while($row = mysql_fetch_assoc($result))
 				{
 					$query = "INSERT INTO pruefungsleistungsobjekt VALUES(NULL, ".$row['PrID'].", ".$pruefID.", NULL, 0)";
+					$counter = 0;
 						
 					if(mysql_query($query))
 					{
+						
 						echo $row['PrID'].' erfolgreich <br>';
 					}
 					else
 					{
+						$counter = $counter + 1;
 						echo $row['PrID'].' nicht erfolgreich <br>';
 					}
 				}
-			
+				if ($counter == 0){
+					create_dialog('Erfolgreich angelegt!', 'content/user_pruefungen.php');
+				}else{
+					create_dialog('Es konnten leider nicht alle Objekte angelegt werden. Bitte kontaktieren Sie den Administrator.', 'content/user_pruefungen.php');
+				}
 				//echo '<a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>';
 			}
 			else
 			{
-				echo 'Error - Try Again';
+				create_dialog('Das Objekt konnte leider nicht erstellt werden!', 'content/user_pruefungen.php');
 			}
 			
 			break;
@@ -267,10 +272,10 @@
 			echo("Hier wird gel&ouml;scht! <br><br>");
 			
 			$query = "SELECT PruefBez FROM pruefungsleistungen WHERE PruefID = ".$_GET['pruefid'];
-			$row = mysql_fetch_array(mysql_query($query));
-			echo $row['PruefBez'].' wirklich loeschen? <a href="content/user_pruefungen.php?art=6&pruefid='.$_GET['pruefid'].'" data-change="main">Ja, l&ouml;schen</a><br><br>';
+			$result = mysql_fetch_array(mysql_query($query));
 			
-			echo('<a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>');
+			create_confirm($result['PruefBez'].' wirklich entfernen?', 'content/user_pruefungen.php?art=6&pruefid='.$_GET['pruefid'], 'content/user_vorlesungen.php');
+			
 			
 			break;
 			
@@ -280,21 +285,22 @@
 			$query = "DELETE FROM pruefungsleistungen WHERE PruefID = ".$_GET['pruefid'];
 			if(mysql_query($query))
 			{
-				echo "Gel&ouml;scht!<br>";
+				create_dialog('Erfolgreich entfernt!', 'content/user_vorlesungen.php');
 			}
 			else
 			{
-				echo "Fehler - nicht gel&ouml;scht!<br>";
+				create_dialog('Fehler beim Entfernen!', 'content/user_vorlesungen.php');
 			}
-			echo('<a href="content/user_vorlesungen.php" data-change="main">OK, zur&uuml;ck</a>'); //@TODO warum zurueck zu vorlesungen?
+			
 			
 			break;
 		
 		case 7:
 			//neuen Pruefer zuordnen
 			
-			echo "Derzeitige Pr&uuml;fer:<br> <br>";
 			
+			echo('<h2 class="headline">Pr&uuml;fer hinzuf&uuml;gen</h2>');
+			echo '<div style="text-align: center"><h3>Derzeitige Pr&uuml;fer:</h3><br>';
 			$query = 'SELECT p.PName, p.PVName FROM pruefer_pruefungsleistungen pp, pruefer p, pruefungsleistungen pl WHERE pp.pruefID = pl.pruefID AND pp.PID = p.PID AND pp.pruefID = '.$_GET['pruefid'];
 			$result = mysql_query($query);
 			
@@ -303,9 +309,12 @@
 				echo $row['PVName'].' '.$row['PName'].'<br>';
 			}
 			
-			echo '<br><br> Weiteren Pr&uuml;fer hinzuf&uuml;gen:<br>';
+			echo '<br><br><h3>Weiteren Pr&uuml;fer hinzuf&uuml;gen:</h3><br></div>';
 			echo '<form class="pure-form"  action="content/user_pruefungen.php?art=8">';
-			echo 'Pr&uuml;fungs ID: <input type="text" value="'.$_GET['pruefid'].'" name="pruefID" readonly/><br>';
+			echo '<table class="formtable">';
+			$query =   'SELECT PruefBez FROM pruefungsleistungen where PruefID='.$_GET['pruefid'];
+			$result = mysql_fetch_array(mysql_query($query));
+			echo '<tr><td>Pr&uuml;fung:</td><td> <input type="text" value="'.$result['PruefBez'].'" readonly><input type="hidden" value="'.$_GET['pruefid'].'" name="pruefID" /></td></tr>';
 			
 			//drop down liste für Prüfer
 			$query = 'SELECT PID, PName FROM pruefer WHERE PArt IN (0,1,3) AND PID NOT IN (SELECT p.PID
@@ -315,17 +324,17 @@
 						AND pp.pruefID = '.$_GET['pruefid'].')';
 						
 			$result = mysql_query($query);
-			echo('Pr&uuml;fer: <select name="nprueid">');
+			echo('</tr><td>Pr&uuml;fer:</td><td> <select name="nprueid">');
 			while($row = mysql_fetch_assoc($result))
 			{
 				echo('<option value='.$row['PID'].'>'.$row['PName'].'</option>');
 			
 			}
-			echo('</select><br><br>');
+			echo('</select></td></tr>');
 			
-			echo '<button type="submit">Zuordnen</button>';
-			echo '</form>';
-			echo '<a href="content/user_pruefungen.php?art=0" data-change="main">zur&uuml;ck</a>';
+			echo '<tr><td>&nbsp;</td><td><button class="pure-button pure-button-primary" type="submit">Zuordnen</button></td></tr>';
+			echo '</table></form>';
+			
 			
 			break;
 			
@@ -336,77 +345,15 @@
 			
 			if(mysql_query($query))
 			{
-				echo 'Neuer Pr&uuml;fer zugeordnet.<br><br>';
-					
-				echo 'Weiteren Pr&uuml;fer <a href="content/user_pruefungen.php?art=7&pruefid='.$_POST['pruefID'].'" data-change="main">zuordnen</a>?<br>';
-				echo '<a href="content/user_pruefungen.php?art=0" data-change="main">zur&uuml;ck</a>';
+				create_dialog('Erfolgreich zugeordnet!', 'content/user_pruefungen.php');	
 			}
 			else
 			{
-				echo 'Error - Try Again';
+				create_dialog('Nicht erfolgreich zugeordnet!', 'content/user_pruefungen.php');
 			}
 			
 			break;
 			
-		case 9:
-			//dummy
-			
-			echo "Hier gibts noch keine Funktion<br><br>";
-			
-			echo('<a href="content/user_pruefungen.php" data-change="main">zur&uuml;ck</a>');
-			
-			
-			break;
-			
-		/*case 10:
-			//neue Pruefung hinzufügen mit VID unbekannt
-			
-			echo("Hier wird eine neue Pr&uuml;fung hinzugef&uuml;gt! <br><br>");
-			
-			echo'<form class="pure-form"  action="content/user_pruefungen.php?art=4">';
-			//Dropdown für Vorlesungen:
-			echo'Vorlesung:';
-			$query='SELECT VID, VBez FROM vorlesungen';
-			$result=mysql_query($query);
-			echo('<select name="vid">');
-			while($row=mysql_fetch_assoc($result))
-			{
-					echo('<option value='.$row['VID'].'>'.$row['VBez'].'</option>');
-	
-			}
-			echo('</select><br />');
-							
-			echo'Pr&uuml;fungsbezeichnung: <input type="text" placeholder="Pr&uuml;fungsbezeichnung" name="pruefbez" /> <br />';
-			echo'Toleranz: <input type="text" placeholder="Toleranz" name="toleranz" /> <br />';							
-			echo'Bewertungschema: '	;																				
-			
-			//drop down liste Bewertungsschema-ID und Bezeichnung
-			$query='SELECT SchemaID, SchemaBez FROM pruefungsschema';
-			$result=mysql_query($query);
-			echo('<select name="SchemaID">');
-			while($row=mysql_fetch_assoc($result))
-			{
-					echo('<option value='.$row['SchemaID'].'>'.$row['SchemaID'].' - '.$row['SchemaBez'].'</option>');
-	
-			}
-			echo('</select><br />');
-			
-			/*
-			// Hier wird das Schema nachgeladen  (Woher bekommt der die Schema ID?) Woher soll ich das wissen?
-			echo('<a href="content/user_pruefungs_schemata.php?aid=11" data-change="inline">Schema anzeigen</a><br />'); //@TODO switch case ged�ns 
-			// Hier kann ein neues Schema angelegt werden
-			echo('<a href="content/user_pruefungs_schemata.php?new=1" data-change="inline">Neues Schema anlegen</a><br /><br />'); //@TODO switch case ged�ns
-			
-			//@TODO: Schema anzeigen
-						
-			?>		
-									<button type="submit">Pr&uuml;fung anlegen</button>
-							</form>
-			<?php		
-							echo('<br /><br /><a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>');	
-			
-			break;*/
-
 		case 11:
 			
 			$pruefid = htmlspecialchars($_GET['pruefid']);
@@ -501,15 +448,14 @@
 		$query = "SELECT PruefID, PName, VBez, Pruefbez, SchemaID FROM pruefer p, pruefungsleistungen pr, vorlesungen v WHERE pr.PID = p.PID AND v.VID = pr.VID";
 		$result = mysql_query($query);
 			
-		echo '<table class="pure-table"><tr><th>Ersteller</th><th>Vorlesung</th><th>Pr&uuml;fungsbez</th><th>Schema ID</th></tr>';
+		echo '<table class="pure-table"><tr><th>Ersteller</th><th>Vorlesung</th><th>Pr&uuml;fungsbez</th>';
 			
 		while ($row = mysql_fetch_assoc($result)) {
-			echo '<tr><td>'.$row['PName'].'</td><td>'.$row['VBez'].'</td><td>'.$row['Pruefbez'].'</td><td>'.$row['SchemaID'].'</td></tr>';
+			echo '<tr><td>'.$row['PName'].'</td><td>'.$row['VBez'].'</td><td>'.$row['Pruefbez'].'</td></tr>';
 		}
 					
 		echo "</table>";	
 			
-		echo "<a href='content/user_pruefungen.php?art=0' data-change='main'>Zur&uuml;ck</a><br />";
 		break;
 												
 

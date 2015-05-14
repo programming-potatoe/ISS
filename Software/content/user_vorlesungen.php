@@ -69,24 +69,31 @@
    	case 1:
    		//Vorlesung bearbeiten
    		
-   		
+   		$query='SELECT VBez, PID, KID, VID FROM vorlesungen where VID = '.$_GET['vid']; 
+   		$vorlesungs_result = mysql_fetch_assoc(mysql_query($query));
    		?>
-   		   		<h2 class="headline">Vorlesung bearbeiten</h2>
+   		   		<h2 class="headline">Vorlesung "<?php echo $vorlesungs_result['VBez'];?>" bearbeiten</h2>
+   		   
+   		
    		   
    						<form class="pure-form"  action="content/user_vorlesungen.php?art=2">
    							<table class="formtable" style="margin-bottom: 20px;">
-   								<tr>
-   									<td>Vorlesungs ID:</td> <td><input type="text" value="<?php echo $_GET['vid']?>" name="vid" readonly/></td>
-   								</tr>
+   								<input type="hidden" value="<?php echo $_GET['vid']?>" name="vid" readonly/></td>
    								<tr>
    		<?php						
-		   						//drop down liste für Dozent
+		   						//drop down liste für Dozent, richtiger Dozent wird ausgewaehlt
 		   						$query='SELECT PID, PName FROM pruefer WHERE PArt IN (0,1,2)';
 		   						$result=mysql_query($query);
 		   						echo('<td>Dozent:</td> <td><select name="nPID">');
 		   						while($row=mysql_fetch_assoc($result))
 		   						{
-		   								echo('<option value='.$row['PID'].'>'.$row['PName'].'</option>');
+		   								if ($vorlesungs_result['PID'] = $row['PID']){
+		   									
+		   									echo('<option value='.$row['PID'].' selected="selected">'.$row['PName'].'</option>');
+		   								}
+		   								else{
+		   									echo('<option value='.$row['PID'].'>'.$row['PName'].'</option>');
+		   								}
 		   						
 		   						}
 		   						echo('</select></td>');
@@ -97,13 +104,20 @@
    						echo('</tr><tr><td>Kurs:</td> <td><select name="nKID">');
    						while($row=mysql_fetch_assoc($result))
    						{
-   								echo('<option value='.$row['KID'].'>'.$row['KBez'].'</option>');
+   							if ($vorlesungs_result['KID'] = $row['KID']){
+   							
+   								echo('<option value='.$row['KID'].' selected="selected">'.$row['KBez'].'</option>');
+   							}
+   							else{
+   								echo('<option value='.$row['KID'].' selected="selected">'.$row['KBez'].'</option>');
+   							}
+   							
    						
    						}
    						echo('</select> </td>');						
    		?>				</tr>
    						<tr>			
-   							<td>Neue Vorlesungsbezeichnung:</td><td> <input type="text" placeholder="Vorlesungsbezeichnung" name="nvbez" required/> </td>
+   							<td>Vorlesungsbezeichnung:</td><td> <input type="text" placeholder="Vorlesungsbezeichnung" name="nvbez" required value="<?php echo $vorlesungs_result['VBez'];?>"/> </td>
    						</tr>
    						<tr>
    							<td>&nbsp;</td><td><button type="submit" class="pure-button pure-button-primary">&Auml;ndern</button></td>
@@ -156,13 +170,14 @@
    		$query = 'UPDATE vorlesungen SET VBez = "'.$nvbez.'", PID = '.$npid.', KID = '.$nkid.' WHERE VID = '.$vid;
    		if(mysql_query($query))
    		{
-   			echo "&Auml;nderung erfolgreich!<br>";
+   			create_dialog('Erfolgreich gespeichert!', 'content/user_vorlesungen.php');
    		}
    		else
    		{
-   			echo "Error - Try Again<br>";
+   			
+   			create_dialog('Beim Speichern ist leider ein Fehler unterlaufen!', 'content/user_vorlesungen.php');
    		}
-   		echo('<a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>');
+   		
    		
    		break;
    		
@@ -173,7 +188,7 @@
    		
    		$query = "SELECT VBez FROM vorlesungen WHERE VID = ".$_GET['vid'];
    		$row = mysql_fetch_array(mysql_query($query));
-   		echo $row['VBez'].' wirklich loeschen? <a href= data-change="main">Ja, l&ouml;schen</a><br><br>';
+   		
    		
    		create_confirm('Wollen Sie '.$row['VBez'].' wirklich entfernen?', 'content/user_vorlesungen.php?art=4&vid='.$_GET['vid'], 'content/user_vorlesungen.php');
    		

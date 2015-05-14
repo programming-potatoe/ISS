@@ -46,13 +46,14 @@
    	case 1:
    		//Detailansicht
    		
-   		echo("Detailansicht<br><br>");
-   		
    		$query = "SELECT p.SchemaID, p.SchemaBez, p.PruefGenauigkeit, a.ANr, a.AMaxPunkte FROM pruefungsschema p, aufgaben a WHERE p.SchemaID = a.SchemaID AND a.SchemaID = ".$_GET['schemaid']." ORDER BY a.ANr";
    		$result = mysql_query($query);
    		$row = mysql_fetch_array($result);
-   		echo "Schema Bezeichnung: ".$row['SchemaBez']."<br>";
-   		echo "Schema NR: ".$row['SchemaID']."<br><br>";
+   		 
+   		echo '<h2 class="headline">Detailansicht f&uuml;r "'.$row['SchemaBez'].'"</h2>';
+   		
+   		//echo "<b>Schema Bezeichnung:</b> ".$row['SchemaBez']."<br><br>";
+   		//echo "Schema NR: ".$row['SchemaID']."<br><br>";
    		show_vorlage($_GET['schemaid']);
    		
    		
@@ -134,34 +135,49 @@
    		
    		if(mysql_query($query))
    		{
-   			echo "Ein neues Schema wurde angelegt.<br><br>";
-   				
+   			//echo "Ein neues Schema wurde angelegt.<br><br>";
+   			
    			//TODO HIER KANN ICH MIR NICHT ANDERS HELFEN DA ICH DEN AUTO_INCREMENT NICHT KENNE!!!
    				
    			//Hier werden die einzelnen Aufgaben hinzuefügt
    				
    			$schemaID = mysql_fetch_array(mysql_query('SELECT MAX(SchemaID) AS Max FROM pruefungsschema;'));
-   				
+   			$counter = 0;
    			for ($i = 1; $i <= $anzahl; $i++)
    			{
-   			$maxpunkte = mysql_real_escape_string($_POST[$i]);
-   			$query = 'INSERT INTO aufgaben VALUES (NULL, '.$i.', '.$maxpunkte.', '.$schemaID['Max'].')';
-   			if(mysql_query($query))
-   			{
-   			echo $i.' wurde hinzugef&uuml;gt!<br>';
-						}
-						else
-						{
-   								echo $i.' liefert Fehler!<br>';
-   								}
-   								}
+   				$maxpunkte = mysql_real_escape_string($_POST[$i]);
+   				$query = 'INSERT INTO aufgaben VALUES (NULL, '.$i.', '.$maxpunkte.', '.$schemaID['Max'].')';
+   				if(mysql_query($query))
+   				{
+	   				//echo $i.' wurde hinzugef&uuml;gt!<br>';
+	   				
 				}
 				else
-   								{
-   								echo 'Error - Try Again';
+				{
+								
+   					//echo $i.' liefert Fehler!<br>';
+					$counter = $counter+1;
+   				}
+   			}
+   			if($counter == 0){
+   				
+   				create_dialog('Das neue Schema wurde erfolgreich angelegt!', 'content/user_pruefungs_schemata.php');
+   				
+   			}else{
+   				
+   				create_dialog('Das neue Schema konnte nicht erfolgreich angelegt werden.', 'content/user_pruefungs_schemata.php');
+   				
+   			}
+		}
+		else
+   		{
+   			create_dialog('Das Schema konnte nicht erfolgreich angelegt werden!', 'content/user_pruefungs_schemata.php');
    		}
    			
-   		echo '<a href="content/user_pruefungs_schemata.php" data-change="main">zur&uuml;ck</a>';
+   		
+   		
+   		
+   		//echo '<a href="content/user_pruefungs_schemata.php" data-change="main">zur&uuml;ck</a>';
    		
    		break;
    

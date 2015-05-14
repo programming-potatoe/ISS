@@ -27,7 +27,16 @@ if ($row['PPwd'] == $password  && $password != "")
 }
 else
 {
-              echo "Login invalid for ".$email;
+	echo '<div class="loginContent">
+			<div class="login_header">
+			<h1>ISS</h1>
+			<h2><u>I</u>ntelligent <u>S</u>core <u>S</u>ystem</h2>
+			<br>
+			<i class="fa fa-leaf fa-5x"></i>
+		</div>';
+	
+              echo '<div class="login_fail" style="margin-top: 3em; ">Der Login mit der Email-Adresse "'.$email.'" konnte leider nicht durchgef&uuml;hrt werden. Bitte versuchen Sie es <a href="#" onclick="location.reload();">erneut.</a></div>';
+              echo '</div>';
 }
 
 mysql_close($link);

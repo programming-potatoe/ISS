@@ -43,10 +43,16 @@ switch ($_GET['art']){
 				
 				$pid = htmlspecialchars($_GET['pruefid']);
 				
-				echo 'Hier kann eine Bewertung abgegeben werden.<br><br>';
+				//Pruefungsname holen
+				$query ='SELECT PruefBez FROM pruefungsleistungen WHERE PruefID = '.$pid;
+				$result = mysql_fetch_array(mysql_query($query));
+				
+				
+				echo '<h2 class="headline">Hier kann eine Bewertung f&uuml;r "'.$result['PruefBez'].'" abgegeben werden</h2>';
 					
 				echo '<form class="pure-form" action="content/user_bewertungen.php?art=2">';
-				echo 'Pr&uuml;fungs ID: <input type="text" value="'.$pid.'" name="pruefID" readonly/><br>';
+				echo '<table class="formtable">';
+				echo '<input type="hidden" value="'.$pid.'" name="pruefID">';
 				
 				//	drop down liste für Student
 				$query ="SELECT pr.PrID, pr.PrVName, pr.PrName
@@ -56,17 +62,17 @@ switch ($_GET['art']){
 								AND po.PruefID = ".$pid;
 				
 				$result = mysql_query($query);
-				echo('Student: <select name="prid">');
+				echo('<tr><td>Student: </td><td><select name="prid">');
 				while($row = mysql_fetch_assoc($result))
 				{
 					echo("<option value='{$row['PrID']}'>{$row['PrVName']} {$row['PrName']}</option>");
 						
 				}
-				echo('</select><br><br>');
+				echo('</select></td></tr>');
 					
-				echo '<button type="submit" class="pure-button">Erstellen</button>&nbsp;&nbsp;';
-				echo '<a href="content/user_pruefungen.php" data-change="main" class="pure-button">Abbrechen</a>';
-				echo '</form>';
+				echo '<tr><td>&nbsp;</td><td><button type="submit" class="pure-button pure-button-primary">Erstellen</button>&nbsp;&nbsp;';
+				echo '<a href="content/user_pruefungen.php" data-change="main" class="pure-button">Abbrechen</a></td>';
+				echo '</tr></table></form>';
 				
 				
 				break;
@@ -81,7 +87,8 @@ switch ($_GET['art']){
 				$row = mysql_fetch_array(mysql_query("SELECT PruefObjID FROM pruefungsleistungsobjekt WHERE PruefID = $pruefID AND PrID = $prID"));
 				$pruefObjID = $row['PruefObjID'];
 					
-				echo "Pr&uuml;fling mit ID $prID wird hier bewertet <br /><br />";
+				echo '<h2 class="headline">Bewertung abgeben</h2>';
+				//echo "Pr&uuml;fling mit ID $prID wird hier bewertet <br /><br />";
 					
 				//	Array mit bissherigen Bewertungen erstellen
 					
@@ -111,13 +118,22 @@ switch ($_GET['art']){
 				$result = mysql_query($query);
 				$row = mysql_fetch_array($result);
 					
+				$query = 'select PruefBez from pruefungsleistungen where PruefID = '.$pruefID;
+				$pruefbez=mysql_fetch_array(mysql_query($query));
+				$query = 'select PrName, PrVName from pruefling where PrID = '.$prID;
+				$pruefling=mysql_fetch_array(mysql_query($query));
+				
 					
 				echo '<form class="pure-form" action="content/user_bewertungen.php?art=3">';
-				echo 'Schema ID: <input type="text" value="'.$row['SchemaID'].'" name="bewschemaID" readonly/><br>';
-				echo 'Pr&uuml;fungs ID: <input type="text" value="'.$pruefID.'" name="bewpruefID" readonly/><br>';
-				echo 'Pr&uuml;flings ID: <input type="text" value="'.$prID.'" name="bewprID" readonly/><br><br>';
+				echo '<table class="formtable">';
+				echo '<input type="hidden" value="'.$row['SchemaID'].'" name="bewschemaID"/>';
+				echo '<input type="hidden" value="'.$pruefID.'" name="bewpruefID"/>';
+				echo '<input type="hidden" value="'.$prID.'" name="bewprID"/>';
+				
+				echo '<tr><td>Pr&uuml;fung:</td><td> <input type="text" value="'.$pruefbez['PruefBez'].'" readonly/></td></tr>';
+				echo '<tr><td>Pr&uuml;fling:</td><td> <input type="text" value="'.$pruefling['PrName'].', '.$pruefling['PrVName'].'" readonly/></td></tr>';
 					
-				echo "<table class='pure-table'><tr><th>Aufgaben NR</th><th>MaxPunkte</th>";
+				echo '<tr colspan="2"><table class="pure-table"><tr><th>Aufgaben NR</th><th>MaxPunkte</th>';
 				for($i=0; $i < $row['PruefGenauigkeit']; $i++)
 				{
 					echo "<th>".$i."</th>";
@@ -140,9 +156,9 @@ switch ($_GET['art']){
 					
 					} while ($row = mysql_fetch_assoc($result));
 														
-					echo "</table><br><br>";
-					echo '<button type="submit" class="pure-button">Erstellen</button>';
-					echo '&nbsp;&nbsp;<a href="content/user_pruefungen.php" class="pure-button" data-change="main">Abbrechen</a>';
+					echo "</table></td></tr>";
+					echo '<tr><td>&nbsp;</td><td><button type="submit" class="pure-button pure-button-primary">Erstellen</button>';
+					echo '&nbsp;&nbsp;<a href="content/user_pruefungen.php" class="pure-button" data-change="main">Abbrechen</a></td></tr></table>';
 					echo '</form>';
 				break;
 		
@@ -172,6 +188,7 @@ switch ($_GET['art']){
 				
 					
 				$status = 1;	
+				$counter=0;
 					
 				while($row = mysql_fetch_assoc($AIDresult))
 				{
@@ -201,6 +218,10 @@ switch ($_GET['art']){
 								if(mysql_query($query))
 								{
 									//Erfolgsmeldung
+									
+								}
+								else{
+									$counter = $counter + 1;
 								}
 
 							}
@@ -211,14 +232,24 @@ switch ($_GET['art']){
 				
 								if(mysql_query($query))
 								{
+									
 									//Erfolgsmeldung
+								
+								}else{
+									$counter = $counter + 1;
 								}
+								
 							}
 						}
 					}
 				}
 				
-				echo '<br /><a href="content/user_pruefungen.php" data-change="main">OK, zur&uuml;ck</a>';
+				if($counter == 0){
+					create_dialog('Erfolgreich gespeichert!', 'content/user_pruefungen.php');
+				}
+				else{
+					create_dialog('Beim Speichern ist ein Fehler unterlaufen!', 'content/user_pruefungen.php');
+				}
 				
 				break;
 				
@@ -229,9 +260,12 @@ switch ($_GET['art']){
 				//@TODO: Feedbacks werden gnadenlos überschrieben.. muss so sein.
 				
 				$pid = htmlspecialchars($_GET['pruefid']);
-					
+				echo('<h2 class="headline">Feedback eintragen</h2>');
 				echo '<form class="pure-form" action="content/user_bewertungen.php?art=5">';
-				echo 'Pr&uuml;fungs ID: <input type="text" value="'.$pid.'" name="pruefid" readonly/><br>';
+				echo '<table class="formtable">';
+				$query = "SELECT PruefBez FROM pruefungsleistungen WHERE PruefID = ".$_GET['pruefid'];
+				$row = mysql_fetch_array(mysql_query($query));
+				echo '<tr><td>Pr&uuml;fung:</td><td><input type="text" value="'.$row['PruefBez'].'" readonly> <input type="hidden" value="'.$pid.'" name="pruefid" /></td></tr>';
 				//drop down liste für Student
 				$query ='SELECT pr.PrID, pr.PrName, pr.PrVName
 								FROM pruefling pr, pruefungsleistungsobjekt po
@@ -240,25 +274,33 @@ switch ($_GET['art']){
 								AND po.PruefID = '.$pid;
 				
 				$result = mysql_query($query);
-				echo('Student: <select name="prid">');
+				echo('<tr><td>Student:</td><td> <select name="prid">');
 				while($row = mysql_fetch_assoc($result))
 				{
 					echo("<option value='{$row['PrID']}'>{$row['PrVName']} {$row['PrName']}</option>");	
 				}
-				echo('</select><br><br>');
+				echo('</select></td></tr>');
 				
-				echo '<button type="submit" class="pure-button">Absenden</button><br><br>';
+				echo '<tr><td>&nbsp;</td><td><button type="submit" class="pure-button pure-button-primary">Absenden</button></td></tr></table>';
 				echo '</form>';
 				
 				break;
 				
 			case 5:
+				$query = "SELECT PruefBez FROM pruefungsleistungen WHERE PruefID = ".$_POST['pruefid'];
+				$result = mysql_fetch_array(mysql_query($query));
+				echo('<h2 class="headline">Feedback eintragen</h2>');
 				echo '<form class="pure-form" action="content/user_bewertungen.php?art=6">';
-				echo 'Pr&uuml;fungs ID: <input type="text" value="'.$_POST['pruefid'].'" name="pruefid" readonly/><br>';
-				echo 'Pr&uuml;flings ID: <input type="text" value="'.$_POST['prid'].'" name="prid" readonly/><br>';
-				echo 'Feedback: <br> <textarea placeholder="Feedback" name="dozfeedback"/><br> Maximal 200 Zeichen <br><br>';
-				echo '<button type="submit" class="pure-button">Absenden</button>';
-				echo '&nbsp &nbsp<a href="content/user_pruefungen.php" class="pure-button" data-change="main">Abbrechen</a>';
+				echo '<table class="formtable">';
+				echo '<tr><td>Pr&uuml;fung:</td><td> <input type="text" value="'.$result['PruefBez'].'" readonly> <input type="hidden" value="'.$_POST['pruefid'].'" name="pruefid"/></td></tr>';
+				
+				$query = "SELECT PrName, PrVName FROM pruefling WHERE PrID = ".$_POST['prid'];
+				$result = mysql_fetch_array(mysql_query($query));
+								
+				echo '<tr><td>Pr&uuml;fling:</td><td> <input type="text" value="'.$result['PrName'].', '.$result['PrVName'].'" readonly> <input type="hidden" value="'.$_POST['prid'].'" name="prid"/></td></tr>';
+				echo '<tr><td>Feedback:</td><td><textarea placeholder="Feedback" maxlength="200" name="dozfeedback"/><br> Maximal 200 Zeichen </td></tr>';
+				echo '<tr><td>&nbsp;</td><td><button type="submit" class="pure-button pure-button-primary">Absenden</button></td></tr></table>';
+				//echo '<a href="content/user_pruefungen.php" class="pure-button" data-change="main">Abbrechen</a>';
 				echo '</form>';
 				
 				
@@ -276,14 +318,18 @@ switch ($_GET['art']){
 					
 				if(mysql_query($query))
 				{
-					echo "Success";
+					create_dialog('Feedback erfolgreich abgeschickt!', 'content/user_pruefungen.php');
 						
-					echo '<br><a href="content/user_pruefungen.php" data-change="main">zur&uuml;ck</a>';
+					//echo '<br><a href="content/user_pruefungen.php" data-change="main">zur&uuml;ck</a>';
 				}
 				else
 				{
-					echo "Failed - Just try again";
-					echo '<br><a href="content/user_pruefungen.php" data-change="main">zur&uuml;ck</a>';
+					
+					
+					create_dialog('Das Feedback konnte nicht erfolgreich abgeschickt werden.', 'content/user_pruefungen.php');
+					
+					//echo "Failed - Just try again";
+					//echo '<br><a href="content/user_pruefungen.php" data-change="main">zur&uuml;ck</a>';
 				}
 				
 				break;
@@ -329,6 +375,7 @@ switch ($_GET['art']){
 				
 			case 8:
 				//wirklich visible schalten?
+				
 				check_berechtigung('j', 'j', 'j', 'j', 'n');
 				
 				$pruefid = htmlspecialchars($_GET['pruefid']);
@@ -336,11 +383,13 @@ switch ($_GET['art']){
 				$query = "SELECT PruefBez FROM pruefungsleistungen WHERE PruefID = ".$pruefid;
 					
 				$row = mysql_fetch_array(mysql_query($query));
+
+				create_confirm('Wollen Sie das Objekt '.$row['PruefBez'].' wirklich sichtbar schalten? Diese Aktion kann nicht revidiert werden.', 'content/user_bewertungen.php?art=9&pruefid='.$pruefid, 'content/user_pruefungen.php');
+				
+				//echo "Sicher, dass Sie die Pr&uuml;fung ".$row['PruefBez']." visible schalten wollen? <br><br> Diese Aktion kann <b>nicht</b> r&uuml;ckg&auml;ngig gemacht werden! <br><br>";
 					
-				echo "Sicher, dass Sie die Pr&uuml;fung ".$row['PruefBez']." visible schalten wollen? <br><br> Diese Aktion kann <b>nicht</b> r&uuml;ckg&auml;ngig gemacht werden! <br><br>";
-					
-				echo '<br><a href="content/user_bewertungen.php?art=9&pruefid='.$pruefid.'" data-change="main">JA</a><br>';
-				echo '<br><a href="content/user_pruefungen.php" data-change="main">NEIN, Abbrechen</a><br>';
+				//echo '<br><a href="content/user_bewertungen.php?art=9&pruefid='.$pruefid.'" data-change="main">JA</a><br>';
+				//echo '<br><a href="content/user_pruefungen.php" data-change="main">NEIN, Abbrechen</a><br>';
 				
 				break;
 				
@@ -353,22 +402,33 @@ switch ($_GET['art']){
 				$query = "SELECT po.PruefObjID FROM pruefungsleistungsobjekt po, pruefungsleistungen pl WHERE pl.pruefID = po.pruefID AND pl.pruefID = ".$pruefid;
 				$result = mysql_query($query);
 					
+				$counter = 0;
+				
 				while($row = mysql_fetch_assoc($result))
 				{
 					$query = "UPDATE pruefungsleistungsobjekt SET pruefstatus = 1 WHERE PruefObjID = ".$row['PruefObjID'];
 						
 					if(mysql_query($query))
 					{
-						echo "Score erfolgreich visible geschalten!<br />";
+						//echo "Score erfolgreich visible geschalten!<br />";
 					}
 					else
 					{
-						echo "An Error occured - Try Again! PruefObjID = ".$row['PruefObjID']."<br />";
+						$counter = $counter + 1;
+						//echo "An Error occured - Try Again! PruefObjID = ".$row['PruefObjID']."<br />";
 					}
 				}
 					
+				if($counter == 0){
 					
-				echo '<br /><a href="content/user_pruefungen.php" data-change="main">OK, zur&uuml;ck</a>';
+					create_dialog('Die Score wurde erfolgreich sichtbar geschaltet!', 'content/user_pruefungen.php');
+					
+				}else{
+					
+					create_dialog('Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.', 'content/user_pruefungen.php');
+					
+				}
+				//echo '<br /><a href="content/user_pruefungen.php" data-change="main">OK, zur&uuml;ck</a>';
 				
 				break;
 				

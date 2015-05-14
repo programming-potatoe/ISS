@@ -73,6 +73,15 @@ form input, form select{
 	
 	margin-top: 		1em;
 }
+.login_fail{
+	
+	margin-top:			2em;
+	color:				rgb(75, 75, 75);
+	font-family: 		"Raleway","Helvetica Neue",Helvetica,Arial,sans-serif;
+	text-align:			center;
+	font-size: 			150%;
+	
+}
 
 .pageHeader{
 	height:				80px;
