@@ -11,7 +11,20 @@
 					<p class="headerFont"><i class="fa fa-leaf "></i> Intelligent Score System - ISS</p>
 					<a href="#" class="logout pure-button" style="margin-left: 90%; margin-top: -40px;">Logout</a> 
 					<br />
-					<div class="user">User: <?php echo $_SESSION['user_vname']." ".$_SESSION['user_name']; ?></div>
+					<div class="user">User: <?php echo $_SESSION['user_vname']." ".$_SESSION['user_name']; ?> 
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rolle: 	
+					<?php
+					switch($_SESSION['user_rights'])
+					{
+						case 0: echo ' Leiter';break;
+						case 1: echo ' Dozent und Pr&uuml;fer'; break;
+						case 2: echo ' Dozent'; break;
+						case 3: echo ' Pr&uuml;fer'; break;
+						case 4: echo ' Pr&uuml;fling'; break;
+					}
+					?>	
+						
+					</div>
         </header>
 
     <nav class="pageSidebar">

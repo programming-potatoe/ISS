@@ -5,7 +5,7 @@
    }
    require_once(__ROOT__ ."/utils/functions.php");
 	
-   check_berechtigung('j', 'j', 'n', 'n', 'n');
+   check_berechtigung('j', 'j', 'j', 'n', 'n');
 	
    if(!isset($_GET['art'])){
    	 
@@ -15,10 +15,6 @@
    
    /*  0=Startseite;
     *  1=Detailansicht;
-    *  2=Schema bearbeiten;
-    *  3=Schema insert;
-    *  4=Schema loeschen;
-    *  5=Schema loeschen delete;
     *  6=neu Anlegen Schritt 1;
     *  7=neu Anlegen Schritt 2;
     *  8=neu Anlegen insert;
@@ -77,10 +73,10 @@
    									<td>Schemabezeichung:</td> <td><input type="text" placeholder="Schemabezeichnung" name="schemabez" /> </td>
    								</tr>
    								<tr>
-   									<td>Pr&uuml;fungsgenauigkeit:</td><td><input type="text" placeholder="Pr&uuml;fungsgenauigkeit" name="pruegenau" /> </td>
+   									<td>Pr&uuml;fungsgenauigkeit:</td><td><input type="number" placeholder="Pr&uuml;fungsgenauigkeit" name="pruegenau" /> </td>
    								</tr>
    								<tr>
-   									<td>Anzahl Aufgaben:</td> <td><input type="text" placeholder="Anzahl" name="anzahl" /></td>					
+   									<td>Anzahl Aufgaben:</td> <td><input type="number" placeholder="Anzahl" name="anzahl" /></td>					
    								</tr>
    								<tr>
    									<td>&nbsp;</td><td><button type="submit" class="pure-button pure-button-primary">Weiter</button></td>
@@ -100,27 +96,33 @@
    		$anzahl = mysql_real_escape_string($_POST['anzahl']);
    		
    		
-   		echo '<h2 class="headline">Neue Vorlage anlegen</h2>
-   		<form class="pure-form"  action="content/user_pruefungs_schemata.php?art=8">
-   		<table class="formtable">';
+		if($pruegenau >= 2 && $anzahl >= 1)
+		{
+   			echo '<h2 class="headline">Neue Vorlage anlegen</h2>
+   			<form class="pure-form"  action="content/user_pruefungs_schemata.php?art=8">
+   			<table class="formtable">';
    		 
    		
    		
    		
-   		echo '<tr><td>Schemabezeichnung:</td><td><input type="text" value="'.$schemabez.'" name="schemabez" readonly/></td></tr>';
-   		echo '<tr><td>Pr&uuml;fungsgenauigkeit:</td><td><input type="text" value="'.$pruegenau.'" name="pruegenau" readonly/></td></tr>';
-   		echo '<tr><td>Anzahl Aufgaben:</td><td><input type="text" value="'.$anzahl.'" name="anzahl" readonly/></td></tr>';
-   		echo '<tr><td><b>Aufgabe:</b></td><td><b>Maximale Punktezahlen:</b></td></tr>';
-   		for ($i = 1; $i <= $anzahl; $i++)
-   		{
-   		echo '<tr><td>'.$i.'</td><td> <input type="text" placeholder="Aufgabe'.$i.'" name="'.$i.'" /></td></tr>';
-				}
+   			echo '<tr><td>Schemabezeichnung:</td><td><input type="text" value="'.$schemabez.'" name="schemabez" readonly/></td></tr>';
+   			echo '<tr><td>Pr&uuml;fungsgenauigkeit:</td><td><input type="text" value="'.$pruegenau.'" name="pruegenau" readonly/></td></tr>';
+   			echo '<tr><td>Anzahl Aufgaben:</td><td><input type="text" value="'.$anzahl.'" name="anzahl" readonly/></td></tr>';
+   			echo '<tr><td><b>Aufgabe:</b></td><td><b>Maximale Punktezahlen:</b></td></tr>';
+   			for ($i = 1; $i <= $anzahl; $i++)
+   			{
+  	 		echo '<tr><td>'.$i.'</td><td> <input type="text" placeholder="Aufgabe'.$i.'" name="'.$i.'" /></td></tr>';
+			}
    							
-   						echo '<tr><td>&nbsp;</td><td><button type="submit" class="pure-button pure-button-primary">Anlegen</button></td></tr>';
-   						echo '</table>';
-   						echo '</form>';
-   		
-   						//echo '<a href="content/user_pruefungs_schemata.php" data-change="main">Abbrechen</a>';
+   			echo '<tr><td>&nbsp;</td><td><button type="submit" class="pure-button pure-button-primary">Anlegen</button></td></tr>';
+   			echo '</table>';
+   			echo '</form>';
+   		}
+		else
+		{
+			create_dialog('Bitte korrekte Angaben machen.', 'content/user_pruefungs_schemata.php?art=6');
+		}	
+			
    		
    		break;
    		
@@ -165,6 +167,9 @@
    				
    			}else{
    				
+				$query = 'DELETE FROM pruefungsschema WHERE SchemaID ='.$schemaID['Max'];
+				mysql_query($query);
+				
    				create_dialog('Das neue Schema konnte nicht erfolgreich angelegt werden.', 'content/user_pruefungs_schemata.php');
    				
    			}

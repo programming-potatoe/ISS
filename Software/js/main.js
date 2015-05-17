@@ -140,6 +140,16 @@
                		return false;
                	
                });
+               
+                $document.on('change', '#toleranz', function() {
+                	
+                	var tol = $(this).attr('value');
+
+                	tol = tol * 100;
+                	
+                	$('#toleranzdiv').html(tol + " %");
+                	
+                });
                 
         });
         

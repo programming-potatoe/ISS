@@ -163,8 +163,9 @@
 				echo('</select></td><td></td>');
 			}
 						
-			echo'</tr><tr><td>Pr&uuml;fungsbezeichnung:</td> <td><input type="text" placeholder="Pr&uuml;fungsbezeichnung" name="pruefbez" /> </td><td></td>';	
-			echo'</tr><tr><td>Toleranz:</td> <td><input type="text" placeholder="Toleranz" name="toleranz" /> </td><td></td>';						
+			echo'</tr><tr><td>Pr&uuml;fungsbezeichnung:</td> <td><input type="text" placeholder="Pr&uuml;fungsbezeichnung" name="pruefbez" required/> </td><td></td>';	
+			
+			echo'</tr><tr><td>Toleranz:</td> <td><input type="range" min="0" max="1" step="0.01" value="0.5" name="toleranz" id="toleranz"/><div id="toleranzdiv">50 %</div> </td><td></td>';						
 			echo'</tr><tr><td>Bewertungschema:</td>';													
 			$nummer = 0;
 			//drop down liste Bewertungsschema-ID und Bezeichnung
@@ -184,13 +185,6 @@
 			show_vorlage($nummer);			
 			echo('</div></td></tr>');
 			
-			// Hier wird das Schema nachgeladen  (Woher bekommt der die Schema ID?) Woher soll ich das wissen?
-			 
-			// Hier kann ein neues Schema angelegt werden
-			//echo('<a href="content/user_pruefungs_schemata.php?new=1" data-change="inline">Neues Schema anlegen</a><br /><br />'); //@TODO switch case ged�ns
-			
-			//@TODO: Schema anzeigen
-									
 			?>		
 									<tr>
 										<td>&nbsp;</td>
@@ -198,8 +192,7 @@
 									</tr>
 								</table>
 							</form>
-			<?php		
-							//echo('<br /><br /><a href="content/user_vorlesungen.php" data-change="main">zur&uuml;ck</a>');	
+			<?php			
 			
 			break;
 			

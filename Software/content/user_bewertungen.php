@@ -145,7 +145,7 @@ switch ($_GET['art']){
 					echo '<tr><td>'.$row['ANr'].'</td><td>'.$row['AMaxPunkte'].'</td>';
 					for($i=0; $i < $row['PruefGenauigkeit']; $i++)
 					{
-						echo '<td><input type="text" name="'.$row['AID'].'_'.$i.'" value="';
+						echo '<td><input type="number" name="'.$row['AID'].'_'.$i.'" value="';
 						if(isset($barray[$row['ANr']][$i]))
 						{
 							echo $barray[$row['ANr']][$i];
@@ -265,7 +265,7 @@ switch ($_GET['art']){
 				}
 				else if($status == 1)
 				{
-					create_dialog('Maximale Punktzahl falsch!', 'content/user_pruefungen.php');
+					create_dialog('Maximale Punktzahl falsch!', 'content/user_bewertungen.php?art=1&pruefid='.$pruefID);
 				}
 				else
 				{
