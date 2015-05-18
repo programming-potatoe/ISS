@@ -59,9 +59,9 @@
    			if($_SESSION['user_rights'] == 4)
    			{
    				$row = mysql_fetch_array(mysql_query("SELECT PrPWD FROM pruefling WHERE PrID = ".$_SESSION['user_ID']));
-   				if(strcmp($row['PrPWD'], $opassword) == 0)
+   				if(strcmp($row['PrPWD'], md5($opassword)) == 0)
    				{
-   					$query = "UPDATE pruefling SET PrPwd = '".$password1."' WHERE PrID = ".$_SESSION['user_ID'];
+   					$query = "UPDATE pruefling SET PrPwd = '".md5($password1)."' WHERE PrID = ".$_SESSION['user_ID'];
    		
    					if(mysql_query($query) == 1)
    					{
@@ -71,16 +71,16 @@
    				}
    				else { //echo "Falsches Passwort!";
 
-   					create_dialog('Falsches Passwort eingegeben!', 'content/user_profil.php');
+   					create_dialog('Falsches Passwort eingegeben!'.$opassword.'/'.$row['PrPWD'], 'content/user_profil.php');
    				
    				}
    			}
    			else
    			{
    				$row = mysql_fetch_array(mysql_query("SELECT PPWD FROM pruefer WHERE PID = ".$_SESSION['user_ID']));
-   				if(strcmp($row['PPWD'], $opassword) == 0)
+   				if(strcmp($row['PPWD'], md5($opassword)) == 0)
    				{
-   					$query = "UPDATE pruefer SET PPwd = '".$password1."' WHERE PID = ".$_SESSION['user_ID'];
+   					$query = "UPDATE pruefer SET PPwd = '".md5($password1)."' WHERE PID = ".$_SESSION['user_ID'];
    		
    					if(mysql_query($query))
    					{

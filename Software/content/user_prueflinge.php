@@ -112,7 +112,7 @@
    		{
    			if ($_POST['password']!="" && $_POST['password']== $_POST['password2']){
    				$password = mysql_real_escape_string($_POST['password']);
-   				$query = 'Update pruefling set PrName="'.$nname.'", PrVName="'.$vname.'", PrPwd="'.$password.'", PrEmail="'.$email.'"  where PrID="'.$pid.'"';
+   				$query = 'Update pruefling set PrName="'.$nname.'", PrVName="'.$vname.'", PrPwd="'.md5($password).'", PrEmail="'.$email.'"  where PrID="'.$pid.'"';
 			}
 			else{
 				
@@ -239,7 +239,7 @@
    		$kursid = mysql_real_escape_string($_POST['KID']);
    		$password = mysql_real_escape_string($_POST['password']);
    		
-   		$query = 'INSERT INTO pruefling VALUES (NULL, "'.$nname.'", "'.$vname.'", "'.$password.'", '.$_SESSION['user_ID'].', '.$kursid.', "'.$email.'")';
+   		$query = 'INSERT INTO pruefling VALUES (NULL, "'.$nname.'", "'.$vname.'", "'.md5($password).'", '.$_SESSION['user_ID'].', '.$kursid.', "'.$email.'")';
    		
    		if(mysql_query($query))
    		{

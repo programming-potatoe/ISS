@@ -23,7 +23,7 @@ if (!isset($_SESSION['login'])) {
                 <link rel="stylesheet" href="design/design.css" type="text/css">
 
                 <script src="./js/jquery-latest.pack.js" type="text/javascript"></script>
-                <!--<script src="./js/md5.js" type="text/javascript"></script>-->
+                <script src="./js/md5.js" type="text/javascript"></script>
                 <script src="./js/main.js" type="text/javascript"></script>
                 
             <link rel="stylesheet" href="design/design.css" type="text/css">  

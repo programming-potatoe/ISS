@@ -50,10 +50,10 @@
 						echo 'Dozent und Pr&uuml;fer';
 						break;
 					case 2:
-						echo 'Pr&uuml;fer';
+						echo 'Dozent';
 						break;
 					case 3: 
-						echo 'Dozent';
+						echo 'Pr&uuml;fer';
 						break;
 				}
 				
@@ -101,22 +101,23 @@
 				   		{
 				   			echo '<option value="1">Dozent und Pr&uuml;fer</option>';
 				   		}
-				   		if ($row['PArt']==2)
+						if ($row['PArt']==2)
 				   		{
-				   			echo '<option selected="selected" value="2">Pr&uuml;fer</option>';
+				   			echo '<option selected="selected" value="2">Dozent</option>';
 				   		}
 				   		else
 				   		{
-				   			echo '<option value="2">Pr&uuml;fer</option>';
+				   			echo '<option value="2">Dozent</option>';
 				   		}
 				   		if ($row['PArt']==3)
 				   		{
-				   			echo '<option selected="selected" value="3">Dozent</option>';
+				   			echo '<option selected="selected" value="3">Pr&uuml;fer</option>';
 				   		}
 				   		else
 				   		{
-				   			echo '<option value="3">Dozent</option>';
+				   			echo '<option value="3">Pr&uuml;fer</option>';
 				   		}
+				   		
 				
 				   		
 				   		echo'</select> </td>
@@ -165,7 +166,7 @@
 			
 			if ($_POST['password']!="" && $_POST['password']== $_POST['password2']){
    				$password = mysql_real_escape_string($_POST['password']);
-   				$query = 'Update pruefer set PName="'.$nname.'", PVName="'.$vname.'", PPwd="'.$password.'", PEmail="'.$email.'", PArt="'.$art.'"  where PID="'.$pid.'"';
+   				$query = 'Update pruefer set PName="'.$nname.'", PVName="'.$vname.'", PPwd="'.md5($password).'", PEmail="'.$email.'", PArt="'.$art.'"  where PID="'.$pid.'"';
 			}
 			else{
 				
@@ -202,8 +203,8 @@
    		$query = "SELECT PName, PVName FROM pruefer WHERE PID = ".$_GET['pid'];
    		$row = mysql_fetch_array(mysql_query($query));
 
-   		create_dialog($row['PName'], $link);
-   		create_dialog($row, $link);
+   		//create_dialog($row['PName'], $link);
+   		//create_dialog($row, $link);
    		
    		create_confirm('Wollen Sie '.$row['PName'].', '.$row['PVName'].' wirklich entfernen?', 'content/user_mitarbeiter.php?art=4&pid='.$_GET['pid'], 'content/user_mitarbeiter.php');
    		
@@ -244,14 +245,14 @@
    		   				</tr>
    		   				<tr>
    		   					<td>Email-Adresse:</td>
-   		   					<td><input type="text" placeholder="Email" name="email" required/> </td>
+   		   					<td><input type="email" placeholder="Email" name="email" required/> </td>
    		   				</tr>
    		   				<tr>
    		   					<td>Art:</td> 
    		   					<td><select name="art">
    		   						<option selected="selected" value="1">Dozent und Pr&uuml;fer</option>
-   		   						<option value="2">Pr&uuml;fer</option>
-   		   						<option value="3">Dozent</option>
+   		   						<option value="2">Dozent</option>
+   		   						<option value="3">Pr&uuml;fer</option>
    		   						</select>
    		   					</td>
    		   				</tr>
@@ -279,7 +280,7 @@
 	   		$art = mysql_real_escape_string($_POST['art']);
 	   		$password = mysql_real_escape_string($_POST['password']);
 	   		 
-	   		$query = 'INSERT INTO pruefer(PID, PName, PVName, PPwd, PEmail, PArt) VALUES(NULL, "'.$nname.'", "'.$vname.'", "'.$password.'", "'.$email.'", "'.$art.'")';
+	   		$query = 'INSERT INTO pruefer(PID, PName, PVName, PPwd, PEmail, PArt) VALUES(NULL, "'.$nname.'", "'.$vname.'", "'.md5($password).'", "'.$email.'", "'.$art.'")';
 	   		 
    		
    		

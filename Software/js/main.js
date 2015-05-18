@@ -4,7 +4,7 @@
         // start of the ISS mini-framework
         var ISS = {
                 login : function(action, email, password) {
-                        //password = MD5(password);
+                        password = MD5(password);
                         $.post(action, {
                                 email : email,
                                 password : password
