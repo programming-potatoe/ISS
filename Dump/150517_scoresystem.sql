@@ -125,10 +125,8 @@ CREATE TABLE IF NOT EXISTS `pruefer_pruefungsleistungen` (
 --
 
 INSERT INTO `pruefer_pruefungsleistungen` (`PruefID`, `PID`) VALUES
-(32, 5),
 (33, 1),
 (32, 3),
-(34, 5);
 
 -- --------------------------------------------------------
 
